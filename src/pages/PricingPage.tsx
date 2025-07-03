@@ -97,7 +97,7 @@ const PricingSection = () => {
   const roiData = calculateROI();
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 dark:bg-dark-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -107,22 +107,22 @@ const PricingSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Choose Your 
             <span className="text-primary-500"> Growth Plan</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             Start free, scale fast. Every plan includes our 30-day money-back guarantee.
           </p>
 
           {/* Billing Toggle */}
-          <div className="inline-flex items-center bg-white rounded-lg p-1 shadow-lg">
+          <div className="inline-flex items-center bg-white dark:bg-dark-800 rounded-lg p-1 shadow-lg">
             <button
               onClick={() => setIsAnnual(false)}
               className={`px-6 py-2 rounded-md font-medium transition-all ${
                 !isAnnual 
                   ? 'bg-primary-500 text-white shadow-md' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               Monthly
@@ -132,7 +132,7 @@ const PricingSection = () => {
               className={`px-6 py-2 rounded-md font-medium transition-all relative ${
                 isAnnual 
                   ? 'bg-primary-500 text-white shadow-md' 
-                  : 'text-gray-600 hover:text-gray-900'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               Annual
@@ -148,45 +148,45 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white rounded-3xl p-8 shadow-xl mb-16"
+          className="bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl mb-16"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-6">
                 <Calculator className="w-8 h-8 text-primary-500" />
-                <h3 className="text-2xl font-bold text-gray-900">ROI Calculator</h3>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">ROI Calculator</h3>
               </div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
                 See your potential return on investment with PitchPoa AI
               </p>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Current Monthly Sales (KES)
                   </label>
                   <input
                     type="number"
                     value={roiInputs.currentSales}
                     onChange={(e) => setRoiInputs({...roiInputs, currentSales: parseInt(e.target.value)})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-dark-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-900 text-gray-900 dark:text-white"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Monthly Customers
                   </label>
                   <input
                     type="number"
                     value={roiInputs.customers}
                     onChange={(e) => setRoiInputs({...roiInputs, customers: parseInt(e.target.value)})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-dark-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-900 text-gray-900 dark:text-white"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl p-6 text-white">
+            <div className="bg-gradient-to-br from-primary-500 to-accent-500 dark:from-dark-700 dark:to-dark-500 rounded-2xl p-6 text-white">
               <h4 className="text-xl font-bold mb-6">Your Projected Results</h4>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -226,7 +226,7 @@ const PricingSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              className={`relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ${
+              className={`relative bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ${
                 plan.popular ? 'ring-2 ring-primary-500 transform scale-105' : ''
               }`}
             >
@@ -241,19 +241,19 @@ const PricingSection = () => {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
-                  plan.popular ? 'bg-primary-500' : 'bg-gray-100'
+                  plan.popular ? 'bg-primary-500' : 'bg-gray-100 dark:bg-dark-900'
                 }`}>
-                  <plan.icon className={`w-8 h-8 ${plan.popular ? 'text-white' : 'text-gray-600'}`} />
+                  <plan.icon className={`w-8 h-8 ${plan.popular ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{plan.name}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{plan.description}</p>
                 
                 <div className="space-y-2">
                   <div className="flex items-center justify-center space-x-2">
-                    <span className="text-3xl font-bold text-gray-900">{plan.currency} {plan.price.toLocaleString()}</span>
-                    <span className="text-gray-500">{plan.period}</span>
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{plan.currency} {plan.price.toLocaleString()}</span>
+                    <span className="text-gray-500 dark:text-gray-400">{plan.period}</span>
                   </div>
-                  <div className="text-sm text-gray-500 line-through">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 line-through">
                     {plan.currency} {plan.originalPrice.toLocaleString()}{plan.period}
                   </div>
                 </div>
@@ -264,7 +264,7 @@ const PricingSection = () => {
                 {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-start space-x-3">
                     <Check className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{feature}</span>
+                    <span className="text-gray-700 dark:text-gray-200 text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -273,7 +273,7 @@ const PricingSection = () => {
               <button className={`w-full py-4 rounded-lg font-semibold transition-all duration-200 ${
                 plan.popular
                   ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg hover:shadow-xl'
-                  : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-dark-900 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-dark-700'
               }`}>
                 {plan.cta}
               </button>
@@ -288,25 +288,25 @@ const PricingSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-center"
         >
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
             Flexible Payment Options
           </h3>
           <div className="flex items-center justify-center space-x-8 opacity-60">
             <div className="text-center">
               <div className="text-2xl mb-2">📱</div>
-              <div className="text-sm text-gray-600">M-Pesa</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">M-Pesa</div>
             </div>
             <div className="text-center">
               <div className="text-2xl mb-2">💳</div>
-              <div className="text-sm text-gray-600">Credit Card</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Credit Card</div>
             </div>
             <div className="text-center">
               <div className="text-2xl mb-2">🏦</div>
-              <div className="text-sm text-gray-600">Bank Transfer</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Bank Transfer</div>
             </div>
             <div className="text-center">
               <div className="text-2xl mb-2">💰</div>
-              <div className="text-sm text-gray-600">Mobile Money</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">Mobile Money</div>
             </div>
           </div>
         </motion.div>

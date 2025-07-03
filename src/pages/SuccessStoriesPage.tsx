@@ -1,15 +1,11 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Star, TrendingUp, Users, MapPin, Play } from 'lucide-react';
+import { Star, TrendingUp, Users, MapPin } from 'lucide-react';
 
 const SuccessStoriesPage = () => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  // Removed unused useInView hook
 
   const stories = [
     {
+      type: 'story',
       name: 'Grace Wanjiku',
       role: 'Fashion Retailer',
       location: 'Nairobi, Kenya',
@@ -19,9 +15,11 @@ const SuccessStoriesPage = () => {
       increase: '340%',
       testimonial: 'PitchPoa AI transformed how I present my fashion pieces. Now customers immediately understand the value and craftsmanship. My closing rate went from 20% to 75%!',
       story: 'Grace struggled to communicate the unique value of her handmade fashion pieces. After 3 months with PitchPoa AI, she developed compelling storytelling techniques that highlight the cultural significance and quality of her work.',
-      rating: 5
+      rating: 5,
+      featured: true,
     },
     {
+      type: 'story',
       name: 'Samuel Njoroge',
       role: 'Electronics Vendor',
       location: 'Kampala, Uganda', 
@@ -31,9 +29,11 @@ const SuccessStoriesPage = () => {
       increase: '337%',
       testimonial: 'The AI coach helped me explain complex electronics in simple terms. My customers now trust my recommendations and buy premium products confidently.',
       story: 'Samuel had excellent technical knowledge but struggled to simplify complex product features for everyday customers. PitchPoa AI taught him to use analogies and focus on benefits rather than specifications.',
-      rating: 5
+      rating: 5,
+      featured: true,
     },
     {
+      type: 'story',
       name: 'Amina Hassan',
       role: 'Food Business Owner',
       location: 'Dar es Salaam, Tanzania',
@@ -43,7 +43,8 @@ const SuccessStoriesPage = () => {
       increase: '292%',
       testimonial: 'Learning to sell premium meals was challenging until PitchPoa AI taught me to create urgency and highlight health benefits. Now I sell out daily!',
       story: 'Amina wanted to expand from basic meals to premium healthy options but customers resisted higher prices. Through practice with PitchPoa AI, she learned to position her food as health investments.',
-      rating: 5
+      rating: 5,
+      featured: false,
     }
   ];
 
@@ -82,231 +83,209 @@ const SuccessStoriesPage = () => {
     }
   ];
 
+  const getResourceIcon = (type: string) => {
+    switch (type) {
+      case 'story':
+        return <Star className="w-6 h-6 text-yellow-400" />;
+      default:
+        return <Star className="w-6 h-6 text-gray-400" />;
+    }
+  };
+
   return (
-    <div className="pt-20">
+    <div className="pt-20 px-4 max-w-7xl mx-auto">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-500 to-accent-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+      <section className="py-16 bg-gradient-to-br from-primary-600 to-accent-500 text-white rounded-2xl mb-12 shadow-lg">
+        <div className="max-w-3xl mx-auto text-center px-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Success Stories</h1>
+          <p className="mb-8 text-lg md:text-xl text-white/90">
+            Discover how African entrepreneurs transformed their businesses with PitchPoa AI.
+          </p>
+          <a
+            href="#featured"
+            className="inline-block bg-white text-primary-600 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Real Stories,
-              <span className="block text-yellow-300">Real Success</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Discover how African entrepreneurs transformed their businesses with PitchPoa AI
-            </p>
-          </motion.div>
+            Explore Stories
+          </a>
         </div>
       </section>
 
-      {/* Success Stories Grid */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Transformation Stories
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              See how PitchPoa AI helped these entrepreneurs achieve extraordinary results
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {stories.map((story, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow"
+      {/* Featured Stories */}
+      <section id="featured" className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          Featured Success Stories
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {stories
+            .filter((r) => r.featured)
+            .map((story, idx) => (
+              <div
+                key={idx}
+                className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 transition hover:shadow-2xl flex flex-col"
               >
-                {/* Header */}
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="relative">
-                    <img
-                      src={story.avatar}
-                      alt={story.name}
-                      className="w-16 h-16 rounded-full object-cover"
-                    />
-                    <button 
-                    onClick={() => alert('Play story video!')}
-                    className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
-                      <Play className="w-4 h-4 text-white ml-0.5" />
-                    </button>
-                  </div>
+                <div className="flex items-center gap-3 mb-4">
+                  {getResourceIcon(story.type)}
+                  <span className="text-lg font-semibold text-primary-700 dark:text-primary-300">
+                    {story.name}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <img
+                    src={story.avatar}
+                    alt={story.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
                   <div>
-                    <h3 className="font-semibold text-gray-900 text-lg">{story.name}</h3>
-                    <p className="text-gray-600">{story.role}</p>
-                    <div className="flex items-center space-x-1 text-gray-500 text-sm">
-                      <MapPin className="w-4 h-4" />
-                      <span>{story.location}</span>
+                    <div className="font-semibold text-gray-900 dark:text-white">{story.role}</div>
+                    <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      {story.location}
                     </div>
                   </div>
                 </div>
-
-                {/* Rating */}
-                <div className="flex items-center space-x-1 mb-4">
+                <div className="flex items-center space-x-1 mb-2">
                   {[...Array(story.rating)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-
-                {/* Results */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="text-center p-4 bg-red-50 rounded-xl">
-                    <div className="text-sm text-gray-600 mb-1">Before</div>
-                    <div className="text-lg font-bold text-gray-900">{story.beforeRevenue}</div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="text-center p-2 bg-red-50 dark:bg-red-900 rounded-xl">
+                    <div className="text-xs text-gray-600 dark:text-gray-300">Before</div>
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">{story.beforeRevenue}</div>
                   </div>
-                  <div className="text-center p-4 bg-green-50 rounded-xl">
-                    <div className="text-sm text-gray-600 mb-1">After</div>
-                    <div className="text-lg font-bold text-green-600">{story.afterRevenue}</div>
+                  <div className="text-center p-2 bg-green-50 dark:bg-green-900 rounded-xl">
+                    <div className="text-xs text-gray-600 dark:text-gray-300">After</div>
+                    <div className="text-lg font-bold text-green-600 dark:text-green-300">{story.afterRevenue}</div>
                   </div>
                 </div>
-
-                <div className="text-center mb-6">
-                  <div className="text-3xl font-bold text-primary-600 mb-1">{story.increase}</div>
-                  <div className="text-sm text-gray-600">Revenue Increase</div>
+                <div className="text-center mb-4">
+                  <div className="text-2xl font-bold text-primary-600 dark:text-primary-300">{story.increase}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Revenue Increase</div>
                 </div>
-
-                {/* Testimonial */}
-                <blockquote className="text-gray-700 text-sm leading-relaxed mb-4">
+                <blockquote className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed mb-4">
                   "{story.testimonial}"
                 </blockquote>
-
-                {/* Story Details */}
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <h4 className="font-semibold text-gray-900 mb-2">Success Journey</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">{story.story}</p>
+                <div className="bg-gray-50 dark:bg-dark-700 rounded-xl p-4">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Success Journey</h4>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{story.story}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </div>
+        </div>
+      </section>
+
+      {/* All Stories */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          More Success Stories
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {stories
+            .filter((r) => !r.featured)
+            .map((story, idx) => (
+              <div
+                key={idx}
+                className="bg-white dark:bg-dark-800 rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow flex flex-col"
+              >
+                <div className="flex items-center gap-2 mb-2">{getResourceIcon(story.type)}</div>
+                <h3 className="text-lg font-bold text-primary-700 dark:text-primary-300 mb-2">{story.name}</h3>
+                <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-2">
+                  <MapPin className="w-4 h-4 mr-1" />
+                  {story.location}
+                </div>
+                <blockquote className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed mb-2">
+                  "{story.testimonial}"
+                </blockquote>
+                <div className="bg-gray-50 dark:bg-dark-700 rounded-xl p-3">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">{story.story}</p>
+                </div>
+              </div>
+            ))}
         </div>
       </section>
 
       {/* Case Studies */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Detailed Case Studies
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Deep dive into comprehensive transformations achieved through group training
-            </p>
-          </motion.div>
-
-          <div className="space-y-12">
-            {caseStudies.map((study, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: index * 0.3 }}
-                className="bg-white rounded-3xl p-8 shadow-xl"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  {/* Overview */}
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{study.title}</h3>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-primary-50 rounded-lg p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Users className="w-5 h-5 text-primary-600" />
-                          <span className="text-sm font-medium text-gray-700">Participants</span>
-                        </div>
-                        <div className="text-lg font-bold text-gray-900">{study.participants}</div>
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Case Studies
+        </h2>
+        <div className="space-y-12">
+          {caseStudies.map((study, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Overview */}
+                <div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{study.title}</h3>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-primary-50 dark:bg-primary-900 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Users className="w-5 h-5 text-primary-600" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Participants</span>
                       </div>
-                      <div className="bg-green-50 rounded-lg p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <TrendingUp className="w-5 h-5 text-green-600" />
-                          <span className="text-sm font-medium text-gray-700">Growth</span>
-                        </div>
-                        <div className="text-lg font-bold text-green-600">{study.growth}</div>
-                      </div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{study.participants}</div>
                     </div>
-
-                    <div className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-2">Challenge</h4>
-                        <p className="text-gray-600 text-sm leading-relaxed">{study.challenge}</p>
+                    <div className="bg-green-50 dark:bg-green-900 rounded-lg p-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <TrendingUp className="w-5 h-5 text-green-600" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Growth</span>
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-2">Solution</h4>
-                        <p className="text-gray-600 text-sm leading-relaxed">{study.solution}</p>
-                      </div>
+                      <div className="text-lg font-bold text-green-600 dark:text-green-300">{study.growth}</div>
                     </div>
                   </div>
-
-                  {/* Results */}
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-6">Key Results</h4>
-                    
-                    <div className="space-y-4">
-                      {study.results.map((result, resultIndex) => (
-                        <div key={resultIndex} className="flex items-start space-x-3">
-                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
-                            <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                          </div>
-                          <p className="text-gray-700 text-sm">{result}</p>
-                        </div>
-                      ))}
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Challenge</h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{study.challenge}</p>
                     </div>
-
-                    <div className="mt-8 p-6 bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl text-white">
-                      <div className="text-center">
-                        <div className="text-3xl font-bold mb-2">{study.revenue}</div>
-                        <div className="text-white/90">Total Revenue Impact</div>
-                        <div className="text-sm text-white/70 mt-2">
-                          Achieved in {study.timeline} • {study.location}
+                    <div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Solution</h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{study.solution}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Results */}
+                <div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Key Results</h4>
+                  <div className="space-y-4">
+                    {study.results.map((result, resultIndex) => (
+                      <div key={resultIndex} className="flex items-start space-x-3">
+                        <div className="w-6 h-6 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mt-0.5">
+                          <div className="w-2 h-2 bg-green-600 dark:bg-green-300 rounded-full"></div>
                         </div>
+                        <p className="text-gray-700 dark:text-gray-200 text-sm">{result}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-8 p-6 bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl text-white">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold mb-2">{study.revenue}</div>
+                      <div className="text-white/90">Total Revenue Impact</div>
+                      <div className="text-sm text-white/70 mt-2">
+                        Achieved in {study.timeline} • {study.location}
                       </div>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-500 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+      <section className="mt-16 text-center">
+        <div className="inline-block bg-primary-600 dark:bg-primary-500 text-white px-8 py-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+          <h3 className="text-2xl font-bold mb-2">Ready to write your success story?</h3>
+          <p className="mb-4">Join our community for exclusive resources, live training, and support from fellow entrepreneurs.</p>
+          <button
+            className="bg-white text-primary-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition-colors"
+            onClick={() => alert('Join Community!')}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Write Your Success Story?
-            </h2>
-            <p className="text-xl text-white/90 mb-8">
-              Join these successful entrepreneurs and transform your sales today
-            </p>
-            <button 
-            onClick={() => alert('Start your transformation!')}
-            className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
-              Start Your Transformation
-            </button>
-          </motion.div>
+            Join Now
+          </button>
         </div>
       </section>
     </div>

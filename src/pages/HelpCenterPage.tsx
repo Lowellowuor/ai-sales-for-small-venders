@@ -1,74 +1,111 @@
-const HelpCenterPage = () => (
-  <div className="max-w-3xl mx-auto py-20 px-4">
-    <h1 className="text-3xl font-bold mb-6">Help Centre</h1>
-    <p className="mb-4 text-gray-700">
-      Welcome to the Help Centre! How can we assist you today?
-    </p>
+import React, { useState } from 'react';
+import { HelpCircle, Search, BookOpen, Users, Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-    {/* FAQ Section */}
-    <div className="mb-10">
-      <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
-      <ul className="space-y-4">
-        <li>
-          <strong>How do I start a free trial?</strong>
-          <p>Click the "Start Free Trial" button on the homepage or pricing section. You’ll be guided through a quick signup process.</p>
-        </li>
-        <li>
-          <strong>What is PitchPoa AI?</strong>
-          <p>PitchPoa AI is an AI-powered sales coaching platform that helps vendors and teams improve their sales pitches, communication, and customer engagement using real-time feedback and multilingual support.</p>
-        </li>
-        <li>
-          <strong>How do I contact support?</strong>
-          <p>You can reach our support team via the contact form below or email us at <a href="mailto:support@pitchpoa.com" className="text-primary-600 underline">support@pitchpoa.com</a>.</p>
-        </li>
-        <li>
-          <strong>Is my data secure?</strong>
-          <p>Yes. We are ISO 27001 certified and SOC 2 compliant. Your data is encrypted and handled with the highest security standards.</p>
-        </li>
-        <li>
-          <strong>Which payment methods are supported?</strong>
-          <p>We support M-Pesa, credit cards, and other flexible payment options.</p>
-        </li>
-      </ul>
-    </div>
+const helpTopics = [
+  {
+    title: "Getting Started",
+    description: "Learn how to set up your PitchPoa AI account and begin your journey.",
+    link: "/training-videos"
+  },
+  {
+    title: "Account & Security",
+    description: "Manage your profile, password, and account security settings.",
+    link: "/privacy-policy"
+  },
+  {
+    title: "Integrations",
+    description: "Connect WhatsApp and other tools to automate your sales process.",
+    link: "/api-documentation"
+  },
+  {
+    title: "Community & Support",
+    description: "Join discussions, ask questions, and get help from other users.",
+    link: "/community-forum"
+  }
+];
 
-    {/* Contact Form */}
-    <div className="mb-10">
-      <h2 className="text-xl font-semibold mb-4">Contact Support</h2>
-      <form className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Your Email</label>
-          <input type="email" className="w-full border rounded px-3 py-2" placeholder="you@example.com" required />
+const HelpCenterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [search, setSearch] = useState('');
+
+  const filteredTopics = helpTopics.filter(topic =>
+    topic.title.toLowerCase().includes(search.toLowerCase()) ||
+    topic.description.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="pt-20 px-4 max-w-4xl mx-auto">
+      {/* Hero Section */}
+      <section className="py-12 bg-gradient-to-br from-blue-700 to-blue-400 text-white rounded-2xl mb-12 shadow-lg">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <div className="flex justify-center mb-4">
+            <HelpCircle className="w-12 h-12 text-white" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Help Center</h1>
+          <p className="mb-6 text-lg md:text-xl text-white/90">
+            Find answers, guides, and resources to get the most out of PitchPoa AI. We're here to help you succeed!
+          </p>
         </div>
-        <div>
-          <label className="block mb-1 font-medium">How can we help?</label>
-          <textarea className="w-full border rounded px-3 py-2" rows={4} placeholder="Describe your issue or question..." required />
+      </section>
+
+      {/* Search Bar */}
+      <section className="mb-8">
+        <div className="flex items-center bg-white dark:bg-dark-800 rounded-lg shadow px-4 py-2 max-w-lg mx-auto">
+          <Search className="w-5 h-5 text-gray-400 dark:text-gray-500 mr-2" />
+          <input
+            type="text"
+            placeholder="Search help topics..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full bg-transparent outline-none text-gray-900 dark:text-white"
+          />
         </div>
-        <button type="submit" className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-600 transition-colors">
-          Submit
-        </button>
-      </form>
-    </div>
+      </section>
 
-    {/* Additional Resources */}
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Additional Resources</h2>
-      <ul className="list-disc pl-5 space-y-2 text-gray-700">
-        <li>
-          <a href="/privacy" className="text-primary-600 underline">Privacy Policy</a>
-        </li>
-        <li>
-          <a href="/terms" className="text-primary-600 underline">Terms of Service</a>
-        </li>
-        <li>
-          <a href="/pricing" className="text-primary-600 underline">Pricing & Plans</a>
-        </li>
-        <li>
-          <a href="/demo" className="text-primary-600 underline">Interactive Demo</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-);
+      {/* Help Topics */}
+      <section className="mb-16">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Popular Topics</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {filteredTopics.map((topic, idx) => (
+            <button
+              key={idx}
+              onClick={() => navigate(topic.link)}
+              className="bg-white dark:bg-dark-800 rounded-xl shadow p-6 flex flex-col hover:shadow-lg transition group text-left"
+            >
+              <div className="flex items-center mb-3">
+                <BookOpen className="w-7 h-7 text-blue-600 group-hover:text-blue-800 dark:group-hover:text-blue-400 mr-3" />
+                <span className="font-bold text-blue-700 dark:text-blue-300 text-lg">{topic.title}</span>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200">{topic.description}</p>
+            </button>
+          ))}
+        </div>
+      </section>
 
-export default HelpCenterPage;
+      {/* Community & Support */}
+      <section className="mb-16">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Still Need Help?</h2>
+        <div className="bg-white dark:bg-dark-800 rounded-xl shadow p-6 flex flex-col gap-4">
+          <button
+            onClick={() => navigate('/community-forum')}
+            className="flex items-center gap-3 px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition"
+          >
+            <Users className="w-5 h-5" />
+            Visit Community Forum
+          </button>
+          <button
+            onClick={() => navigate('/contact-support')}
+            className="flex items-center gap-3 px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition"
+          >
+            <Mail className="w-5 h-5" />
+            Contact Support
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export
+  default HelpCenterPage;

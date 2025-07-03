@@ -64,16 +64,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Support</h3>
             <ul className="space-y-2">
               {[
-                'Help Center',
-                'API Documentation',
-                'Community Forum',
-                'Training Videos',
-                'Contact Support',
+                { name: 'Help Center', path: '/help-center' },
+                { name: 'API Documentation', path: '/api-documentation' },
+                { name: 'Community Forum', path: '/community-forum' },
+                { name: 'Training Videos', path: '/training-videos' },
+                { name: 'Contact Support', path: '/contact-support' }, 
               ].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors">
-                    {item}
-                  </a>
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 transition-colors"
+                  >
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>

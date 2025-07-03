@@ -1,119 +1,221 @@
-import { useState } from 'react';
-import { ShieldCheck, Settings2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Cookie, FileText, ShieldCheck, Globe, Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const CoockiePolicy = () => {
-  const [showPreferences, setShowPreferences] = useState(false);
+const cookieResources = [
+  {
+    icon: <Cookie className="w-8 h-8 text-yellow-600" />,
+    title: "Cookie Policy Explained",
+    description: "Understand what cookies are, how we use them, and how you can manage your preferences. Download our easy-to-read cookie policy.",
+    link: "/downloads/cookie-policy-guide.pdf",
+    fileType: "PDF",
+    details: "Cookie types · Usage · Preferences"
+  },
+  {
+    icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+    title: "Privacy & Data Protection",
+    description: "Learn how cookies relate to your privacy and how we protect your personal data in compliance with GDPR and other regulations.",
+    link: "/downloads/cookie-privacy-guide.pdf",
+    fileType: "PDF",
+    details: "GDPR · Data protection · Security"
+  },
+  {
+    icon: <Globe className="w-8 h-8 text-green-600" />,
+    title: "International Compliance",
+    description: "See how our cookie practices comply with international standards and cross-border data regulations.",
+    link: "/downloads/cookie-international-compliance.pdf",
+    fileType: "PDF",
+    details: "Global standards · Consent · Transfers"
+  }
+];
+
+const CookiePolicyPage = () => {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would send the form data to your backend or API
+    setSubmitted(true);
+  };
 
   return (
-    <div className="max-w-3xl mx-auto py-20 px-4 bg-white dark:bg-dark-900 rounded-2xl shadow-lg">
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <ShieldCheck className="w-10 h-10 text-primary-600 dark:text-primary-400 mr-3" />
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Cookie Policy</h1>
-      </div>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        Effective Date: July 1, 2025
-      </p>
-      <div className="flex justify-center mb-8">
-        <img
-          src="https://illustrations.popsy.co/gray/cookie.svg"
-          alt="Cookie illustration"
-          className="w-40 h-40"
-        />
-      </div>
-
-      {/* Main Content */}
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">1. What Are Cookies?</h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        Cookies are small text files stored on your device when you visit a website. They help us remember your preferences, improve your experience, and analyze site usage.
-      </p>
-
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">2. Types of Cookies We Use</h2>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
-        <li>
-          <strong>Strictly Necessary Cookies:</strong> Essential for the website to function and cannot be switched off in our systems.
-        </li>
-        <li>
-          <strong>Performance Cookies:</strong> Help us understand how visitors interact with our site by collecting and reporting information anonymously.
-        </li>
-        <li>
-          <strong>Functional Cookies:</strong> Enable the website to provide enhanced functionality and personalization.
-        </li>
-        <li>
-          <strong>Targeting/Advertising Cookies:</strong> Used to deliver relevant ads and track campaign performance.
-        </li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">3. How We Use Cookies</h2>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
-        <li>Remember your login and preferences</li>
-        <li>Analyze website traffic and usage</li>
-        <li>Personalize your experience</li>
-        <li>Deliver targeted advertising</li>
-        <li>Ensure security and prevent fraud</li>
-      </ul>
-
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">4. Managing Your Cookie Preferences</h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        You can manage your cookie preferences at any time. Most browsers allow you to control cookies through their settings. However, disabling certain cookies may affect your experience on our site.
-      </p>
-      <button
-        onClick={() => setShowPreferences(true)}
-        className="flex items-center px-5 py-2 mb-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-semibold transition-colors"
-      >
-        <Settings2 className="w-5 h-5 mr-2" />
-        Open Cookie Preferences
-      </button>
-      {showPreferences && (
-        <div className="bg-gray-100 dark:bg-dark-800 p-6 rounded-xl shadow-lg mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Cookie Preferences</h3>
-          <p className="mb-2 text-gray-700 dark:text-gray-300">
-            (This is a sample modal. Integrate your cookie management tool here.)
+    <div className="pt-20 px-4 max-w-4xl mx-auto">
+      {/* Hero Section */}
+      <section className="py-12 bg-gradient-to-br from-yellow-600 to-yellow-400 text-white rounded-2xl mb-12 shadow-lg">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <div className="flex justify-center mb-4">
+            <Cookie className="w-12 h-12 text-white" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Cookie Policy</h1>
+          <p className="mb-6 text-lg md:text-xl text-white/90">
+            We use cookies to enhance your experience, analyze site usage, and comply with international privacy standards. Learn more about our cookie practices and your choices.
           </p>
-          <ul className="mb-4 text-gray-700 dark:text-gray-300">
-            <li>
-              <input type="checkbox" checked disabled className="mr-2" />
-              Strictly Necessary Cookies (Always Active)
-            </li>
-            <li>
-              <input type="checkbox" className="mr-2" />
-              Performance Cookies
-            </li>
-            <li>
-              <input type="checkbox" className="mr-2" />
-              Functional Cookies
-            </li>
-            <li>
-              <input type="checkbox" className="mr-2" />
-              Targeting/Advertising Cookies
-            </li>
-          </ul>
-          <button
-            onClick={() => setShowPreferences(false)}
-            className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg"
+          <a
+            href="#cookie-resources"
+            className="inline-block bg-white text-yellow-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
           >
-            Save Preferences
-          </button>
+            Explore Cookie Resources
+          </a>
         </div>
-      )}
+      </section>
 
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">5. Third-Party Cookies</h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        Some cookies may be set by third-party services we use, such as analytics providers or advertisers. We do not control these cookies.
-      </p>
+      {/* Cookie Resources Section */}
+      <section id="cookie-resources" className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          Essential Cookie Policy Resources
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {cookieResources.map((res, idx) => (
+            <div
+              key={idx}
+              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+            >
+              <div className="flex items-center gap-4 mb-4">{res.icon}
+                <span className="text-xl font-semibold text-yellow-700 dark:text-yellow-300">{res.title}</span>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
+              <a
+                href={res.link}
+                download
+                className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+              >
+                <FileText className="w-5 h-5" /> Download {res.fileType}
+              </a>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Changes to This Policy</h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        We may update this Cookie Policy from time to time. Any changes will be posted on this page.
-      </p>
+      {/* Main Cookie Policy Content */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Cookie Policy</h2>
+        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
+          <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. What Are Cookies?</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Cookies are small text files stored on your device by your browser. They help us remember your preferences, analyze site traffic, and improve your experience.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">2. Types of Cookies We Use</h3>
+          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
+            <li>Essential Cookies: Necessary for site functionality and security.</li>
+            <li>Analytics Cookies: Help us understand how visitors use our site.</li>
+            <li>Preference Cookies: Remember your settings and choices.</li>
+            <li>Marketing Cookies: Used to deliver relevant ads and measure campaign effectiveness.</li>
+          </ul>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">3. Managing Your Cookie Preferences</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            You can manage or disable cookies in your browser settings. Some features may not work properly if you disable certain cookies.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">4. Third-Party Cookies</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may use third-party cookies for analytics and advertising. These providers have their own privacy policies.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">5. International Compliance</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Our cookie practices comply with GDPR, CCPA, and other international privacy laws. We respect your right to privacy and data protection.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Updates to This Policy</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may update this Cookie Policy from time to time. Changes will be posted on this page.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Contact Us</h3>
+          <p className="mb-8 text-gray-700 dark:text-gray-300">
+            For questions about our cookie policy, contact us at{' '}
+            <a href="mailto:support@pitchpoa.com" className="text-yellow-700 underline">support@pitchpoa.com</a>.
+          </p>
+        </div>
+      </section>
 
-      <h2 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Contact Us</h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
-        If you have any questions about our Cookie Policy, please contact us at{' '}
-        <a href="mailto:support@pitchpoa.com" className="text-primary-600 underline">support@pitchpoa.com</a>.
-      </p>
+      {/* Contact/Feedback Form */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Send Us a Cookie Policy Question
+        </h2>
+        <div className="max-w-xl mx-auto bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
+          {submitted ? (
+            <div className="text-center text-green-600 dark:text-green-400 font-semibold">
+              Thank you for reaching out! Our team will respond to your question as soon as possible.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                  placeholder="Type your cookie policy question here..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-yellow-600 dark:bg-yellow-500 text-white font-semibold py-3 rounded-lg hover:bg-yellow-700 dark:hover:bg-yellow-600 transition"
+              >
+                Send Message
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Call-to-action buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center justify-center px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors"
+        >
+          Back to Home
+        </button>
+        <a
+          href="mailto:support@pitchpoa.com"
+          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-dark-700 text-yellow-700 dark:text-yellow-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+        >
+          <Mail className="w-5 h-5 mr-2" />
+          Contact Support
+        </a>
+      </div>
     </div>
   );
-};
-
-export default CoockiePolicy;
+}
+export default CookiePolicyPage;

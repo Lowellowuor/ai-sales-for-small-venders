@@ -1,11 +1,67 @@
 import { motion } from 'framer-motion';
 import { Play, Mic, MessageCircle, Brain, Smartphone } from 'lucide-react';
+import { useState } from 'react';
+
+// Placeholder video URLs for demonstration.
+const videoUrls = {
+  'Market Vendor': 'https://www.youtube.com/embed/jZ_y8c0iJ74?si=6m4GqV0l_3oGg8F7',
+  'WhatsApp Integration': 'https://www.youtube.com/embed/bX_G1_P2C9Q?si=l11JqE7-7eF5tB1d',
+  'Multilingual Training': 'https://www.youtube.com/embed/Mh-o16YgQJ4?si=r43W9-Y1Bv0r_R2P'
+};
+
+type ChatMessage = { sender: 'ai' | 'user'; text: string };
+
+const featureChatMessages: Record<string, ChatMessage[]> = {
+  'Voice Analysis': [
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
+    { sender: 'user', text: 'Hello! I want to practice my pitch for selling fresh produce.' },
+    { sender: 'ai', text: 'Excellent! Please record your pitch. I\'ll analyze your tone, pace, and confidence.' },
+    { sender: 'user', text: '(Simulated voice recording of pitch)' },
+    { sender: 'ai', text: 'Analysis complete! Your pace was good, but try adding more vocal variety to sound more confident. Your tone was friendly, well done! 👍' },
+  ],
+  'WhatsApp Native': [
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
+    { sender: 'user', text: 'This is great! I love that I can do this directly on WhatsApp.' },
+    { sender: 'ai', text: 'Absolutely! Our platform is built to seamlessly integrate with WhatsApp, making training accessible and convenient for you, right where your customers are.' },
+    { sender: 'user', text: 'Perfect for my daily routine!' },
+  ],
+  'AI Coaching': [
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
+    { sender: 'user', text: 'My last pitch didn\'t close the deal. What should I improve?' },
+    { sender: 'ai', text: 'Based on your previous pitch, consider focusing more on the customer\'s pain points and how your product directly solves them. Let\'s rephrase your value proposition.' },
+    { sender: 'user', text: 'Okay, how about this: "Are you tired of [pain point]? Our solution [product benefit] will help you [achieve goal]."' },
+    { sender: 'ai', text: 'Much better! That clearly addresses the customer\'s need. Let\'s try practicing that.' },
+  ],
+  'Mobile-First': [
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
+    { sender: 'user', text: 'I\'m often on the go. Does PitchPoa work well on my phone?' },
+    { sender: 'ai', text: 'Yes! PitchPoa AI is designed with a mobile-first approach. All features are optimized for your smartphone, ensuring a smooth and responsive experience wherever you are.' },
+    { sender: 'user', text: 'Awesome! That makes it super convenient.' },
+  ]
+};
 
 const DemoPage = () => {
+  const [activeFeatureId, setActiveFeatureId] = useState<string | null>(null);
+  const [currentChatMessages, setCurrentChatMessages] = useState<ChatMessage[]>([
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' }
+  ]);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
+
+  const handleFeatureClick = (featureTitle: string) => {
+    setActiveFeatureId(featureTitle);
+    setCurrentChatMessages(featureChatMessages[featureTitle]);
+    setSelectedVideoUrl(null);
+  };
+
+  const handlePlayVideo = (videoTitle: keyof typeof videoUrls) => {
+    setSelectedVideoUrl(videoUrls[videoTitle]);
+    setActiveFeatureId(null);
+  };
+
   return (
-    <div className="pt-20">
+    <div className="pt-20 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-500 to-accent-500 text-white">
+      <section className="py-20 bg-gradient-to-br from-primary-500 to-accent-500 dark:from-primary-800 dark:to-accent-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -19,7 +75,7 @@ const DemoPage = () => {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              See how our AI coach transforms your sales pitches in real-time. 
+              See how our AI coach transforms your sales pitches in real-time.
               Try all features without any commitment.
             </p>
           </motion.div>
@@ -27,7 +83,7 @@ const DemoPage = () => {
       </section>
 
       {/* Interactive Demo Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-dark-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Demo Interface */}
@@ -35,14 +91,12 @@ const DemoPage = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-gray-50 rounded-3xl p-8"
+              className="bg-gray-50 dark:bg-dark-700 rounded-3xl p-8 shadow-xl"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8">
                 Live Voice Training Demo
               </h2>
-              
-              {/* WhatsApp-style Interface */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              <div className="bg-white dark:bg-dark-900 rounded-2xl shadow-lg overflow-hidden">
                 <div className="bg-whatsapp-500 px-6 py-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -54,20 +108,34 @@ const DemoPage = () => {
                     </div>
                   </div>
                 </div>
-                
-                <div className="p-6 h-96 overflow-y-auto bg-gray-50">
-                  {/* Demo messages would go here */}
+                <div className="p-6 h-96 overflow-y-auto bg-gray-50 dark:bg-dark-800">
                   <div className="space-y-4">
-                    <div className="flex space-x-2">
-                      <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
-                        <Brain className="w-4 h-4 text-white" />
+                    {currentChatMessages.map((msg, index) => (
+                      <div
+                        key={index}
+                        className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} space-x-2`}
+                      >
+                        {msg.sender === 'ai' && (
+                          <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Brain className="w-4 h-4 text-white" />
+                          </div>
+                        )}
+                        <div
+                          className={`rounded-2xl px-4 py-3 max-w-xs shadow-sm ${
+                            msg.sender === 'user'
+                              ? 'bg-accent-500 text-white rounded-br-sm'
+                              : 'bg-white dark:bg-dark-700 text-gray-800 dark:text-gray-200 rounded-tl-sm'
+                          }`}
+                        >
+                          <p className="text-sm">{msg.text}</p>
+                        </div>
+                        {msg.sender === 'user' && (
+                          <div className="w-8 h-8 bg-accent-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Smartphone className="w-4 h-4 text-white" />
+                          </div>
+                        )}
                       </div>
-                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-xs shadow-sm">
-                        <p className="text-gray-800 text-sm">
-                          Habari! 👋 I'm your AI sales coach. Let's practice your pitch together!
-                        </p>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -80,46 +148,66 @@ const DemoPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-8"
             >
-              <h2 className="text-3xl font-bold text-gray-900">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
                 What You'll Experience
               </h2>
-              
               <div className="space-y-6">
                 {[
                   {
+                    id: 'Voice Analysis',
                     icon: Mic,
                     title: 'Voice Analysis',
                     description: 'Real-time feedback on tone, pace, and confidence levels'
                   },
                   {
+                    id: 'WhatsApp Native',
                     icon: MessageCircle,
                     title: 'WhatsApp Native',
                     description: 'Practice in the familiar WhatsApp environment'
                   },
                   {
+                    id: 'AI Coaching',
                     icon: Brain,
                     title: 'AI Coaching',
                     description: 'Personalized suggestions for improvement'
                   },
                   {
+                    id: 'Mobile-First',
                     icon: Smartphone,
                     title: 'Mobile-First',
                     description: 'Optimized for your smartphone experience'
                   }
-                ].map((feature, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
-                      <feature.icon className="w-6 h-6 text-primary-600" />
+                ].map((feature) => (
+                  <button
+                    key={feature.id}
+                    onClick={() => handleFeatureClick(feature.id)}
+                    className={`flex items-start space-x-4 p-4 rounded-xl text-left w-full transition-all duration-200
+                      ${activeFeatureId === feature.id
+                        ? 'bg-primary-500 text-white shadow-lg dark:bg-primary-700'
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-dark-700 dark:text-gray-100 dark:hover:bg-dark-600'
+                      }`}
+                  >
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
+                      ${activeFeatureId === feature.id
+                        ? 'bg-white text-primary-600'
+                        : 'bg-primary-100 text-primary-600 dark:bg-dark-600 dark:text-primary-400'
+                      }`}
+                    >
+                      <feature.icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      <h3 className={`text-lg font-semibold mb-1
+                        ${activeFeatureId === feature.id ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}
+                      >
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600">
+                      <p className={`text-sm
+                        ${activeFeatureId === feature.id ? 'text-white/80' : 'text-gray-600 dark:text-gray-300'}`}
+                      >
                         {feature.description}
                       </p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </motion.div>
@@ -128,7 +216,7 @@ const DemoPage = () => {
       </section>
 
       {/* Video Demos Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-dark-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -136,37 +224,56 @@ const DemoPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
               See It In Action
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Watch real vendors transform their pitches with PitchPoa AI
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: 'Before & After: Market Vendor', duration: '3:24' },
-              { title: 'WhatsApp Integration Demo', duration: '2:18' },
+            {([
+              { title: 'Market Vendor', duration: '3:24' },
+              { title: 'WhatsApp Integration', duration: '2:18' },
               { title: 'Multilingual Training', duration: '4:12' }
-            ].map((video, index) => (
+            ] as { title: keyof typeof videoUrls; duration: string }[]).map((video, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-dark-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
-                <div className="aspect-video bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
-                  <button className="w-16 h-16 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-                    <Play className="w-8 h-8 text-primary-600 ml-1" />
-                  </button>
-                </div>
+                {selectedVideoUrl === videoUrls[video.title] ? (
+                  <div className="aspect-video">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={selectedVideoUrl || undefined}
+                      title={video.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                ) : (
+                  <div className="aspect-video bg-gradient-to-br from-primary-500 to-accent-500 dark:from-primary-800 dark:to-accent-800 flex items-center justify-center">
+                    <button
+                      onClick={() => handlePlayVideo(video.title)}
+                      className="w-16 h-16 bg-white dark:bg-dark-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform text-primary-600 dark:text-primary-400"
+                      aria-label={`Play ${video.title} video`}
+                    >
+                      <Play className="w-8 h-8 ml-1" />
+                    </button>
+                  </div>
+                )}
                 <div className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     {video.title}
                   </h3>
-                  <p className="text-gray-600 text-sm">{video.duration}</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">{video.duration}</p>
                 </div>
               </motion.div>
             ))}
@@ -175,7 +282,7 @@ const DemoPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary-500 text-white">
+      <section className="py-20 bg-primary-500 dark:bg-primary-800 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -189,10 +296,10 @@ const DemoPage = () => {
               Join thousands of successful African entrepreneurs today
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors">
+              <button className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors dark:bg-dark-900 dark:text-primary-400 dark:hover:bg-dark-700">
                 Start Free Trial
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-primary-600 transition-colors">
+              <button className="bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors dark:bg-dark-900 dark:text-primary-400 dark:hover:bg-dark-700">
                 Schedule Demo Call
               </button>
             </div>
@@ -203,4 +310,4 @@ const DemoPage = () => {
   );
 };
 
-export default DemoPage;
+export default DemoPage ;
