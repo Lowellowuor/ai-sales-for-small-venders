@@ -110,7 +110,7 @@ cd pitchpoa-ai
 npm install
 #or
 yarn install
-4. Configure Environment
+3. Configure Environment
 
 cp .env.example .env
 4. Start the Development Server
