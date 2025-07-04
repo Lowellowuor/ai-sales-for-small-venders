@@ -99,7 +99,7 @@ yaml
 Copy
 Edit
 ---
-## 🛠 Quick Setu
+## 🛠 Quick Setup
 
  1. Clone the Repository  
 
@@ -107,21 +107,14 @@ git clone https://github.com/Lowellowuor/ai-sales-for-small-venders.git
 cd pitchpoa-ai 
 
 2. Install Dependencies
-bash
-Copy
-Edit
 npm install
 # or
 yarn install
 3. Configure Environment
-bash
-Copy
-Edit
+
 cp .env.example .env
 4. Start the Development Server
-bash
-Copy
-Edit
+
 npm run dev
 Visit: http://localhost:5173
 
