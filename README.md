@@ -111,8 +111,7 @@ npm install
 #or
 yarn install
 3. Configure Environment
-
-cp .env.example .env
+   cp .env.example .env
 4. Start the Development Server
 
 npm run dev
