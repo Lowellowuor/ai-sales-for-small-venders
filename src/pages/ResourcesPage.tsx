@@ -163,8 +163,8 @@ const ResourcesPage = () => {
 
             {/* Filter Button */}
             <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
-              <Filter className="w-4 h-4" />
-              <span>Filter</span>
+              <Filter className="w-4 h-4 text-primary-600 dark:text-primary-300" />
+              <span className="text-primary-600 dark:text-primary-300">Filter</span>
             </button>
           </div>
         </div>

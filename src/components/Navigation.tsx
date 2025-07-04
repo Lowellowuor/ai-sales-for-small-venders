@@ -31,11 +31,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/95 dark:bg-dark-900/95 backdrop-blur-lg shadow-lg border-b border-gray-200 dark:border-dark-700' 
-        : 'bg-transparent'
-    }`}>
+    <nav className="bg-white dark:bg-dark-900 text-gray-900 dark:text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -59,7 +55,7 @@ const Navigation = () => {
                     ? 'text-primary-600 dark:text-primary-400' 
                     : scrolled 
                       ? 'text-gray-700 dark:text-gray-300' 
-                      : 'text-white'
+                      : 'text-gray-900 dark:text-white'
                 }`}
               >
                 {item.name}
