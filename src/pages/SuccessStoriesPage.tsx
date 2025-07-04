@@ -20,7 +20,7 @@ const SuccessStoriesPage = () => {
     },
     {
       type: 'story',
-      name: 'Samuel Njoroge',
+      name: 'Samuel Kato',
       role: 'Electronics Vendor',
       location: 'Kampala, Uganda', 
       avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400',
