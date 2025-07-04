@@ -108,9 +108,9 @@ cd pitchpoa-ai
 
 2. Install Dependencies
 npm install
-# or
+#or
 yarn install
-3. Configure Environment
+4. Configure Environment
 
 cp .env.example .env
 4. Start the Development Server
