@@ -135,11 +135,12 @@ Get Feedback:
 Upgrade: Unlock advanced coaching by paying via M-Pesa
 
 👥 Authors
-Lowell Owuor
 
-Brilliant Wammy
+[Lowell Owuor](https://github.com/Lowellowuor)
 
-Teddy Brian
+[Brilliant Mwendwa](https://github.com/Brillywam)
+
+[Teddy Brian](https://github.com/teddy502)
 
 
 
