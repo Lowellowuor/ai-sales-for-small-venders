@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // We might not need motion if we remove all its uses for background
 import { Play, Mic, Users, TrendingUp, MessageCircle } from 'lucide-react';
 import VoiceDemoWidget from './VoiceDemoWidget';
 
 const HeroSection = () => {
   const [currentStat, setCurrentStat] = useState(0);
   const [typedText, setTypedText] = useState('');
-  
+
   const stats = [
     { number: '50,000+', label: 'Active Vendors' },
     { number: '300%', label: 'Average Sales Increase' },
@@ -42,38 +42,18 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-hero-gradient dark:bg-hero-gradient-dark bg-[length:400%_400%] animate-gradient">
-        <div className="absolute inset-0 bg-black/20 dark:bg-black/40"></div>
-      </div>
-      
-      {/* Floating Particles */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 bg-white/30 dark:bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+    <section
+      className="relative min-h-screen flex items-center overflow-hidden bg-cover bg-center"
+      style={{ backgroundImage: "url('https://images.pexels.com/photos/4054850/pexels-photo-4054850.jpeg')" }} // <-- ADD THIS LINE
+    >   
+
+      {/* Overlay to darken the image and ensure text readability */}
+      <div className="absolute inset-0 bg-black/50"></div> {/* <-- ADD THIS OVERLAY */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
+          {/* Re-introducing motion import as it's still used here */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -102,8 +82,11 @@ const HeroSection = () => {
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
-                The only sales trainer that speaks Swahili, thinks like you, 
-                and works on <span className="text-whatsapp-500 font-semibold">WhatsApp</span>
+                The only sales trainer that speaks Swahili, thinks like you,
+                and works on{' '}
+                <span className="text-whatsapp-500 font-semibold">
+                  WhatsApp
+                </span>
               </p>
             </div>
 
@@ -152,8 +135,12 @@ const HeroSection = () => {
               className="flex items-center space-x-6 pt-4"
             >
               <div className="text-center">
-                <div className="text-2xl font-bold">{stats[currentStat].number}</div>
-                <div className="text-sm text-white/80">{stats[currentStat].label}</div>
+                <div className="text-2xl font-bold">
+                  {stats[currentStat].number}
+                </div>
+                <div className="text-sm text-white/80">
+                  {stats[currentStat].label}
+                </div>
               </div>
               <div className="w-px h-12 bg-white/30"></div>
               <div className="text-sm text-white/80">
