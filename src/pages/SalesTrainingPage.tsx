@@ -90,11 +90,18 @@ const SalesTrainingPage: React.FC = () => (
                 >
                   <Video className="w-5 h-5" /> Watch Video
                 </a>
+              ) : resource.title === 'Complete Sales Pitch Guide' ? (
+                <a
+                  href="/resources/sales-pitch-guide-info"
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+                >
+                  <FileText className="w-5 h-5" /> View
+                </a>
               ) : (
                 <a
                   href={resource.file}
                   download
-                  className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors shadow w-max"
                 >
                   <Download className="w-5 h-5" /> Download {resource.fileType}
                 </a>
