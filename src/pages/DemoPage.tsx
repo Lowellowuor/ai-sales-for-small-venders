@@ -30,7 +30,7 @@ const featureChatMessages: Record<string, ChatMessage[]> = {
     { sender: 'user', text: 'Perfect for my daily routine!' },
   ],
   'AI Coaching': [
-    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Letspractice your pitch together!' },
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Lets practice your pitch together!' },
     { sender: 'user', text: 'My last pitch didn\'t close the deal. What should I improve?' },
     { sender: 'ai', text: 'Based on your previous pitch, consider focusing more on the customer\'s pain points and how your product directly solves them. Lets rephrase your value proposition.' },
     { sender: 'user', text: 'Okay, how about this: "Are you tired of [pain point]? Our solution [product benefit] will help you [achieve goal]."' },
