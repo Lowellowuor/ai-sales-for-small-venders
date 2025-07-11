@@ -11,7 +11,7 @@ const businessGrowthResources = [
     icon: <DollarSign className="w-8 h-8 text-green-600" />,
     title: "Business Loans & Funding",
     description: "Learn how to access business loans, pitch to investors, and leverage microfinance. Our guides help you prepare your business for funding, understand credit, and avoid common loan mistakes.",
-    link: "/downloads/business-loans-guide.pdf",
+    link: "/resources/business-loans-guide-info", // changed from /downloads/business-loans-guide.pdf
     fileType: "PDF",
     details: "Loan checklist · Investor pitch templates · Funding sources"
   },
@@ -19,7 +19,7 @@ const businessGrowthResources = [
     icon: <PiggyBank className="w-8 h-8 text-pink-500" />,
     title: "Smart Savings & Investment",
     description: "Discover savings plans for entrepreneurs, emergency funds, and how to reinvest profits for sustainable growth. Includes digital savings tools, group savings (chamas), and investment basics.",
-    link: "/downloads/savings-strategies.pdf",
+    link: "/resources/savings-strategies-info", // changed from /downloads/savings-strategies.pdf
     fileType: "PDF",
     details: "Savings planner · Chama guide · Digital tools"
   },
@@ -27,7 +27,7 @@ const businessGrowthResources = [
     icon: <AlertTriangle className="w-8 h-8 text-red-500" />,
     title: "Managing Loss & Risk",
     description: "Identify, manage, and recover from business losses. Get practical advice on risk assessment, insurance, fraud prevention, and building resilience for your business.",
-    link: "/downloads/loss-risk-management.pdf",
+    link: "/resources/loss-risk-management-info", // changed from /downloads/loss-risk-management.pdf
     fileType: "PDF",
     details: "Risk checklist · Insurance tips · Recovery plans"
   },
@@ -35,7 +35,7 @@ const businessGrowthResources = [
     icon: <Scale className="w-8 h-8 text-blue-600" />,
     title: "Scaling Your Business",
     description: "Step-by-step playbooks for scaling operations, hiring, expanding to new markets, and automating processes. Includes checklists, growth metrics, and digital transformation tips.",
-    link: "/downloads/scaling-business-playbook.pdf",
+    link: "/resources/scaling-business-playbook-info", // changed from /downloads/scaling-business-playbook.pdf
     fileType: "PDF",
     details: "Scaling checklist · Hiring guide · Automation tools"
   },
@@ -43,7 +43,7 @@ const businessGrowthResources = [
     icon: <TrendingUp className="w-8 h-8 text-purple-600" />,
     title: "Digital Transformation",
     description: "Upgrade your business with digital tools: e-commerce, mobile payments, CRM, and social media marketing. Stay competitive in today’s digital economy.",
-    link: "/downloads/digital-transformation-guide.pdf",
+    link: "/resources/digital-transformation-guide-info", // changed from /downloads/digital-transformation-guide.pdf
     fileType: "PDF",
     details: "E-commerce guide · CRM tools · Social media tips"
   },
@@ -51,7 +51,7 @@ const businessGrowthResources = [
     icon: <Users className="w-8 h-8 text-orange-500" />,
     title: "Building Teams & Leadership",
     description: "Learn how to hire, train, and retain top talent. Develop leadership skills, create a positive culture, and manage remote or hybrid teams for growth.",
-    link: "/downloads/team-leadership-guide.pdf",
+    link: "/resources/team-leadership-guide-info", // changed from /downloads/team-leadership-guide.pdf
     fileType: "PDF",
     details: "Hiring templates · Leadership tips · Team management"
   }
@@ -92,10 +92,9 @@ const BusinessGrowthPage = () => (
             <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
             <a
               href={res.link}
-              download
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+              className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
             >
-              <DollarSign className="w-5 h-5" /> Download {res.fileType}
+              <Users className="w-5 h-5" /> View
             </a>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
           </div>

@@ -21,6 +21,14 @@ import ApiDocumentationPage from './pages/ApiDocumentationPage';
 import CommunityForumPage   from './pages/CommunityForumPage';
 import ContactSupportPage  from './pages/ContactSupportPage';
 import TrainingVideosPage from './pages/TrainingVideosPage';
+import SalesPitchGuideInfoPage from './pages/SalesPitchGuideInfoPage';
+import WhatsAppSalesGuideInfoPage from './pages/WhatsAppSalesGuideInfoPage';
+import BusinessLoansGuideInfoPage from './pages/BusinessLoansGuideInfoPage';
+import SavingsStrategiesInfoPage from './pages/SavingsStrategiesInfoPage';
+import LossRiskManagementInfoPage from './pages/LossRiskManagementInfoPage';
+import ScalingBusinessPlaybookInfoPage from './pages/ScalingBusinessPlaybookInfoPage';
+import DigitalTransformationGuideInfoPage from './pages/DigitalTransformationGuideInfoPage';
+import TeamLeadershipGuideInfoPage from './pages/TeamLeadershipGuideInfoPage';
 function App() {
   return (
     <ThemeProvider>
@@ -51,6 +59,14 @@ function App() {
               <Route path="/contact-support" element={<ContactSupportPage />} />
               <Route path="/contact-support" element={<ContactSupportPage />} />
               <Route path="/training-videos" element={<TrainingVideosPage />} />
+              <Route path="/resources/sales-pitch-guide-info" element={<SalesPitchGuideInfoPage />} />
+              <Route path="/resources/whatsapp-sales-guide-info" element={<WhatsAppSalesGuideInfoPage />} />
+              <Route path="/resources/business-loans-guide-info" element={<BusinessLoansGuideInfoPage />} />
+              <Route path="/resources/savings-strategies-info" element={<SavingsStrategiesInfoPage />} />
+              <Route path="/resources/loss-risk-management-info" element={<LossRiskManagementInfoPage />} />
+              <Route path="/resources/scaling-business-playbook-info" element={<ScalingBusinessPlaybookInfoPage />} />
+              <Route path="/resources/digital-transformation-guide-info" element={<DigitalTransformationGuideInfoPage />} />
+              <Route path="/resources/team-leadership-guide-info" element={<TeamLeadershipGuideInfoPage />} />
             </Routes>
           </main>
           <Footer />
