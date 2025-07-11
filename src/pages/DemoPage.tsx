@@ -1,17 +1,21 @@
 import { motion } from 'framer-motion';
 import { Play, Mic, MessageCircle, Brain, Smartphone } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react'; // Import useRef and useEffect
+import integrationVideo from '../resources/integration.mp4';
+import multiVideo from '../resources/multi.mp4';
+import vendorVideo from '../resources/vendor.mp4';
 
-// Placeholder video URLs for demonstration.
-const videoUrls = {
-  'Market Vendor': 'https://www.youtube.com/embed/jZ_y8c0iJ74?si=6m4GqV0l_3oGg8F7',
-  'WhatsApp Integration': 'https://www.youtube.com/embed/bX_G1_P2C9Q?si=l11JqE7-7eF5tB1d',
-  'Multilingual Training': 'https://www.youtube.com/embed/Mh-o16YgQJ4?si=r43W9-Y1Bv0r_R2P'
+// Corrected: Using the imported video variables
+const videoSources = { // Renamed from videoUrls for clarity as they're now sources not just URLs
+  'Market Vendor': vendorVideo,
+  'WhatsApp Integration': integrationVideo,
+  'Multilingual Training': multiVideo
 };
 
 type ChatMessage = { sender: 'ai' | 'user'; text: string };
 
 const featureChatMessages: Record<string, ChatMessage[]> = {
+  // ... (keep featureChatMessages as is)
   'Voice Analysis': [
     { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
     { sender: 'user', text: 'Hello! I want to practice my pitch for selling fresh produce.' },
@@ -26,11 +30,11 @@ const featureChatMessages: Record<string, ChatMessage[]> = {
     { sender: 'user', text: 'Perfect for my daily routine!' },
   ],
   'AI Coaching': [
-    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
+    { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Letspractice your pitch together!' },
     { sender: 'user', text: 'My last pitch didn\'t close the deal. What should I improve?' },
-    { sender: 'ai', text: 'Based on your previous pitch, consider focusing more on the customer\'s pain points and how your product directly solves them. Let\'s rephrase your value proposition.' },
+    { sender: 'ai', text: 'Based on your previous pitch, consider focusing more on the customer\'s pain points and how your product directly solves them. Lets rephrase your value proposition.' },
     { sender: 'user', text: 'Okay, how about this: "Are you tired of [pain point]? Our solution [product benefit] will help you [achieve goal]."' },
-    { sender: 'ai', text: 'Much better! That clearly addresses the customer\'s need. Let\'s try practicing that.' },
+    { sender: 'ai', text: 'Much better! That clearly addresses the customer\'s need. Lets try practicing that.' },
   ],
   'Mobile-First': [
     { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' },
@@ -45,17 +49,97 @@ const DemoPage = () => {
   const [currentChatMessages, setCurrentChatMessages] = useState<ChatMessage[]>([
     { sender: 'ai', text: 'Habari! 👋 I\'m your AI sales coach. Let\'s practice your pitch together!' }
   ]);
-  const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
+  const [playingVideoTitle, setPlayingVideoTitle] = useState<keyof typeof videoSources | null>(null); // State to track which video is playing
+
+  // Refs for each video element
+  const videoRefs = {
+    'Market Vendor': useRef<HTMLVideoElement>(null),
+    'WhatsApp Integration': useRef<HTMLVideoElement>(null),
+    'Multilingual Training': useRef<HTMLVideoElement>(null),
+  };
+
+  useEffect(() => {
+    // This effect runs once on mount to set up Intersection Observers
+    const observers: IntersectionObserver[] = [];
+
+    // Loop through each video ref
+    (Object.keys(videoRefs) as Array<keyof typeof videoRefs>).forEach(videoTitle => {
+      const videoElement = videoRefs[videoTitle].current;
+
+      if (videoElement) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) {
+                // If video exits view, pause it and reset its time
+                if (videoElement && !videoElement.paused) {
+                  videoElement.pause();
+                  videoElement.currentTime = 0; // Reset to beginning
+                  setPlayingVideoTitle(null); // Clear playing state for this video
+                }
+              } else {
+                // If video enters view, ensure it's paused at beginning if not the actively playing one
+                // This handles refreshes and initial load outside of view
+                if (videoElement && videoElement.paused && videoElement.currentTime !== 0 && playingVideoTitle !== videoTitle) {
+                   videoElement.currentTime = 0; // Reset if it was partially played and scrolled back in
+                }
+              }
+            });
+          },
+          { threshold: 0.5 } // Trigger when 50% of the video is visible/invisible
+        );
+
+        observer.observe(videoElement);
+        observers.push(observer);
+      }
+    });
+
+    // Cleanup function for observers
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []); // Run only once on mount
+
+  // Effect to pause other videos when one starts playing
+  useEffect(() => {
+    (Object.keys(videoRefs) as Array<keyof typeof videoRefs>).forEach(videoTitle => {
+      const videoElement = videoRefs[videoTitle].current;
+      if (videoElement && videoTitle !== playingVideoTitle && !videoElement.paused) {
+        videoElement.pause();
+        videoElement.currentTime = 0; // Reset
+      }
+    });
+  }, [playingVideoTitle]); // Re-run when playingVideoTitle changes
+
 
   const handleFeatureClick = (featureTitle: string) => {
     setActiveFeatureId(featureTitle);
     setCurrentChatMessages(featureChatMessages[featureTitle]);
-    setSelectedVideoUrl(null);
+    setPlayingVideoTitle(null); // Stop any playing video when a chat feature is clicked
   };
 
-  const handlePlayVideo = (videoTitle: keyof typeof videoUrls) => {
-    setSelectedVideoUrl(videoUrls[videoTitle]);
-    setActiveFeatureId(null);
+  const handlePlayVideo = (videoTitle: keyof typeof videoSources) => {
+    const videoElement = videoRefs[videoTitle].current;
+    if (videoElement) {
+      if (playingVideoTitle === videoTitle) {
+        // If it's already playing, pause it
+        videoElement.pause();
+        setPlayingVideoTitle(null);
+      } else {
+        // Pause any currently playing video first
+        if (playingVideoTitle) {
+          const prevVideoElement = videoRefs[playingVideoTitle].current;
+          if (prevVideoElement) {
+            prevVideoElement.pause();
+            prevVideoElement.currentTime = 0; // Reset previous video
+          }
+        }
+        // Then play the clicked video
+        videoElement.play();
+        setPlayingVideoTitle(videoTitle);
+        setActiveFeatureId(null); // Deselect chat feature when a video is played
+      }
+    }
   };
 
   return (
@@ -237,7 +321,7 @@ const DemoPage = () => {
               { title: 'Market Vendor', duration: '3:24' },
               { title: 'WhatsApp Integration', duration: '2:18' },
               { title: 'Multilingual Training', duration: '4:12' }
-            ] as { title: keyof typeof videoUrls; duration: string }[]).map((video, index) => (
+            ] as { title: keyof typeof videoSources; duration: string }[]).map((video, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -245,30 +329,31 @@ const DemoPage = () => {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="bg-white dark:bg-dark-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
-                {selectedVideoUrl === videoUrls[video.title] ? (
-                  <div className="aspect-video">
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={selectedVideoUrl || undefined}
-                      title={video.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                ) : (
-                  <div className="aspect-video bg-gradient-to-br from-primary-500 to-accent-500 dark:from-primary-800 dark:to-accent-800 flex items-center justify-center">
-                    <button
-                      onClick={() => handlePlayVideo(video.title)}
-                      className="w-16 h-16 bg-white dark:bg-dark-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform text-primary-600 dark:text-primary-400"
-                      aria-label={`Play ${video.title} video`}
-                    >
-                      <Play className="w-8 h-8 ml-1" />
-                    </button>
-                  </div>
-                )}
+                <div className="aspect-video relative">
+                  {/* Changed from iframe to video tag */}
+                  <video
+                    ref={videoRefs[video.title]} // Attach the ref
+                    src={videoSources[video.title]} // Use the imported video source
+                    controls={playingVideoTitle === video.title} // Show controls only when playing
+                    className="w-full h-full object-cover" // Ensure video fills container
+                    // Optional: 'preload="metadata"' to load just enough to show first frame
+                    // 'playsInline' is good for mobile
+                    playsInline
+                    // No 'autoplay' to ensure it waits for click
+                  />
+                  {/* Custom Play button overlay when video is not playing */}
+                  {playingVideoTitle !== video.title && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                      <button
+                        onClick={() => handlePlayVideo(video.title)}
+                        className="w-16 h-16 bg-white dark:bg-dark-600 rounded-full flex items-center justify-center hover:scale-110 transition-transform text-primary-600 dark:text-primary-400"
+                        aria-label={`Play ${video.title} video`}
+                      >
+                        <Play className="w-8 h-8 ml-1" />
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <div className="p-6">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     {video.title}
@@ -310,4 +395,4 @@ const DemoPage = () => {
   );
 };
 
-export default DemoPage ;
+export default DemoPage;
