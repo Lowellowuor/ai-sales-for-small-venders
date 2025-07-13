@@ -29,6 +29,8 @@ import LossRiskManagementInfoPage from './pages/LossRiskManagementInfoPage';
 import ScalingBusinessPlaybookInfoPage from './pages/ScalingBusinessPlaybookInfoPage';
 import DigitalTransformationGuideInfoPage from './pages/DigitalTransformationGuideInfoPage';
 import TeamLeadershipGuideInfoPage from './pages/TeamLeadershipGuideInfoPage';
+import WhatsAppMessageTemplatesInfoPage from './pages/WhatsAppMessageTemplatesInfoPage';
+import SalesScriptTemplatesInfoPage from './pages/SalesScriptTemplatesInfoPage';
 function App() {
   return (
     <ThemeProvider>
@@ -67,6 +69,8 @@ function App() {
               <Route path="/resources/scaling-business-playbook-info" element={<ScalingBusinessPlaybookInfoPage />} />
               <Route path="/resources/digital-transformation-guide-info" element={<DigitalTransformationGuideInfoPage />} />
               <Route path="/resources/team-leadership-guide-info" element={<TeamLeadershipGuideInfoPage />} />
+              <Route path="/resources/whatsapp-message-templates-info" element={<WhatsAppMessageTemplatesInfoPage />} />
+              <Route path="/resources/sales-script-templates-info" element={<SalesScriptTemplatesInfoPage />} />
             </Routes>
           </main>
           <Footer />
