@@ -1,7 +1,8 @@
 import { Star, TrendingUp, Users, MapPin } from 'lucide-react';
 
 const SuccessStoriesPage = () => {
-  // Removed unused useInView hook
+  // Define your live image URL for the success stories hero here
+  const successStoriesImageUrl = 'https://images.pexels.com/photos/8475172/pexels-photo-8475172.jpeg'; // <--- IMPORTANT: Replace with your actual live image URL
 
   const stories = [
     {
@@ -22,7 +23,7 @@ const SuccessStoriesPage = () => {
       type: 'story',
       name: 'Samuel Kato',
       role: 'Electronics Vendor',
-      location: 'Kampala, Uganda', 
+      location: 'Kampala, Uganda',
       avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400',
       beforeRevenue: 'UGX 8M',
       afterRevenue: 'UGX 35M',
@@ -94,9 +95,20 @@ const SuccessStoriesPage = () => {
 
   return (
     <div className="pt-20 px-4 max-w-7xl mx-auto">
-      {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-br from-primary-600 to-accent-500 text-white rounded-2xl mb-12 shadow-lg">
-        <div className="max-w-3xl mx-auto text-center px-4">
+      {/* Hero Section - Success Stories */}
+      <section className="py-16 text-white rounded-2xl mb-12 shadow-lg relative overflow-hidden">
+        {/* Background Image Container */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${successStoriesImageUrl}')` }} // <--- Live image URL used here
+        >
+          {/* Optional: Overlay for better text readability */}
+          {/* You can adjust bg-primary-600 or opacity-80 to fit your image */}
+          <div className="absolute inset-0 bg-primary-600 opacity-30"></div>
+        </div>
+
+        {/* Content of the Hero Section - Make sure it's above the image/overlay */}
+        <div className="max-w-3xl mx-auto text-center px-4 relative z-10">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Success Stories</h1>
           <p className="mb-8 text-lg md:text-xl text-white/90">
             Discover how African entrepreneurs transformed their businesses with PitchPoa AI.
