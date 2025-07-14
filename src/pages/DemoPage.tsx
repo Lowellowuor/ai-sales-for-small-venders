@@ -63,27 +63,36 @@ const DemoPage = () => {
   return (
     <div className="pt-20 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-500 to-accent-500 dark:from-primary-800 dark:to-accent-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Experience PitchPoa AI
-              <span className="block text-2xl md:text-3xl font-normal mt-2 text-white/90">
-                Interactive Demo
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              See how our AI coach transforms your sales pitches in real-time.
-              Try all features without any commitment.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
+      <section className="py-20 relative text-white overflow-hidden"> {/* Added relative and overflow-hidden */}
+ <div className="absolute top-0 left-0 w-full h-full overflow-hidden"> {/* Video container */}
+  <video
+   src={'https://media.istockphoto.com/id/2178019507/video/talking-seminar-and-man-with-mic-audience-and-discussion-of-ai-and-automation-on-stage-and.mp4?s=mp4-640x640-is&k=20&c=kcweTiRSNEwK2eYad4c5qNsn--o5mme90c4nVKXpICw='} // Replace with your desired video import (e.g., heroVideo)
+   autoPlay
+   loop
+   muted
+   className="absolute top-0 left-0 min-w-full min-h-full object-cover"
+  />
+  <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div> {/* Optional: Dark overlay for better text readability */}
+ </div>
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10"> {/* Added relative and z-10 */}
+  <motion.div
+   initial={{ opacity: 0, y: 30 }}
+   animate={{ opacity: 1, y: 0 }}
+   transition={{ duration: 0.8 }}
+  >
+   <h1 className="text-4xl md:text-6xl font-bold mb-6">
+    Experience PitchPoa AI
+    <span className="block text-2xl md:text-3xl font-normal mt-2 text-white/90">
+     Interactive Demo
+    </span>
+   </h1>
+   <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+    See how our AI coach transforms your sales pitches in real-time.
+    Try all features without any commitment.
+   </p>
+  </motion.div>
+ </div>
+</section>
       {/* Interactive Demo Section */}
       <section className="py-20 bg-white dark:bg-dark-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
