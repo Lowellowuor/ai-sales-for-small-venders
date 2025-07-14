@@ -1,45 +1,46 @@
 import React from 'react';
 import { Cpu, Cloud, Shield, TrendingUp, Users, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const aiTechResources = [
   {
     icon: <Cpu className="w-8 h-8 text-blue-600" />,
     title: "AI for Business Growth",
     description: "Discover how artificial intelligence can automate tasks, analyze data, and personalize customer experiences. Learn practical AI applications for small businesses.",
-    link: "/downloads/ai-business-growth.pdf",
-    fileType: "PDF",
+    link: "/resources/ai-for-business-growth",
+    fileType: "Guide",
     details: "AI use cases · Automation checklist · ROI calculator"
   },
   {
     icon: <Cloud className="w-8 h-8 text-purple-600" />,
     title: "Cloud Tools & Digital Platforms",
     description: "Leverage cloud solutions for storage, collaboration, and scaling your business. Includes guides on choosing the right platforms and migrating your data securely.",
-    link: "/downloads/cloud-tools-guide.pdf",
-    fileType: "PDF",
+    link: "/resources/cloud-tools-and-digital-platforms",
+    fileType: "Guide",
     details: "Cloud migration · Platform comparison · Security tips"
   },
   {
     icon: <Shield className="w-8 h-8 text-red-500" />,
     title: "Cybersecurity Essentials",
     description: "Protect your business from cyber threats. Learn about data privacy, secure payments, and best practices for online safety.",
-    link: "/downloads/cybersecurity-essentials.pdf",
-    fileType: "PDF",
+    link: "/resources/cybersecurity-essentials",
+    fileType: "Guide",
     details: "Security checklist · Fraud prevention · Data privacy"
   },
   {
     icon: <TrendingUp className="w-8 h-8 text-green-600" />,
     title: "Digital Marketing & Analytics",
     description: "Grow your business with digital marketing strategies powered by AI. Understand analytics, SEO, and social media automation.",
-    link: "/downloads/digital-marketing-ai.pdf",
-    fileType: "PDF",
+    link: "/resources/digital-marketing-and-analytics",
+    fileType: "Guide",
     details: "SEO guide · Analytics tools · Social automation"
   },
   {
     icon: <Users className="w-8 h-8 text-orange-500" />,
     title: "Building Tech Teams",
     description: "Learn how to hire, train, and manage tech talent. Includes remote work tips, upskilling, and fostering innovation.",
-    link: "/downloads/building-tech-teams.pdf",
-    fileType: "PDF",
+    link: "/resources/building-tech-teams",
+    fileType: "Guide",
     details: "Hiring templates · Upskilling roadmap · Remote work"
   }
 ];
@@ -70,23 +71,21 @@ const AITechnologyPage: React.FC = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {aiTechResources.map((res, idx) => (
-            <div
+            <Link
+              to={res.link}
               key={idx}
-              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl hover:transform hover:-translate-y-1"
             >
-              <div className="flex items-center gap-4 mb-4">{res.icon}
+              <div className="flex items-center gap-4 mb-4">
+                {res.icon}
                 <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
               </div>
               <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
-              <a
-                href={res.link}
-                download
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
-              >
-                <Download className="w-5 h-5" /> Download {res.fileType}
-              </a>
+              <div className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max mt-auto">
+                <Download className="w-5 h-5" /> View {res.fileType}
+              </div>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -181,21 +180,22 @@ const AITechnologyPage: React.FC = () => {
           <li>Network with other entrepreneurs to share AI success stories and lessons.</li>
         </ul>
       </section>
-        {/* CTA Section */}
-        <section className="mt-16 text-center">
-          <div className="inline-block bg-primary-600 dark:bg-primary-500 text-white px-8 py-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
-            <h3 className="text-2xl font-bold mb-2">Ready to write your success story?</h3>
-            <p className="mb-4">Join our community for exclusive resources, live training, and support from fellow entrepreneurs.</p>
-            <button
-              className="bg-white text-primary-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition-colors"
-              onClick={() => alert('Join Community!')}
-            >
-              Join Now
-            </button>
-          </div>
-        </section>
-      </div>
-  );    
+
+      {/* CTA Section */}
+      <section className="mt-16 text-center">
+        <div className="inline-block bg-primary-600 dark:bg-primary-500 text-white px-8 py-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+          <h3 className="text-2xl font-bold mb-2">Ready to write your success story?</h3>
+          <p className="mb-4">Join our community for exclusive resources, live training, and support from fellow entrepreneurs.</p>
+          <button
+            className="bg-white text-primary-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition-colors"
+            onClick={() => alert('Join Community!')}
+          >
+            Join Now
+          </button>
+        </div>
+      </section>
+    </div>
+  );
 }
 
 export default AITechnologyPage;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Check, Zap, Crown, Users, Calculator } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Added for navigation
 
 const PricingSection = () => {
   const { ref, inView } = useInView({
@@ -33,7 +34,8 @@ const PricingSection = () => {
         'Mobile app access',
         'Community forum',
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      link: '/pricing/starter' // Added navigation link
     },
     {
       name: 'Professional',
@@ -54,7 +56,8 @@ const PricingSection = () => {
         'Priority support',
         'M-Pesa payment integration',
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      link: '/pricing/professional' // Added navigation link
     },
     {
       name: 'Team',
@@ -75,7 +78,8 @@ const PricingSection = () => {
         'API access',
         'White-label options',
       ],
-      cta: 'Contact Sales'
+      cta: 'Contact Sales',
+      link: '/pricing/team' // Added navigation link
     }
   ];
 
@@ -270,13 +274,16 @@ const PricingSection = () => {
               </div>
 
               {/* CTA */}
-              <button className={`w-full py-4 rounded-lg font-semibold transition-all duration-200 ${
-                plan.popular
-                  ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg hover:shadow-xl'
-                  : 'bg-gray-100 dark:bg-dark-900 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-dark-700'
-              }`}>
+              <Link
+                to={plan.link}
+                className={`block w-full py-4 rounded-lg font-semibold transition-all duration-200 text-center ${
+                  plan.popular
+                    ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg hover:shadow-xl'
+                    : 'bg-gray-100 dark:bg-dark-900 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-dark-700'
+                }`}
+              >
                 {plan.cta}
-              </button>
+              </Link>
             </motion.div>
           ))}
         </div>

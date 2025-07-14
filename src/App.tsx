@@ -16,7 +16,7 @@ import SalesTrainingPage from './pages/SalesTrainingPage';
 import WhatsAppTipsPage from './pages/WhatsAppTipsPage';
 import SuccessStoriesPage from './pages/SuccessStoriesPage';
 import BusinessGrowthPage from './pages/BusinessGrowthPage';
-import AITechnologyPage from './pages/AITechnologyPage';
+import  AITechnologyPage  from './pages/AITechnologyPage';
 import ApiDocumentationPage from './pages/ApiDocumentationPage';
 import CommunityForumPage   from './pages/CommunityForumPage';
 import ContactSupportPage  from './pages/ContactSupportPage';
@@ -31,6 +31,11 @@ import DigitalTransformationGuideInfoPage from './pages/DigitalTransformationGui
 import TeamLeadershipGuideInfoPage from './pages/TeamLeadershipGuideInfoPage';
 import WhatsAppMessageTemplatesInfoPage from './pages/WhatsAppMessageTemplatesInfoPage';
 import SalesScriptTemplatesInfoPage from './pages/SalesScriptTemplatesInfoPage';
+import BuildingTechTeamsPage from './pages/BuildingTechTeams';
+import CybersecurityEssentials from './pages/CybersecurityEssentials';
+import DigitalMarketingAndAnalytics from './pages/DigitalMarketingAndAnalytics';
+import CloudToolsAndDigitalPlatforms from './pages/CloudTools&DigitalPlatforms';
+import  AIforBusinessGrowth from './pages/AIforBusinessGrowth';
 function App() {
   return (
     <ThemeProvider>
@@ -71,6 +76,12 @@ function App() {
               <Route path="/resources/team-leadership-guide-info" element={<TeamLeadershipGuideInfoPage />} />
               <Route path="/resources/whatsapp-message-templates-info" element={<WhatsAppMessageTemplatesInfoPage />} />
               <Route path="/resources/sales-script-templates-info" element={<SalesScriptTemplatesInfoPage />} />
+              <Route path="/resources/building-tech-teams" element={<BuildingTechTeamsPage />} /> 
+              <Route path="/resources/cybersecurity-essentials" element={<CybersecurityEssentials />} />
+              <Route path="/resources/digital-marketing-and-analytics" element={<DigitalMarketingAndAnalytics/>} />
+              <Route path="/resources/cloud-tools-and-digital-platforms" element={<CloudToolsAndDigitalPlatforms />} />
+              <Route path="/resources/ai-for-business-growth" element={<AIforBusinessGrowth />} />
+        
             </Routes>
           </main>
           <Footer />
