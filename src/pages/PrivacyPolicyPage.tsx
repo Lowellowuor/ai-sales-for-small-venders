@@ -3,230 +3,294 @@ import { FileText, ShieldCheck, Users, Globe, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const privacyResources = [
-  {
-    icon: <FileText className="w-8 h-8 text-blue-600" />,
-    title: "Privacy Policy Overview",
-    description: "A clear summary of our privacy practices, including data collection, usage, and user rights.",
-    link: "/downloads/privacy-policy-guide.pdf",
-    fileType: "PDF",
-    details: "Plain language · Policy summary · FAQs"
-  },
-  {
-    icon: <ShieldCheck className="w-8 h-8 text-purple-600" />,
-    title: "Data Protection Standards",
-    description: "See how we protect your data and ensure a safe environment for all users. Includes reporting and enforcement procedures.",
-    link: "/downloads/data-protection-guide.pdf",
-    fileType: "PDF",
-    details: "Reporting · Enforcement · Safety tips"
-  },
-  {
-    icon: <Globe className="w-8 h-8 text-orange-500" />,
-    title: "International Compliance",
-    description: "Review our compliance with global privacy regulations and cross-border service standards.",
-    link: "/downloads/international-privacy.pdf",
-    fileType: "PDF",
-    details: "Global standards · Dispute resolution · Certifications"
-  },
-  {
-    icon: <Users className="w-8 h-8 text-pink-500" />,
-    title: "Community Guidelines",
-    description: "Learn about our community standards, anti-abuse policies, and how to contribute positively.",
-    link: "/downloads/community-guidelines.pdf",
-    fileType: "PDF",
-    details: "Community rules · Anti-abuse · Positive engagement"
-  }
+	{
+		icon: <FileText className="w-8 h-8 text-blue-600" />,
+		title: 'Privacy Policy Overview',
+		description:
+			'A clear summary of our privacy practices, including data collection, usage, and user rights.',
+		link: '/downloads/privacy-policy-guide.pdf',
+		fileType: 'PDF',
+		details: 'Plain language · Policy summary · FAQs',
+	},
+	{
+		icon: <ShieldCheck className="w-8 h-8 text-purple-600" />,
+		title: 'Data Protection Standards',
+		description:
+			'See how we protect your data and ensure a safe environment for all users. Includes reporting and enforcement procedures.',
+		link: '/downloads/data-protection-guide.pdf',
+		fileType: 'PDF',
+		details: 'Reporting · Enforcement · Safety tips',
+	},
+	{
+		icon: <Globe className="w-8 h-8 text-orange-500" />,
+		title: 'International Compliance',
+		description:
+			'Review our compliance with global privacy regulations and cross-border service standards.',
+		link: '/downloads/international-privacy.pdf',
+		fileType: 'PDF',
+		details: 'Global standards · Dispute resolution · Certifications',
+	},
+	{
+		icon: <Users className="w-8 h-8 text-pink-500" />,
+		title: 'Community Guidelines',
+		description:
+			'Learn about our community standards, anti-abuse policies, and how to contribute positively.',
+		link: '/downloads/community-guidelines.pdf',
+		fileType: 'PDF',
+		details: 'Community rules · Anti-abuse · Positive engagement',
+	},
 ];
 
 const PrivacyPolicyPage = () => {
-  const navigate = useNavigate();
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+	const navigate = useNavigate();
+	const [form, setForm] = useState({
+		name: '',
+		email: '',
+		message: '',
+	});
+	const [submitted, setSubmitted] = useState(false);
+	const [activeTab, setActiveTab] = useState<'policy' | 'contact' | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		setForm({ ...form, [e.target.name]: e.target.value });
+	};
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would send the form data to your backend or API
-    setSubmitted(true);
-  };
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		// Here you would send the form data to your backend or API
+		setSubmitted(true);
+	};
 
-  return (
-    <div className="pt-20 px-4 max-w-4xl mx-auto">
-      {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-br from-blue-700 to-blue-400 text-white rounded-2xl mb-12 shadow-lg">
-        <div className="max-w-2xl mx-auto text-center px-4">
-          <div className="flex justify-center mb-4">
-            <ShieldCheck className="w-12 h-12 text-white" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Privacy Policy</h1>
-          <p className="mb-6 text-lg md:text-xl text-white/90">
-            Please review our privacy policy to understand how we collect, use, and protect your personal information.
-          </p>
-          <a
-            href="#privacy-resources"
-            className="inline-block bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
-          >
-            Explore Privacy Resources
-          </a>
-        </div>
-      </section>
+	return (
+		<div className="pt-20 px-4 max-w-3xl mx-auto pb-12">
+			{/* Header Section */}
+			<header className="mb-10">
+				<h1 className="text-4xl font-bold text-center text-blue-600 dark:text-blue-300 mb-4">
+					Privacy Policy
+				</h1>
+				<p className="text-xl text-center text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+					Learn how we collect, use, and protect your personal information at
+					PitchPoa AI.
+				</p>
+			</header>
 
-      {/* Privacy Resources Section */}
-      <section id="privacy-resources" className="mb-16">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          Essential Privacy Resources
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {privacyResources.map((res, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
-            >
-              <div className="flex items-center gap-4 mb-4">{res.icon}
-                <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
-              </div>
-              <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
-              <a
-                href={res.link}
-                download
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
-              >
-                <FileText className="w-5 h-5" /> Download {res.fileType}
-              </a>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+			{/* Main Content Card */}
+			<div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-10">
+				<div className="p-6">
+					<h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+						Our Commitment to Your Privacy
+					</h2>
+					<p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+						We value your trust and are committed to safeguarding your data. Our
+						privacy policy explains what information we collect, how we use it, and
+						your rights as a user.
+					</p>
+					<div className="grid md:grid-cols-2 gap-6 mb-6">
+						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+							<h3 className="font-medium text-lg text-blue-600 dark:text-blue-400 mb-2">
+								Key Principles
+							</h3>
+							<ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+								<li>Transparency in data collection</li>
+								<li>Secure storage and processing</li>
+								<li>No sale of personal data</li>
+								<li>User control over information</li>
+							</ul>
+						</div>
+						<div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+							<h3 className="font-medium text-lg text-blue-600 dark:text-blue-400 mb-2">
+								Your Rights
+							</h3>
+							<ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+								<li>Access your data</li>
+								<li>Request corrections or deletion</li>
+								<li>Opt out of communications</li>
+								<li>Report privacy concerns</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
 
-      {/* Main Privacy Content */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Privacy Policy</h2>
-        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
-          <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. Information Collection</h3>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            We collect personal information you provide when using PitchPoa AI, such as your name, email address, and usage data. We may also collect information automatically through cookies and similar technologies.
-          </p>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">2. Use of Information</h3>
-          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
-            <li>To provide and improve our services</li>
-            <li>To communicate with you about updates and support</li>
-            <li>To ensure security and prevent abuse</li>
-            <li>To comply with legal obligations</li>
-          </ul>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">3. Data Protection</h3>
-          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
-            <li>We use industry-standard security measures to protect your data</li>
-            <li>Access to personal data is restricted to authorized personnel only</li>
-            <li>We do not sell your personal information to third parties</li>
-          </ul>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">4. International Compliance</h3>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            We comply with global privacy regulations, including GDPR and other international standards, to protect your rights wherever you are located.
-          </p>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">5. Community Guidelines</h3>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            Users are expected to follow our community standards and anti-abuse policies to maintain a safe and positive environment.
-          </p>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Changes to Privacy Policy</h3>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            We may update this Privacy Policy at any time. Continued use of the platform means you accept the revised policy.
-          </p>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Contact Us</h3>
-          <p className="mb-8 text-gray-700 dark:text-gray-300">
-            For questions about this policy, contact us at{' '}
-            <a href="mailto:support@pitchpoa.com" className="text-primary-600 underline">support@pitchpoa.com</a>.
-          </p>
-        </div>
-      </section>
+			{/* Policy Details */}
+			<div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-10">
+				<div className="p-6">
+					<h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+						Privacy Policy Details
+					</h2>
+					<ol className="space-y-4">
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								1. Information Collection:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								We collect personal information you provide (name, email, etc.) and
+								usage data. Cookies and similar technologies may be used for
+								analytics and security.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								2. Use of Information:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								Your data helps us provide, improve, and secure our services. We may
+								use it to communicate updates, support, and offers.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								3. Data Protection:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								We use industry-standard security measures. Only authorized staff can
+								access your data.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								4. International Compliance:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								We comply with GDPR and other global privacy regulations.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								5. Community Guidelines:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								Users must follow our standards for safe and positive engagement.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								6. Changes to Policy:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								We may update this policy. Continued use means you accept changes.
+							</span>
+						</li>
+						<li>
+							<span className="font-bold text-blue-600 dark:text-blue-300">
+								7. Contact Us:
+							</span>
+							<span className="text-gray-600 dark:text-gray-300 ml-2">
+								Email{' '}
+								<a
+									href="mailto:support@pitchpoa.com"
+									className="text-blue-600 underline"
+								>
+									support@pitchpoa.com
+								</a>{' '}
+								for privacy questions.
+							</span>
+						</li>
+					</ol>
+				</div>
+			</div>
 
-      {/* Contact/Feedback Form */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-          Send Us a Privacy Question
-        </h2>
-        <div className="max-w-xl mx-auto bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
-          {submitted ? (
-            <div className="text-center text-green-600 dark:text-green-400 font-semibold">
-              Thank you for reaching out! Our team will respond to your question as soon as possible.
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
-                  placeholder="Type your privacy question here..."
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 dark:bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition"
-              >
-                Send Message
-              </button>
-            </form>
-          )}
-        </div>
-      </section>
+			{/* Resource CTA */}
+			<div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-800 rounded-xl p-8 text-center mb-10">
+				<h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">
+					Need More Information?
+				</h2>
+				<p className="text-gray-600 dark:text-gray-300 mb-6 max-w-lg mx-auto">
+					Contact our privacy team or review our full policy for details.
+				</p>
+				<div className="flex flex-col sm:flex-row justify-center gap-4">
+					<button
+						onClick={() => setActiveTab('policy')}
+						className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200"
+					>
+						View Full Policy
+					</button>
+					<button
+						onClick={() => setActiveTab('contact')}
+						className="border border-blue-600 text-blue-600 dark:text-blue-300 dark:border-blue-300 font-medium py-3 px-6 rounded-lg transition duration-200"
+					>
+						Contact Privacy Team
+					</button>
+				</div>
+			</div>
 
-      {/* Call-to-action buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
-        >
-          Back to Home
-        </button>
-        <a
-          href="mailto:support@pitchpoa.com"
-          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-dark-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
-        >
-          <Mail className="w-5 h-5 mr-2" />
-          Contact Support
-        </a>
-      </div>
-    </div>
-  );
+			{/* Policy Tab Content */}
+			{activeTab === 'policy' && (
+				<div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 mb-6 animate-fadeIn border border-gray-200 dark:border-gray-700">
+					<h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+						Full Privacy Policy
+					</h2>
+					<p className="text-gray-700 dark:text-gray-200 mb-4">
+						For the complete privacy policy, please visit our website or contact us
+						for a copy.
+					</p>
+				</div>
+			)}
+
+			{/* Contact Tab Content */}
+			{activeTab === 'contact' && (
+				<div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-6 animate-fadeIn border border-gray-200 dark:border-gray-700">
+					<h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+						Contact Privacy Team
+					</h2>
+					<form className="space-y-4">
+						<div>
+							<label
+								htmlFor="name"
+								className="block text-gray-700 dark:text-gray-300 mb-1"
+							>
+								Full Name
+							</label>
+							<input
+								type="text"
+								id="name"
+								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-600 focus:border-blue-600 dark:bg-gray-700 dark:text-gray-200"
+								placeholder="Your name"
+							/>
+						</div>
+						<div>
+							<label
+								htmlFor="email"
+								className="block text-gray-700 dark:text-gray-300 mb-1"
+							>
+								Email
+							</label>
+							<input
+								type="email"
+								id="email"
+								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-600 focus:border-blue-600 dark:bg-gray-700 dark:text-gray-200"
+								placeholder="your@email.com"
+							/>
+						</div>
+						<div>
+							<label
+								htmlFor="privacy-question"
+								className="block text-gray-700 dark:text-gray-300 mb-1"
+							>
+								Privacy Question
+							</label>
+							<textarea
+								id="privacy-question"
+								rows={4}
+								className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-600 focus:border-blue-600 dark:bg-gray-700 dark:text-gray-200"
+								placeholder="Type your privacy question here..."
+							></textarea>
+						</div>
+						<div className="pt-2">
+							<button
+								type="submit"
+								className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200"
+							>
+								Send Message
+							</button>
+						</div>
+					</form>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default PrivacyPolicyPage;
