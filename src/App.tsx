@@ -44,7 +44,7 @@ import TermsofServiceExplained from './pages/TermsofServiceExplained';
 import CookiePolicyExplained from './pages/CookiePolicyExplained';
 import PrivacyAndDataProtection from './pages/PrivacyAndDataProtection';
 import PrivacyPolicyGuide from './pages/PrivacyPolicyGuide';
-import DataSecurityMeasure from './pages/DataSecurityMeasures';
+import DataSecurityMeasures from './pages/DataSecurityMeasures';
 import InternationalDataTransfers from './pages/InternationalDataTransfers';
 
 function App() {
@@ -100,7 +100,7 @@ function App() {
               <Route path="/cookie-policy-explained" element={<CookiePolicyExplained />} />
               <Route path="/privacy-and-data-protection" element={<PrivacyAndDataProtection />} />
               <Route path="/privacy-policy-guide" element={<PrivacyPolicyGuide />} />
-              <Route path="/data-security-measure" element={<DataSecurityMeasure />} />
+              <Route path="/data-security-measures" element={<DataSecurityMeasures />} />
               <Route path="/international-data-transfers" element={<InternationalDataTransfers />} />
         
             </Routes>
