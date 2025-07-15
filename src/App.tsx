@@ -36,6 +36,11 @@ import CybersecurityEssentials from './pages/CybersecurityEssentials';
 import DigitalMarketingAndAnalytics from './pages/DigitalMarketingAndAnalytics';
 import CloudToolsAndDigitalPlatforms from './pages/CloudTools&DigitalPlatforms';
 import  AIforBusinessGrowth from './pages/AIforBusinessGrowth';
+import CommunityGuidelines from './pages/CommunityGuidelines';
+import InternationalCompliance from './pages/InternationalCompliance';
+import SafetyAndSecurityStandards from './pages/SafetyAndSecurityStandards';
+import UserRightsAndResponsibilities from './pages/UserRightsAndResponsibilities';
+import TermsofServiceExplained from './pages/TermsofServiceExplained';
 function App() {
   return (
     <ThemeProvider>
@@ -81,6 +86,11 @@ function App() {
               <Route path="/resources/digital-marketing-and-analytics" element={<DigitalMarketingAndAnalytics/>} />
               <Route path="/resources/cloud-tools-and-digital-platforms" element={<CloudToolsAndDigitalPlatforms />} />
               <Route path="/resources/ai-for-business-growth" element={<AIforBusinessGrowth />} />
+              <Route path="/community-guidelines" element={<CommunityGuidelines />} />
+              <Route path="/international-compliance" element={<InternationalCompliance />} />
+              <Route path="/safety-and-security-standards" element={<SafetyAndSecurityStandards />} />
+              <Route path="/user-rights-and-responsibilities" element={<UserRightsAndResponsibilities />} />
+              <Route path="/terms-of-service-explained" element={<TermsofServiceExplained />} />
         
             </Routes>
           </main>

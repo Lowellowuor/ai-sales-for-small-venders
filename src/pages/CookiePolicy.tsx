@@ -1,285 +1,251 @@
 import React, { useState } from 'react';
+// Importing icons from lucide-react for a modern look
+import { Cookie, FileText, ShieldCheck, Globe, Mail, Home } from 'lucide-react';
+
+// Placeholder for react-router-dom's useNavigate
+const useNavigate = () => {
+  return (path: string) => {
+    window.location.href = path; // Simulate navigation for preview
+  };
+};
+
+const cookieResources = [
+  {
+    icon: <Cookie className="w-8 h-8 text-yellow-600" />,
+    title: "Cookie Policy Explained",
+    description: "Understand what cookies are, how we use them, and how you can manage your preferences. Download our easy-to-read cookie policy.",
+    link: "/downloads/cookie-policy-guide.pdf",
+    fileType: "PDF",
+    details: "Cookie types · Usage · Preferences"
+  },
+  {
+    icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+    title: "Privacy & Data Protection",
+    description: "Learn how cookies relate to your privacy and how we protect your personal data in compliance with GDPR and other regulations.",
+    link: "/downloads/cookie-privacy-guide.pdf",
+    fileType: "PDF",
+    details: "GDPR · Data protection · Security"
+  },
+  {
+    icon: <Globe className="w-8 h-8 text-green-600" />,
+    title: "International Compliance",
+    description: "See how our cookie practices comply with international standards and cross-border data regulations.",
+    link: "/downloads/cookie-international-compliance.pdf",
+    fileType: "PDF",
+    details: "Global standards · Consent · Transfers"
+  }
+];
 
 const CookiePolicyPage = () => {
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    'contact-us': true // Contact section open by default
-  });
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
-
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [sectionId]: !prev[sectionId]
-    }));
-  };
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    alert('Your cookie policy question has been submitted!');
-    setFormData({ name: '', email: '', message: '' });
+    // Here you would send the form data to your backend or API
+    console.log('Cookie Policy Question Submitted:', form);
+    alert('Thank you for reaching out! Our team will respond to your question as soon as possible.');
+    setSubmitted(true);
   };
 
   return (
-    <div className="pt-20 px-4 max-w-3xl mx-auto pb-12">
-      <header className="mb-10">
-        <h1 className="text-4xl font-bold text-center text-pink-500 dark:text-pink-300 mb-4">
-          Our Cookie Policy
-        </h1>
-      </header>
-
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-10">
-        <div className="p-6">
-          {/* What Are Cookies? */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              1. What Are Cookies?
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Cookies are small text files stored on your device by your browser to enhance your experience.
-            </p>
-            <button
-              onClick={() => toggleSection('what-are-cookies')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['what-are-cookies'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['what-are-cookies'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Small text files stored on your device</li>
-                  <li>Help remember your preferences and settings</li>
-                  <li>Analyze site traffic and usage patterns</li>
-                  <li>Improve website functionality and performance</li>
-                </ul>
-              </div>
-            )}
+    <div className="pt-20 px-4 max-w-4xl mx-auto">
+      {/* Hero Section */}
+      <section className="py-12 bg-gradient-to-br from-yellow-600 to-yellow-400 text-white rounded-2xl mb-12 shadow-lg">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <div className="flex justify-center mb-4">
+            <Cookie className="w-12 h-12 text-white" />
           </div>
-
-          {/* Types of Cookies We Use */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              2. Types of Cookies We Use
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We use different types of cookies for various purposes to enhance your experience.
-            </p>
-            <button
-              onClick={() => toggleSection('cookie-types')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['cookie-types'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['cookie-types'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li><strong>Essential Cookies:</strong> Necessary for site functionality and security</li>
-                  <li><strong>Analytics Cookies:</strong> Help us understand how visitors use our site</li>
-                  <li><strong>Preference Cookies:</strong> Remember your settings and choices</li>
-                  <li><strong>Marketing Cookies:</strong> Used to deliver relevant ads and measure campaign effectiveness</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Managing Your Cookie Preferences */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              3. Managing Your Cookie Preferences
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              You have control over how cookies are used on your device.
-            </p>
-            <button
-              onClick={() => toggleSection('cookie-preferences')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['cookie-preferences'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['cookie-preferences'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Adjust settings in your browser preferences</li>
-                  <li>Use our cookie consent manager when first visiting</li>
-                  <li>Essential cookies cannot be disabled without affecting functionality</li>
-                  <li>Opt-out tools available for specific services</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Third-Party Cookies */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              4. Third-Party Cookies
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Some cookies come from trusted third-party services we use.
-            </p>
-            <button
-              onClick={() => toggleSection('third-party-cookies')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['third-party-cookies'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['third-party-cookies'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Google Analytics for website traffic analysis</li>
-                  <li>Advertising networks for relevant marketing</li>
-                  <li>Social media platforms for sharing features</li>
-                  <li>Each provider has their own privacy policy</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* International Compliance */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              5. International Compliance
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We adhere to global cookie regulations and privacy laws.
-            </p>
-            <button
-              onClick={() => toggleSection('cookie-compliance')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['cookie-compliance'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['cookie-compliance'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>GDPR compliant for EU users</li>
-                  <li>CCPA compliant for California residents</li>
-                  <li>ePrivacy Directive compliant</li>
-                  <li>Regular compliance audits</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Updates to This Policy */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              6. Updates to This Policy
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We may occasionally update our Cookie Policy.
-            </p>
-            <button
-              onClick={() => toggleSection('policy-updates')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['policy-updates'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['policy-updates'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Changes will be posted on this page</li>
-                  <li>Significant changes will be notified via email</li>
-                  <li>Updated "Last Modified" date will be displayed</li>
-                  <li>Continued use means acceptance of changes</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Contact Us - Always Expanded */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              7. Contact Us
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              For questions about our cookie policy, contact us at support@pitchpoa.com.
-            </p>
-            
-            <div className="mt-6">
-              <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-3">
-                Send Us a Cookie Policy Question
-              </h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    placeholder="Type your cookie policy question here..."
-                    required
-                  />
-                </div>
-                
-                <button
-                  type="submit"
-                  className="bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-6 rounded-lg transition duration-200"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Cookie Policy</h1>
+          <p className="mb-6 text-lg md:text-xl text-white/90">
+            We use cookies to enhance your experience, analyze site usage, and comply with international privacy standards. Learn more about our cookie practices and your choices.
+          </p>
+          <a
+            href="#cookie-resources"
+            className="inline-block bg-white text-yellow-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
+          >
+            Explore Cookie Resources
+          </a>
         </div>
-      </div>
+      </section>
 
-      <div className="flex justify-center space-x-4 mt-8">
-        <a href="/" className="text-pink-500 dark:text-pink-400 hover:underline">
-          Back to Home
-        </a>
-        <a href="/contact" className="text-pink-500 dark:text-pink-400 hover:underline">
+      {/* Cookie Resources Section */}
+      <section id="cookie-resources" className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          Essential Cookie Policy Resources
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {cookieResources.map((res, idx) => (
+            <div
+              key={idx}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+            >
+              <div className="flex items-center gap-4 mb-4">{res.icon}
+                <span className="text-xl font-semibold text-yellow-700 dark:text-yellow-300">{res.title}</span>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
+              {/* MODIFIED: Changed from download to view button */}
+              <a
+                href={res.link}
+                // Removed 'download' attribute
+                className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+                target="_blank" // Opens in a new tab
+                rel="noopener noreferrer" // Security best practice for target="_blank"
+              >
+                <FileText className="w-5 h-5" /> View {/* Changed text */}
+              </a>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Main Cookie Policy Content */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Cookie Policy</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+          <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. What Are Cookies?</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Cookies are small text files stored on your device by your browser. They help us remember your preferences, analyze site traffic, and improve your experience.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">2. Types of Cookies We Use</h3>
+          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
+            <li>Essential Cookies: Necessary for site functionality and security.</li>
+            <li>Analytics Cookies: Help us understand how visitors use our site.</li>
+            <li>Preference Cookies: Remember your settings and choices.</li>
+            <li>Marketing Cookies: Used to deliver relevant ads and measure campaign effectiveness.</li>
+          </ul>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">3. Managing Your Cookie Preferences</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            You can manage or disable cookies in your browser settings. Some features may not work properly if you disable certain cookies.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">4. Third-Party Cookies</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may use third-party cookies for analytics and advertising. These providers have their own privacy policies.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">5. International Compliance</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Our cookie practices comply with GDPR, CCPA, and other international privacy laws. We respect your right to privacy and data protection.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Updates to This Policy</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may update this Cookie Policy from time to time. Changes will be posted on this page.
+          </p>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Contact Us</h3>
+          <p className="mb-8 text-gray-700 dark:text-gray-300">
+            For questions about our cookie policy, contact us at{' '}
+            <a href="mailto:support@pitchpoa.com" className="text-yellow-700 underline">support@pitchpoa.com</a>.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact/Feedback Form */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Send Us a Cookie Policy Question
+        </h2>
+        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+          {submitted ? (
+            <div className="text-center text-green-600 dark:text-green-400 font-semibold">
+              Thank you for reaching out! Our team will respond to your question as soon as possible.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-500"
+                  placeholder="Type your cookie policy question here..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-yellow-600 dark:bg-yellow-500 text-white font-semibold py-3 rounded-lg hover:bg-yellow-700 dark:hover:bg-yellow-600 transition"
+              >
+                Send Message
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Call-to-action buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center justify-center px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold transition-colors"
+        >
+          <Home className="w-5 h-5 mr-2" /> Back to Home
+        </button>
+        <a
+          href="mailto:support@pitchpoa.com"
+          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-yellow-700 dark:text-yellow-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <Mail className="w-5 h-5 mr-2" />
           Contact Support
         </a>
       </div>
     </div>
   );
-};
+}
 
-export default CookiePolicyPage;
+// Main App component to render the CookiePolicyPage
+export default function App() {
+  return (
+    // Tailwind CSS setup for the preview
+    <>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+        `}
+      </style>
+      <CookiePolicyPage />
+    </>
+  );
+}

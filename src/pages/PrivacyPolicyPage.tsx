@@ -1,289 +1,262 @@
 import React, { useState } from 'react';
+import { ShieldCheck, FileText, Lock, Globe, Mail, Home } from 'lucide-react';
+
+const useNavigate = () => {
+  return (path: string) => {
+    window.location.href = path;
+  };
+};
+
+const privacyResources = [
+  {
+    icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+    title: "Privacy Policy Guide",
+    description: "Understand how we collect, use, and protect your personal information. Download our comprehensive privacy policy document.",
+    link: "/downloads/privacy-policy-guide.pdf",
+    fileType: "PDF",
+    details: "Data collection · Usage · Protection"
+  },
+  {
+    icon: <Lock className="w-8 h-8 text-green-600" />,
+    title: "Data Security Measures",
+    description: "Learn about the technical and organizational measures we implement to safeguard your personal data.",
+    link: "/downloads/data-security-guide.pdf",
+    fileType: "PDF",
+    details: "Encryption · Access controls · Audits"
+  },
+  {
+    icon: <Globe className="w-8 h-8 text-purple-600" />,
+    title: "International Data Transfers",
+    description: "Understand how we handle cross-border data transfers in compliance with global privacy regulations.",
+    link: "/downloads/international-data-transfers.pdf",
+    fileType: "PDF",
+    details: "GDPR · SCCs · Adequacy decisions"
+  }
+];
 
 const PrivacyPolicyPage = () => {
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    'contact-us': true // Contact section open by default
-  });
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
-
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [sectionId]: !prev[sectionId]
-    }));
-  };
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    alert('Your privacy question has been submitted!');
-    setFormData({ name: '', email: '', message: '' });
+    console.log('Privacy Policy Question Submitted:', form);
+    alert('Thank you for your inquiry! Our privacy team will respond to your question shortly.');
+    setSubmitted(true);
   };
 
   return (
-    <div className="pt-20 px-4 max-w-3xl mx-auto pb-12">
-      <header className="mb-10">
-        <h1 className="text-4xl font-bold text-center text-pink-500 dark:text-pink-300 mb-4">
-          Our Privacy Policy
-        </h1>
-      </header>
-
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-10">
-        <div className="p-6">
-          {/* Information Collection - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              1. Information Collection
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We collect necessary personal information when you use PitchPoa AI, including account details and usage data through cookies.
-            </p>
-            <button
-              onClick={() => toggleSection('information-collection')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['information-collection'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['information-collection'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Account registration information (name, email, contact details)</li>
-                  <li>Service usage patterns and analytics data</li>
-                  <li>Device and browser information for compatibility</li>
-                  <li>Cookies and similar tracking technologies</li>
-                </ul>
-              </div>
-            )}
+    <div className="pt-20 px-4 max-w-4xl mx-auto">
+      {/* Hero Section */}
+      <section className="py-12 bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-2xl mb-12 shadow-lg">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <div className="flex justify-center mb-4">
+            <ShieldCheck className="w-12 h-12 text-white" />
           </div>
-
-          {/* Use of Information - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              2. Use of Information
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Your data helps us provide, improve, and secure our services while complying with legal requirements.
-            </p>
-            <button
-              onClick={() => toggleSection('information-use')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['information-use'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['information-use'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Deliver and personalize our services</li>
-                  <li>Respond to your inquiries and provide support</li>
-                  <li>Detect and prevent security incidents</li>
-                  <li>Comply with legal obligations and enforce policies</li>
-                  <li>Improve our products and develop new features</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Data Protection - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              3. Data Protection
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We implement robust security measures and restrict data access to protect your information.
-            </p>
-            <button
-              onClick={() => toggleSection('data-protection')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['data-protection'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['data-protection'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Industry-standard encryption for data in transit and at rest</li>
-                  <li>Regular security audits and penetration testing</li>
-                  <li>Strict access controls with multi-factor authentication</li>
-                  <li>Employee training on data protection best practices</li>
-                  <li>We never sell your personal information</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* International Compliance - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              4. International Compliance
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We adhere to global privacy regulations including GDPR to protect your data rights worldwide.
-            </p>
-            <button
-              onClick={() => toggleSection('international-compliance')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['international-compliance'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['international-compliance'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>GDPR compliant for European users</li>
-                  <li>CCPA compliant for California residents</li>
-                  <li>Standard Contractual Clauses for international data transfers</li>
-                  <li>Data Protection Officer appointed for EU compliance</li>
-                  <li>72-hour breach notification protocol</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Community Guidelines - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              5. Community Guidelines
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We maintain a safe environment through community standards and anti-abuse policies.
-            </p>
-            <button
-              onClick={() => toggleSection('community-guidelines')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['community-guidelines'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['community-guidelines'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Be respectful to all community members</li>
-                  <li>No harassment, hate speech, or discrimination</li>
-                  <li>Protect your own privacy and others' privacy</li>
-                  <li>Report suspicious activity to our moderation team</li>
-                  <li>Violations may result in account suspension</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Changes to Privacy Policy - Short Summary */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              6. Changes to Privacy Policy
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We may update this policy, and continued use of our services means you accept the changes.
-            </p>
-            <button
-              onClick={() => toggleSection('policy-changes')}
-              className="inline-flex items-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200 mb-4"
-            >
-              {expandedSections['policy-changes'] ? 'Hide Details' : 'View Details'}
-            </button>
-            {expandedSections['policy-changes'] && (
-              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Significant changes will be notified via email</li>
-                  <li>Updated "Last Modified" date will be displayed</li>
-                  <li>Previous versions available upon request</li>
-                  <li>Changes effective 30 days after posting</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Contact Us - Always Expanded with View Button */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
-              7. Contact Us
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              For questions about this policy, contact us at support@pitchpoa.com.
-            </p>
-            
-            <div className="mt-6">
-              <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-3">
-                Send Us a Privacy Question
-              </h3>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Your Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-gray-700 dark:text-gray-300 mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-700 dark:text-gray-200"
-                    placeholder="Type your privacy question here..."
-                    required
-                  />
-                </div>
-                
-                <button
-                  type="submit"
-                  className="bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-6 rounded-lg transition duration-200"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Privacy Policy</h1>
+          <p className="mb-6 text-lg md:text-xl text-white/90">
+            We are committed to protecting your personal data and being transparent about how we collect, use, and share your information.
+          </p>
+          <a
+            href="#privacy-resources"
+            className="inline-block bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
+          >
+            Explore Privacy Resources
+          </a>
         </div>
-      </div>
+      </section>
 
-      <div className="flex justify-center space-x-4 mt-8">
-        <a href="/" className="text-pink-500 dark:text-pink-400 hover:underline">
-          Back to Home
-        </a>
-        <a href="/contact" className="text-pink-500 dark:text-pink-400 hover:underline">
-          Contact Support
+      {/* Privacy Resources Section */}
+      <section id="privacy-resources" className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          Essential Privacy Resources
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {privacyResources.map((res, idx) => (
+            <div
+              key={idx}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+            >
+              <div className="flex items-center gap-4 mb-4">{res.icon}
+                <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
+              <a
+                href={res.link}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileText className="w-5 h-5" /> View
+              </a>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Main Privacy Policy Content */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Privacy Policy</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+          <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. Information We Collect</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We collect information you provide directly (name, email, etc.), automatically (usage data, cookies), and from third parties (social media, partners) to provide and improve our services.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">2. How We Use Your Information</h3>
+          <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
+            <li>To provide and maintain our services</li>
+            <li>To communicate with you</li>
+            <li>To improve and personalize your experience</li>
+            <li>For security and fraud prevention</li>
+            <li>To comply with legal obligations</li>
+          </ul>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">3. Data Sharing and Disclosure</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may share your information with service providers, for legal compliance, during business transfers, or with your consent. We never sell your personal data.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">4. Data Security</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We implement appropriate technical and organizational measures to protect your personal data, including encryption, access controls, and regular security audits.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">5. Your Rights</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Depending on your jurisdiction, you may have rights to access, correct, delete, or restrict use of your personal data, and to object to processing or request data portability.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. International Data Transfers</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Your information may be transferred to and processed in countries other than your own. We ensure these transfers comply with applicable data protection laws.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Children's Privacy</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            Our services are not directed to children under 13 (or 16 in some regions). We do not knowingly collect personal information from children.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">8. Changes to This Policy</h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">
+            We may update this Privacy Policy periodically. We will notify you of significant changes and indicate the "Last Updated" date at the top of this page.
+          </p>
+          
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">9. Contact Us</h3>
+          <p className="mb-8 text-gray-700 dark:text-gray-300">
+            For privacy-related inquiries or to exercise your rights, contact our Data Protection Officer at{' '}
+            <a href="mailto:privacy@pitchpoa.com" className="text-blue-700 underline">privacy@pitchpoa.com</a>.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact/Feedback Form */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Privacy Questions or Concerns
+        </h2>
+        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+          {submitted ? (
+            <div className="text-center text-green-600 dark:text-green-400 font-semibold">
+              Thank you for your inquiry! Our privacy team will respond to your question shortly.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  placeholder="Type your privacy-related question here..."
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 dark:bg-blue-500 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition"
+              >
+                Submit Question
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Call-to-action buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+        >
+          <Home className="w-5 h-5 mr-2" /> Back to Home
+        </button>
+        <a
+          href="mailto:privacy@pitchpoa.com"
+          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        >
+          <Mail className="w-5 h-5 mr-2" />
+          Contact Privacy Team
         </a>
       </div>
     </div>
   );
-};
+}
 
-export default PrivacyPolicyPage;
+// Main App component to render the PrivacyPolicyPage
+export default function App() {
+  return (
+    <>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+        `}
+      </style>
+      <PrivacyPolicyPage />
+    </>
+  );
+}
