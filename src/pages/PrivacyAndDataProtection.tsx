@@ -1,211 +1,165 @@
-import { Lock, Shield, Gavel, Database, EyeOff,Download } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Shield, Lock, EyeOff, Home, FileText, Cookie, Gavel } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const PrivacyAndDataProtection = () => {
+const cookiePrivacySections = [
+  {
+    icon: <Cookie className="w-8 h-8 text-blue-600" />,
+    title: "Cookie Types",
+    description: "Categories of cookies we use and their purposes",
+    details: [
+      "Essential: Required for core functionality",
+      "Performance: Analytics and service improvement",
+      "Functional: Remembering preferences",
+      "Marketing: Personalized content (opt-in only)"
+    ]
+  },
+  {
+    icon: <Shield className="w-8 h-8 text-green-600" />,
+    title: "Data Protection",
+    description: "How we safeguard data collected via cookies",
+    details: [
+      "Pseudonymization of tracking data",
+      "Limited data retention periods",
+      "Secure transmission encryption",
+      "Regular privacy impact assessments"
+    ]
+  },
+  {
+    icon: <Gavel className="w-8 h-8 text-purple-600" />,
+    title: "GDPR Compliance",
+    description: "Cookie usage under EU regulations",
+    details: [
+      "Explicit consent for non-essential cookies",
+      "Granular consent options",
+      "Easy withdrawal of consent",
+      "Records of consent management"
+    ]
+  },
+  {
+    icon: <Lock className="w-8 h-8 text-orange-500" />,
+    title: "Security Measures",
+    description: "Protection for cookie-stored data",
+    details: [
+      "HttpOnly and Secure flags on sensitive cookies",
+      "SameSite cookie restrictions",
+      "Regular security audits",
+      "CSRF protection mechanisms"
+    ]
+  },
+  {
+    icon: <FileText className="w-8 h-8 text-teal-500" />,
+    title: "Your Control",
+    description: "Managing cookie preferences",
+    details: [
+      "Cookie consent dashboard",
+      "Browser-level opt-out instructions",
+      "Per-category consent settings",
+      "Clear cookie policy documentation"
+    ]
+  }
+];
+
+const CookiePrivacySection = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="py-12 px-4 max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Shield className="w-8 h-8 text-indigo-600" />
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Privacy & Data Protection</h1>
-        </div>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
-          How we safeguard your personal data in compliance with GDPR, CCPA, and other global regulations.
-        </p>
-      </div>
-
-      {/* Three Pillars */}
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        {/* GDPR Compliance */}
-        <div className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-lg border-t-4 border-indigo-500">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/20 rounded-full flex items-center justify-center">
-              <Gavel className="w-5 h-5 text-indigo-600" />
-            </div>
-            <h2 className="text-xl font-bold">GDPR Compliance</h2>
+    <div className="pt-12 px-4 max-w-4xl mx-auto"> {/* Reduced top padding for nested section */}
+      {/* Hero Section */}
+      <section className="py-8 bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-2xl mb-8 shadow-lg">
+        <div className="max-w-2xl mx-auto text-center px-4">
+          <div className="flex justify-center mb-4">
+            <Shield className="w-10 h-10 text-white" /> {/* Slightly smaller icon */}
           </div>
-          <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-            <li className="flex items-start gap-2">
-              <span className="text-indigo-600">•</span> Lawful data processing
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-indigo-600">•</span> Data minimization
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-indigo-600">•</span> Right to access/delete
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-indigo-600">•</span> 72-hour breach notification
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-indigo-600">•</span> EU Representative appointed
-            </li>
-          </ul>
-        </div>
-
-        {/* Data Protection */}
-        <div className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-lg border-t-4 border-blue-500">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
-              <Lock className="w-5 h-5 text-blue-600" />
-            </div>
-            <h2 className="text-xl font-bold">Data Protection</h2>
-          </div>
-          <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Encryption in transit & at rest
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Regular security audits
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Limited employee access
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Data retention policies
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Secure third-party vetting
-            </li>
-          </ul>
-        </div>
-
-        {/* Your Rights */}
-        <div className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-lg border-t-4 border-green-500">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-              <EyeOff className="w-5 h-5 text-green-600" />
-            </div>
-            <h2 className="text-xl font-bold">Your Rights</h2>
-          </div>
-          <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-            <li className="flex items-start gap-2">
-              <span className="text-green-600">•</span> Access personal data
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-600">•</span> Request correction
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-600">•</span> Data portability
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-600">•</span> Withdraw consent
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-600">•</span> Lodge complaints
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Global Compliance */}
-      <div className="bg-white dark:bg-dark-800 rounded-xl shadow-lg p-8 mb-12">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex-shrink-0">
-            <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center">
-              <Database className="w-8 h-8 text-purple-600" />
-            </div>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Global Regulations</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">CCPA (California)</h3>
-                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> Right to opt-out of sales
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> Non-discrimination
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> "Do Not Sell" mechanism
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">Other Regulations</h3>
-                <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> LGPD (Brazil)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> PIPEDA (Canada)
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600">•</span> APP (Australia)
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Data Practices */}
-      <div className="grid md:grid-cols-2 gap-6 mb-12">
-        <div className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-lg">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Our Data Practices</h2>
-          <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Never sell personal data
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Limited data collection
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> Clear consent mechanisms
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-600">•</span> DPO contact: dpo@yourcompany.com
-            </li>
-          </ul>
-        </div>
-        <div className="bg-white dark:bg-dark-800 p-6 rounded-xl shadow-lg">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Exercise Your Rights</h2>
-          <ol className="list-decimal pl-5 space-y-3 text-gray-700 dark:text-gray-300">
-            <li>Submit request via privacy portal</li>
-            <li>Identity verification</li>
-            <li>Processing within 30 days</li>
-            <li>Appeal process available</li>
-          </ol>
-        </div>
-      </div>
-
-      {/* Download & Contact */}
-      <div className="text-center">
-        <div className="inline-block bg-blue-50 dark:bg-blue-900/20 rounded-xl p-8 max-w-2xl">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Full Documentation</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6">
-            Download our complete privacy policy and data processing agreements.
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Privacy & Data Protection</h1>
+          <p className="mb-4 text-md md:text-lg text-white/90">
+            Learn how cookies relate to your privacy and how we protect your personal data.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/privacy-policy.pdf"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow inline-flex items-center justify-center gap-2"
-              download
-            >
-              <Download className="w-5 h-5" /> Privacy Policy
-            </Link>
-            <Link
-              to="/dpa.pdf"
-              className="bg-white dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600 text-gray-800 dark:text-white px-6 py-3 rounded-lg font-medium shadow inline-flex items-center justify-center gap-2"
-              download
-            >
-              <Download className="w-5 h-5" /> DPA
-            </Link>
-            <Link
-              to="/contact/privacy"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium shadow inline-flex items-center justify-center gap-2"
-            >
-              Contact DPO
-            </Link>
+          <button
+            onClick={() => navigate(-1)} // Goes back to Cookie Policy
+            className="inline-block bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition-colors text-sm"
+          >
+            Back to Cookie Policy
+          </button>
+        </div>
+      </section>
+
+      {/* Main Content Sections */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+          Cookie-Related Privacy Framework
+        </h2>
+        
+        <div className="space-y-6">
+          {cookiePrivacySections.map((section, index) => (
+            <div key={index} className="bg-white dark:bg-dark-800 rounded-xl shadow-md p-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="flex-shrink-0">
+                  {section.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{section.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">{section.description}</p>
+                </div>
+              </div>
+              
+              <ul className="space-y-2 pl-2">
+                {section.details.map((detail, i) => (
+                  <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300 text-sm">
+                    <span className="text-blue-600 dark:text-blue-400 mt-1">•</span>
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Additional Resources */}
+      <section className="mb-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+          Related Cookie Resources
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div 
+            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            onClick={() => navigate('/cookie-settings')}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Cookie className="w-5 h-5 text-blue-600" />
+              <h3 className="text-md font-semibold">Cookie Settings</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Adjust your cookie preferences at any time.
+            </p>
+          </div>
+          <div 
+            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            onClick={() => navigate('/tracking-technologies')}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <EyeOff className="w-5 h-5 text-purple-600" />
+              <h3 className="text-md font-semibold">Tracking Technologies</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Learn about other tracking methods we use.
+            </p>
           </div>
         </div>
+      </section>
+
+      {/* Back to Home - Optional for nested pages */}
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center justify-center px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm"
+        >
+          <Home className="w-4 h-4 mr-2" /> Back to Home
+        </button>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default PrivacyAndDataProtection;
+export default CookiePrivacySection;

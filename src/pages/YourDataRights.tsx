@@ -1,66 +1,66 @@
 import React from 'react';
-import { CheckCircle, Shield, Lock, User, FileText, Home } from 'lucide-react';
+import { Shield, Edit3, Trash2, Lock, Download, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const userRightsSections = [
+const dataRightsSections = [
   {
-    icon: <CheckCircle className="w-8 h-8 text-blue-600" />,
-    title: "User Rights",
-    description: "What you're entitled to as a platform user",
+    icon: <Shield className="w-8 h-8 text-blue-600" />,
+    title: "Right to Access",
+    description: "Obtain a copy of your personal data",
     details: [
-      "Right to access and use platform services",
-      "Right to control your personal data",
-      "Right to appeal account actions",
-      "Right to clear communication"
+      "Request all data we hold about you",
+      "Receive data in machine-readable format",
+      "No fee for first request",
+      "Response within 30 days"
     ]
   },
   {
-    icon: <Shield className="w-8 h-8 text-green-600" />,
-    title: "Account Security",
-    description: "Your responsibilities for account protection",
+    icon: <Edit3 className="w-8 h-8 text-green-600" />,
+    title: "Right to Rectification",
+    description: "Correct inaccurate personal data",
     details: [
-      "Maintain confidentiality of credentials",
-      "Immediately report unauthorized access",
-      "Use strong authentication methods",
-      "Keep recovery options updated"
+      "Update your account information",
+      "Request corrections to processed data",
+      "Verification process for sensitive changes",
+      "Third-party notification where required"
     ]
   },
   {
-    icon: <Lock className="w-8 h-8 text-purple-600" />,
-    title: "Content Policy",
-    description: "Rules governing user-generated content",
+    icon: <Trash2 className="w-8 h-8 text-purple-600" />,
+    title: "Right to Erasure",
+    description: "Request deletion of your data",
     details: [
-      "You retain ownership of your content",
-      "Prohibited content types",
-      "Reporting mechanisms for violations",
-      "Consequences for policy breaches"
+      "Also known as 'Right to be Forgotten'",
+      "Subject to legal retention requirements",
+      "Includes third-party processors",
+      "Partial erasure options available"
     ]
   },
   {
-    icon: <User className="w-8 h-8 text-orange-500" />,
-    title: "Privacy Obligations",
-    description: "Your duties regarding others' privacy",
+    icon: <Lock className="w-8 h-8 text-orange-500" />,
+    title: "Right to Restriction",
+    description: "Limit how we use your data",
     details: [
-      "No unauthorized data collection",
-      "Respect others' personal information",
-      "Comply with privacy laws",
-      "Reporting privacy violations"
+      "Temporary processing restriction",
+      "Applies during accuracy disputes",
+      "Maintains data without processing",
+      "Lift restriction when resolved"
     ]
   },
   {
-    icon: <FileText className="w-8 h-8 text-teal-500" />,
-    title: "Dispute Resolution",
-    description: "How to address conflicts or issues",
+    icon: <Download className="w-8 h-8 text-teal-500" />,
+    title: "Right to Portability",
+    description: "Transfer your data to another service",
     details: [
-      "Informal resolution process",
-      "Formal complaint procedures",
-      "Mediation options",
-      "Arbitration requirements"
+      "Receive data in common formats (JSON, CSV)",
+      "Direct transfer where technically feasible",
+      "Applies to data you provided directly",
+      "Excludes derived/processed data"
     ]
   }
 ];
 
-const UserRightsSection = () => {
+const DataRightsSection = () => {
   const navigate = useNavigate();
 
   return (
@@ -71,15 +71,15 @@ const UserRightsSection = () => {
           <div className="flex justify-center mb-4">
             <Shield className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">User Rights & Responsibilities</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Your Data Rights</h1>
           <p className="mb-4 text-md md:text-lg text-white/90">
-            Understand your rights and obligations as a user of our platform.
+            Learn about your rights to access, correct, delete, and restrict the processing of your personal data under GDPR.
           </p>
           <button
-            onClick={() => navigate('/terms-of-service')}
+            onClick={() => navigate('/gdpr')}
             className="inline-block bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100 transition-colors text-sm"
           >
-            Back to Terms of Service
+            Back to GDBR Overview
           </button>
         </div>
       </section>
@@ -87,11 +87,11 @@ const UserRightsSection = () => {
       {/* Main Content Sections */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-          Your Platform Rights & Duties
+          GDPR Data Rights Explained
         </h2>
         
         <div className="space-y-6">
-          {userRightsSections.map((section, index) => (
+          {dataRightsSections.map((section, index) => (
             <div key={index} className="bg-white dark:bg-dark-800 rounded-xl shadow-md p-6">
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex-shrink-0">
@@ -116,34 +116,46 @@ const UserRightsSection = () => {
         </div>
       </section>
 
-      {/* Additional Resources */}
+      {/* Action Tools */}
       <section className="mb-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 text-center">
-          Related Resources
+          Exercise Your Rights
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div 
             className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
-            onClick={() => navigate('/account-safety')}
+            onClick={() => navigate('/gdpr/access-request')}
           >
             <div className="flex items-center gap-2 mb-2">
-              <Shield className="w-5 h-5 text-green-600" />
-              <h3 className="text-md font-semibold">Account Safety Guide</h3>
+              <Shield className="w-5 h-5 text-blue-600" />
+              <h3 className="text-md font-semibold">Access Request</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Best practices for securing your account.
+              Request a copy of all your personal data
             </p>
           </div>
           <div 
             className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
-            onClick={() => navigate('/content-policy')}
+            onClick={() => navigate('/gdpr/deletion-request')}
           >
             <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-5 h-5 text-purple-600" />
-              <h3 className="text-md font-semibold">Content Policy Details</h3>
+              <Trash2 className="w-5 h-5 text-red-500" />
+              <h3 className="text-md font-semibold">Deletion Request</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Complete guidelines for user-generated content.
+              Request permanent deletion of your data
+            </p>
+          </div>
+          <div 
+            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            onClick={() => navigate('/gdpr/restriction-request')}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Lock className="w-5 h-5 text-purple-600" />
+              <h3 className="text-md font-semibold">Restriction Form</h3>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
+              Limit how we process your data
             </p>
           </div>
         </div>
@@ -162,4 +174,4 @@ const UserRightsSection = () => {
   );
 };
 
-export default UserRightsSection;
+export default DataRightsSection;

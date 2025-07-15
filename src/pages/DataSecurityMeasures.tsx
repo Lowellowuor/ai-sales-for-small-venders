@@ -1,72 +1,61 @@
-import React from 'react';
-import { Lock, ShieldCheck, Cpu, Key, Activity, Server,Home,Globe} from 'lucide-react';
+import React, { useState } from 'react';
+import { Shield, Lock, Key, EyeOff, Server, Home, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const securityMeasures = [
+const securitySections = [
   {
     icon: <Lock className="w-8 h-8 text-blue-600" />,
     title: "Data Encryption",
     description: "How we protect your data at rest and in transit",
     details: [
+      "End-to-end encryption for sensitive data",
+      "TLS 1.2+ for all data transmissions",
       "AES-256 encryption for stored data",
-      "TLS 1.3 for all data transmissions",
-      "End-to-end encryption for sensitive communications",
-      "Regular key rotation policies"
+      "Regular cryptographic key rotation"
     ]
   },
   {
-    icon: <ShieldCheck className="w-8 h-8 text-green-600" />,
+    icon: <Key className="w-8 h-8 text-green-600" />,
     title: "Access Controls",
     description: "Strict policies governing who can access your data",
     details: [
-      "Role-based access control (RBAC)",
-      "Multi-factor authentication enforcement",
-      "Principle of least privilege access",
-      "Just-in-time privileged access"
+      "Role-based access control (RBAC) system",
+      "Multi-factor authentication required",
+      "Principle of least privilege enforced",
+      "Just-in-time access provisioning"
     ]
   },
   {
-    icon: <Cpu className="w-8 h-8 text-purple-600" />,
-    title: "Infrastructure Security",
-    description: "How we secure our systems and networks",
+    icon: <Shield className="w-8 h-8 text-purple-600" />,
+    title: "Security Audits",
+    description: "Continuous monitoring and verification of our systems",
     details: [
-      "Enterprise-grade firewalls and DDoS protection",
-      "Intrusion detection/prevention systems",
-      "Zero-trust network architecture",
-      "Regular vulnerability scanning"
+      "Annual third-party penetration testing",
+      "Automated vulnerability scanning",
+      "Comprehensive activity logging",
+      "Real-time anomaly detection"
     ]
   },
   {
-    icon: <Key className="w-8 h-8 text-orange-500" />,
-    title: "Authentication",
-    description: "Secure methods to verify user identities",
+    icon: <EyeOff className="w-8 h-8 text-orange-500" />,
+    title: "Privacy Protections",
+    description: "Measures to ensure data confidentiality",
     details: [
-      "Passwordless authentication options",
-      "Biometric verification support",
-      "Device fingerprinting for suspicious logins",
-      "Session timeout policies"
-    ]
-  },
-  {
-    icon: <Activity className="w-8 h-8 text-red-500" />,
-    title: "Monitoring & Auditing",
-    description: "How we track and review access to your data",
-    details: [
-      "Real-time security event monitoring",
-      "Automated anomaly detection",
-      "Quarterly third-party security audits",
-      "Compliance certifications (SOC 2, ISO 27001)"
+      "Data minimization principles",
+      "Pseudonymization where possible",
+      "Strict data retention policies",
+      "Right to erasure support"
     ]
   },
   {
     icon: <Server className="w-8 h-8 text-teal-500" />,
-    title: "Data Resilience",
-    description: "Ensuring your data remains available and intact",
+    title: "Infrastructure Security",
+    description: "Physical and technical safeguards for our systems",
     details: [
-      "Geo-distributed data centers",
-      "Immutable backup systems",
-      "Disaster recovery planning",
-      "99.99% uptime SLA"
+      "SOC 2 Type II compliant data centers",
+      "DDoS protection and mitigation",
+      "Geographically redundant backups",
+      "Disaster recovery planning"
     ]
   }
 ];
@@ -77,47 +66,47 @@ const DataSecurityPage = () => {
   return (
     <div className="pt-20 px-4 max-w-4xl mx-auto">
       {/* Hero Section */}
-      <section className="py-12 bg-gradient-to-br from-green-600 to-green-400 text-white rounded-2xl mb-12 shadow-lg">
+      <section className="py-12 bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-2xl mb-12 shadow-lg">
         <div className="max-w-2xl mx-auto text-center px-4">
           <div className="flex justify-center mb-4">
-            <Lock className="w-12 h-12 text-white" />
+            <Shield className="w-12 h-12 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Data Security Measures</h1>
           <p className="mb-6 text-lg md:text-xl text-white/90">
-            Comprehensive technical and organizational safeguards we implement to protect your information.
+            Our comprehensive approach to protecting your information through technical and organizational safeguards.
           </p>
           <button
             onClick={() => navigate('/privacy-policy')}
-            className="inline-block bg-white text-green-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
+            className="inline-block bg-white text-blue-700 font-semibold px-8 py-4 rounded-lg shadow hover:bg-gray-100 transition-colors"
           >
             Back to Privacy Policy
           </button>
         </div>
       </section>
 
-      {/* Security Measures Grid */}
+      {/* Main Content Sections */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
           Our Security Framework
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {securityMeasures.map((measure, index) => (
+        <div className="space-y-8">
+          {securitySections.map((section, index) => (
             <div key={index} className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8">
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex-shrink-0">
-                  {measure.icon}
+                  {section.icon}
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{measure.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{measure.description}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{section.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{section.description}</p>
                 </div>
               </div>
               
               <ul className="space-y-3 pl-2">
-                {measure.details.map((detail, i) => (
+                {section.details.map((detail, i) => (
                   <li key={i} className="flex items-start gap-2 text-gray-700 dark:text-gray-300">
-                    <span className="text-green-600 dark:text-green-400 mt-1">•</span>
+                    <span className="text-blue-600 dark:text-blue-400 mt-1">•</span>
                     {detail}
                   </li>
                 ))}
@@ -128,33 +117,33 @@ const DataSecurityPage = () => {
       </section>
 
       {/* Additional Resources */}
-      <section className="mb-16 bg-green-50 dark:bg-green-900/20 rounded-2xl p-8">
+      <section className="mb-16 bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-8">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
           Related Security Resources
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div 
             className="bg-white dark:bg-dark-700 p-6 rounded-lg shadow cursor-pointer hover:shadow-md transition"
-            onClick={() => navigate('/privacy-policy-guide')}
+            onClick={() => navigate('/privacy-policy')}
           >
             <div className="flex items-center gap-3 mb-3">
-              <ShieldCheck className="w-6 h-6 text-blue-600" />
-              <h3 className="text-lg font-semibold">Privacy Policy Guide</h3>
+              <Shield className="w-6 h-6 text-blue-600" />
+              <h3 className="text-lg font-semibold">Privacy Policy</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300">
-              Understand how we collect, use, and protect your personal information.
+              Comprehensive information about how we collect, use, and protect personal data.
             </p>
           </div>
           <div 
             className="bg-white dark:bg-dark-700 p-6 rounded-lg shadow cursor-pointer hover:shadow-md transition"
-            onClick={() => navigate('/international-compliance')}
+            onClick={() => navigate('/compliance')}
           >
             <div className="flex items-center gap-3 mb-3">
-              <Globe className="w-6 h-6 text-purple-600" />
-              <h3 className="text-lg font-semibold">Compliance Certifications</h3>
+              <FileText className="w-6 h-6 text-green-600" />
+              <h3 className="text-lg font-semibold">Compliance Standards</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300">
-              View our international security standards and compliance documentation.
+              Details about our adherence to industry regulations and certifications.
             </p>
           </div>
         </div>
@@ -164,7 +153,7 @@ const DataSecurityPage = () => {
       <div className="flex justify-center mb-10">
         <button
           onClick={() => navigate('/')}
-          className="flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors"
+          className="flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
         >
           <Home className="w-5 h-5 mr-2" /> Back to Home
         </button>
