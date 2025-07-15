@@ -50,7 +50,7 @@ const termsResources = [
   }
 ];
 
-const TermsAndServicesPage = () => {
+const TermsOfServicesPage = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
@@ -155,4 +155,4 @@ const TermsAndServicesPage = () => {
   );
 };
 
-export default TermsAndServicesPage;
+export default TermsOfServices;

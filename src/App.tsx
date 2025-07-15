@@ -41,6 +41,9 @@ import InternationalCompliance from './pages/InternationalCompliance';
 import SafetyAndSecurityStandards from './pages/SafetyAndSecurityStandards';
 import UserRightsAndResponsibilities from './pages/UserRightsAndResponsibilities';
 import TermsofServiceExplained from './pages/TermsofServiceExplained';
+import CookiePolicyExplained from './pages/CookiePolicyExplained';
+import PrivacyAndDataProtection from './pages/PrivacyAndDataProtection';
+
 function App() {
   return (
     <ThemeProvider>
@@ -91,6 +94,8 @@ function App() {
               <Route path="/safety-and-security-standards" element={<SafetyAndSecurityStandards />} />
               <Route path="/user-rights-and-responsibilities" element={<UserRightsAndResponsibilities />} />
               <Route path="/terms-of-service-explained" element={<TermsofServiceExplained />} />
+              <Route path="/cookie-policy-explained" element={<CookiePolicyExplained />} />
+              <Route path="/privacy-and-data-protection" element={<PrivacyAndDataProtection />} />
         
             </Routes>
           </main>
