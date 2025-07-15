@@ -1,35 +1,27 @@
 import React, { useState } from 'react';
 import { ShieldCheck, FileText, Lock, Globe, Mail, Home } from 'lucide-react';
-
-const useNavigate = () => {
-  return (path: string) => {
-    window.location.href = path;
-  };
-};
+import { useNavigate } from 'react-router-dom';
 
 const privacyResources = [
   {
     icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
     title: "Privacy Policy Guide",
-    description: "Understand how we collect, use, and protect your personal information. Download our comprehensive privacy policy document.",
-    link: "/downloads/privacy-policy-guide.pdf",
-    fileType: "PDF",
+    description: "Understand how we collect, use, and protect your personal information.",
+    path: "/privacy-policy-guide",
     details: "Data collection · Usage · Protection"
   },
   {
     icon: <Lock className="w-8 h-8 text-green-600" />,
     title: "Data Security Measures",
-    description: "Learn about the technical and organizational measures we implement to safeguard your personal data.",
-    link: "/downloads/data-security-guide.pdf",
-    fileType: "PDF",
+    description: "Learn about the technical and organizational measures we implement to safeguard your data.",
+    path: "/data-security",
     details: "Encryption · Access controls · Audits"
   },
   {
     icon: <Globe className="w-8 h-8 text-purple-600" />,
     title: "International Data Transfers",
-    description: "Understand how we handle cross-border data transfers in compliance with global privacy regulations.",
-    link: "/downloads/international-data-transfers.pdf",
-    fileType: "PDF",
+    description: "Understand how we handle cross-border data transfers in compliance with global regulations.",
+    path: "/international-data-transfers",
     details: "GDPR · SCCs · Adequacy decisions"
   }
 ];
@@ -49,9 +41,11 @@ const PrivacyPolicyPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Privacy Policy Question Submitted:', form);
-    alert('Thank you for your inquiry! Our privacy team will respond to your question shortly.');
     setSubmitted(true);
+  };
+
+  const handleViewClick = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -84,20 +78,18 @@ const PrivacyPolicyPage = () => {
           {privacyResources.map((res, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
             >
               <div className="flex items-center gap-4 mb-4">{res.icon}
                 <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
               </div>
               <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
-              <a
-                href={res.link}
+              <button
+                onClick={() => handleViewClick(res.path)}
                 className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
-                target="_blank"
-                rel="noopener noreferrer"
               >
-                <FileText className="w-5 h-5" /> View
-              </a>
+                <FileText className="w-5 h-5" /> View Details
+              </button>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
             </div>
           ))}
@@ -107,7 +99,7 @@ const PrivacyPolicyPage = () => {
       {/* Main Privacy Policy Content */}
       <section className="mb-16">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Privacy Policy</h2>
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
           <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. Information We Collect</h3>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
             We collect information you provide directly (name, email, etc.), automatically (usage data, cookies), and from third parties (social media, partners) to provide and improve our services.
@@ -165,7 +157,7 @@ const PrivacyPolicyPage = () => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
           Privacy Questions or Concerns
         </h2>
-        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow p-8">
+        <div className="max-w-xl mx-auto bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
           {submitted ? (
             <div className="text-center text-green-600 dark:text-green-400 font-semibold">
               Thank you for your inquiry! Our privacy team will respond to your question shortly.
@@ -182,7 +174,7 @@ const PrivacyPolicyPage = () => {
                   value={form.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -195,7 +187,7 @@ const PrivacyPolicyPage = () => {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -208,7 +200,7 @@ const PrivacyPolicyPage = () => {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
                   placeholder="Type your privacy-related question here..."
                 />
               </div>
@@ -233,7 +225,7 @@ const PrivacyPolicyPage = () => {
         </button>
         <a
           href="mailto:privacy@pitchpoa.com"
-          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-dark-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
         >
           <Mail className="w-5 h-5 mr-2" />
           Contact Privacy Team
@@ -241,22 +233,6 @@ const PrivacyPolicyPage = () => {
       </div>
     </div>
   );
-}
+};
 
-// Main App component to render the PrivacyPolicyPage
-export default function App() {
-  return (
-    <>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-          body {
-            font-family: 'Inter', sans-serif;
-          }
-        `}
-      </style>
-      <PrivacyPolicyPage />
-    </>
-  );
-}
+export default PrivacyPolicyPage;

@@ -7,37 +7,33 @@ const gdprResources = [
     icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
     title: "GDPR Compliance Guide",
     description: "Understand how we comply with the General Data Protection Regulation (GDPR) and what it means for your data rights.",
-    link: "/downloads/gdpr-compliance-guide.pdf",
-    fileType: "PDF",
+    link: "/gdpr-compliance-guide",
     details: "GDPR summary · Compliance checklist · FAQs"
   },
   {
     icon: <UserCheck className="w-8 h-8 text-green-600" />,
     title: "Your Data Rights",
     description: "Learn about your rights to access, correct, delete, and restrict the processing of your personal data under GDPR.",
-    link: "/downloads/gdpr-data-rights.pdf",
-    fileType: "PDF",
+    link: "/data-rights",
     details: "Access request · Data deletion · Restriction forms"
   },
   {
     icon: <FileText className="w-8 h-8 text-purple-600" />,
     title: "Privacy Policy & Transparency",
     description: "Read our privacy policy in clear language, including how we collect, use, and protect your data.",
-    link: "/downloads/privacy-policy-gdpr.pdf",
-    fileType: "PDF",
+    link: "/privacy-policy",
     details: "Policy summary · Data usage · Security"
   },
   {
     icon: <Globe className="w-8 h-8 text-orange-500" />,
     title: "International Data Transfers",
     description: "See how we handle cross-border data transfers in compliance with GDPR and other international laws.",
-    link: "/downloads/gdpr-international-transfers.pdf",
-    fileType: "PDF",
+    link: "/international-transfers",
     details: "Standard contractual clauses · Safeguards · Global compliance"
   }
 ];
 
-const GdprPage = () => {
+const GdbrPage = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
@@ -54,6 +50,10 @@ const GdprPage = () => {
     e.preventDefault();
     // Here you would send the form data to your backend or API
     setSubmitted(true);
+  };
+
+  const handleViewClick = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -92,13 +92,12 @@ const GdprPage = () => {
                 <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
               </div>
               <p className="text-gray-700 dark:text-gray-200 mb-4">{res.description}</p>
-              <a
-                href={res.link}
-                download
+              <button
+                onClick={() => handleViewClick(res.link)}
                 className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors shadow w-max"
               >
-                <FileText className="w-5 h-5" /> Download {res.fileType}
-              </a>
+                <FileText className="w-5 h-5" /> View Details
+              </button>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{res.details}</p>
             </div>
           ))}
@@ -117,7 +116,7 @@ const GdprPage = () => {
           <ul className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300">
             <li>Right to Access: Request a copy of your personal data.</li>
             <li>Right to Rectification: Correct inaccurate or incomplete data.</li>
-            <li>Right to Erasure (“Right to be Forgotten”): Request deletion of your data.</li>
+            <li>Right to Erasure ("Right to be Forgotten"): Request deletion of your data.</li>
             <li>Right to Restrict Processing: Limit how we use your data.</li>
             <li>Right to Data Portability: Receive your data in a portable format.</li>
             <li>Right to Object: Object to certain types of processing, including marketing.</li>
@@ -140,9 +139,9 @@ const GdprPage = () => {
           <p className="mb-4 text-gray-700 dark:text-gray-300">
             In the event of a data breach, we will notify affected users and authorities within 72 hours, as required by GDPR.
           </p>
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Children’s Data</h3>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">6. Children's Data</h3>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
-            We do not knowingly collect data from children under 16. Parents or guardians may contact us to request deletion of a child’s data.
+            We do not knowingly collect data from children under 16. Parents or guardians may contact us to request deletion of a child's data.
           </p>
           <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">7. Contact & Requests</h3>
           <p className="mb-8 text-gray-700 dark:text-gray-300">
@@ -234,4 +233,5 @@ const GdprPage = () => {
     </div>
   );
 }
-export default GdprPage;
+
+export default GdbrPage;

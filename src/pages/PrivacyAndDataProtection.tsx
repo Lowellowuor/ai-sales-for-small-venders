@@ -1,4 +1,4 @@
-import { Lock, Shield, Gavel, Database, EyeOff } from 'lucide-react';
+import { Lock, Shield, Gavel, Database, EyeOff,Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PrivacyAndDataProtection = () => {

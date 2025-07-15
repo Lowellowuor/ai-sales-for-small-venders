@@ -1,4 +1,4 @@
-import { Cookie,  Settings, ListChecks } from 'lucide-react';
+import { Cookie,  Settings, ListChecks, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CookiePolicyExplained = () => {
