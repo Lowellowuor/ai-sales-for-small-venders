@@ -59,7 +59,7 @@ const SocialProof = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-br from-gray-50 dark:from-dark-900 to-white dark:to-dark-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -69,12 +69,12 @@ const SocialProof = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Trusted by 
             <span className="text-primary-500"> 50,000+ </span>
             African Entrepreneurs
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Real vendors, real results. See how PitchPoa AI has transformed businesses across East Africa.
           </p>
         </motion.div>
@@ -89,14 +89,14 @@ const SocialProof = () => {
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center">
-                  <stat.icon className="w-8 h-8 text-primary-600" />
+                <div className="w-16 h-16 bg-primary-100 dark:bg-dark-700 rounded-2xl flex items-center justify-center">
+                  <stat.icon className="w-8 h-8 text-primary-600 dark:text-primary-500" />
                 </div>
               </div>
-              <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                 {stat.number}
               </div>
-              <div className="text-gray-600 font-medium">
+              <div className="text-gray-600 dark:text-gray-300 font-medium">
                 {stat.label}
               </div>
             </div>
@@ -111,7 +111,7 @@ const SocialProof = () => {
           className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16"
         >
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <div key={index} className="bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300">
               {/* Header */}
               <div className="flex items-center space-x-4 mb-6">
                 <div className="relative">
@@ -125,9 +125,9 @@ const SocialProof = () => {
                   </button>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{testimonial.name}</h3>
-                  <p className="text-gray-600 text-sm">{testimonial.role}</p>
-                  <p className="text-gray-500 text-xs">{testimonial.location}</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">{testimonial.role}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">{testimonial.location}</p>
                 </div>
               </div>
 
@@ -139,20 +139,20 @@ const SocialProof = () => {
               </div>
 
               {/* Quote */}
-              <blockquote className="text-gray-700 mb-6 leading-relaxed">
+              <blockquote className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
                 <Quote className="w-6 h-6 text-primary-500 mb-2" />
                 "{testimonial.quote}"
               </blockquote>
 
               {/* Results */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-dark-700">
                 <div className="text-center">
-                  <div className="text-lg font-bold text-primary-600">{testimonial.revenue}</div>
-                  <div className="text-xs text-gray-500">Monthly Revenue</div>
+                  <div className="text-lg font-bold text-primary-600 dark:text-primary-500">{testimonial.revenue}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Monthly Revenue</div>
                 </div>
                 <div className="text-center">
                   <div className="text-lg font-bold text-green-600">{testimonial.improvement}</div>
-                  <div className="text-xs text-gray-500">Sales Growth</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Sales Growth</div>
                 </div>
               </div>
             </div>
@@ -202,13 +202,13 @@ const SocialProof = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="text-center"
         >
-          <h3 className="text-lg font-semibold text-gray-600 mb-8">
+          <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-8">
             Trusted by Leading Organizations
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-60">
             {partners.map((partner, index) => (
               <div key={index} className="text-center">
-                <div className="h-12 flex items-center justify-center text-gray-600 text-sm font-medium">
+                <div className="h-12 flex items-center justify-center text-gray-600 dark:text-gray-400 text-sm font-medium">
                   {partner}
                 </div>
               </div>

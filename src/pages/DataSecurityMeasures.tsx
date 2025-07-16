@@ -1,66 +1,66 @@
-import React, { useState } from 'react';
-import { Shield, Lock, Key, EyeOff, Server, Home, FileText } from 'lucide-react';
+import React from 'react';
+import { ShieldCheck, FileText, Lock, Server, EyeOff, Shield, Clock,Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const securitySections = [
   {
     icon: <Lock className="w-8 h-8 text-blue-600" />,
-    title: "Data Encryption",
-    description: "How we protect your data at rest and in transit",
+    title: "Encryption Standards",
+    description: "How we protect data in transit and at rest",
     details: [
-      "End-to-end encryption for sensitive data",
-      "TLS 1.2+ for all data transmissions",
-      "AES-256 encryption for stored data",
-      "Regular cryptographic key rotation"
+      "AES-256 encryption for data at rest",
+      "TLS 1.3 for all data in transit",
+      "End-to-end encryption for sensitive communications",
+      "Regular key rotation policies"
     ]
   },
   {
-    icon: <Key className="w-8 h-8 text-green-600" />,
+    icon: <Shield className="w-8 h-8 text-green-600" />,
     title: "Access Controls",
-    description: "Strict policies governing who can access your data",
+    description: "Strict protocols for who can access your data",
     details: [
-      "Role-based access control (RBAC) system",
-      "Multi-factor authentication required",
-      "Principle of least privilege enforced",
+      "Role-based access control (RBAC) systems",
+      "Multi-factor authentication for all employees",
+      "Principle of least privilege enforcement",
       "Just-in-time access provisioning"
     ]
   },
   {
-    icon: <Shield className="w-8 h-8 text-purple-600" />,
-    title: "Security Audits",
-    description: "Continuous monitoring and verification of our systems",
+    icon: <Server className="w-8 h-8 text-purple-600" />,
+    title: "Infrastructure Security",
+    description: "Protecting our systems and networks",
     details: [
-      "Annual third-party penetration testing",
-      "Automated vulnerability scanning",
-      "Comprehensive activity logging",
-      "Real-time anomaly detection"
+      "Enterprise-grade firewalls and intrusion detection",
+      "DDoS protection and mitigation",
+      "Isolated production environments",
+      "Regular vulnerability scanning"
     ]
   },
   {
     icon: <EyeOff className="w-8 h-8 text-orange-500" />,
-    title: "Privacy Protections",
-    description: "Measures to ensure data confidentiality",
+    title: "Data Minimization",
+    description: "Collecting only what we need",
     details: [
-      "Data minimization principles",
-      "Pseudonymization where possible",
-      "Strict data retention policies",
-      "Right to erasure support"
+      "Purpose limitation for all data collection",
+      "Automatic data anonymization where possible",
+      "Regular data purging schedules",
+      "Pseudonymization techniques"
     ]
   },
   {
-    icon: <Server className="w-8 h-8 text-teal-500" />,
-    title: "Infrastructure Security",
-    description: "Physical and technical safeguards for our systems",
+    icon: <Clock className="w-8 h-8 text-teal-500" />,
+    title: "Monitoring & Response",
+    description: "Continuous protection and rapid action",
     details: [
-      "SOC 2 Type II compliant data centers",
-      "DDoS protection and mitigation",
-      "Geographically redundant backups",
-      "Disaster recovery planning"
+      "24/7 security operations center",
+      "SIEM (Security Information and Event Management)",
+      "Automated alerting for suspicious activity",
+      "Incident response playbooks"
     ]
   }
 ];
 
-const DataSecurityPage = () => {
+const DataSecurityMeasures= () => {
   const navigate = useNavigate();
 
   return (
@@ -69,11 +69,11 @@ const DataSecurityPage = () => {
       <section className="py-12 bg-gradient-to-br from-blue-600 to-blue-400 text-white rounded-2xl mb-12 shadow-lg">
         <div className="max-w-2xl mx-auto text-center px-4">
           <div className="flex justify-center mb-4">
-            <Shield className="w-12 h-12 text-white" />
+            <ShieldCheck className="w-12 h-12 text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Data Security Measures</h1>
           <p className="mb-6 text-lg md:text-xl text-white/90">
-            Our comprehensive approach to protecting your information through technical and organizational safeguards.
+            Comprehensive overview of our technical and organizational safeguards to protect your information.
           </p>
           <button
             onClick={() => navigate('/privacy-policy')}
@@ -127,11 +127,11 @@ const DataSecurityPage = () => {
             onClick={() => navigate('/privacy-policy')}
           >
             <div className="flex items-center gap-3 mb-3">
-              <Shield className="w-6 h-6 text-blue-600" />
+              <FileText className="w-6 h-6 text-green-600" />
               <h3 className="text-lg font-semibold">Privacy Policy</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300">
-              Comprehensive information about how we collect, use, and protect personal data.
+              Learn how we collect, use, and protect your personal information.
             </p>
           </div>
           <div 
@@ -139,11 +139,11 @@ const DataSecurityPage = () => {
             onClick={() => navigate('/compliance')}
           >
             <div className="flex items-center gap-3 mb-3">
-              <FileText className="w-6 h-6 text-green-600" />
+              <ShieldCheck className="w-6 h-6 text-purple-600" />
               <h3 className="text-lg font-semibold">Compliance Standards</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300">
-              Details about our adherence to industry regulations and certifications.
+              Our adherence to GDPR, CCPA, and other regulatory requirements.
             </p>
           </div>
         </div>
@@ -162,4 +162,4 @@ const DataSecurityPage = () => {
   );
 };
 
-export default DataSecurityPage;
+export default DataSecurityMeasures;

@@ -15,7 +15,7 @@ const CTASection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 dark:from-primary-600 dark:via-accent-600 dark:to-secondary-600 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         {[...Array(30)].map((_, i) => (
@@ -52,9 +52,9 @@ const CTASection = () => {
             <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Ready to Transform
               <br />
-              <span className="text-yellow-300">Your Sales?</span>
+              <span className="text-yellow-300 dark:text-yellow-200">Your Sales?</span>
             </h2>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-white/90 dark:text-white/80 max-w-3xl mx-auto leading-relaxed">
               Join 50,000+ African entrepreneurs who've already boosted their
               sales with PitchPoa AI. Start your free trial today - no credit
               card required.
@@ -71,7 +71,7 @@ const CTASection = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-white/20 rounded-full px-6 py-3 backdrop-blur-lg"
+                className="flex items-center space-x-2 bg-white/20 dark:bg-white/30 rounded-full px-6 py-3 backdrop-blur-lg"
               >
                 <benefit.icon className="w-5 h-5" />
                 <span className="font-medium">{benefit.text}</span>
@@ -86,19 +86,20 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-col sm:flex-row justify-center gap-6 mb-12"
           >
-            <button className="bg-white text-primary-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl flex items-center justify-center space-x-2">
+            <button className="bg-white dark:bg-gray-100 text-primary-600 dark:text-primary-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 dark:hover:bg-gray-200 transform hover:scale-105 transition-all duration-200 shadow-xl flex items-center justify-center space-x-2">
               <span>Start Free Trial</span>
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-primary-600 transition-all duration-200 flex items-center justify-center space-x-2">
+            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-primary-600 dark:hover:text-primary-700 transition-all duration-200 flex items-center justify-center space-x-2">
               <MessageCircle className="w-5 h-5" />
-                <a
-                  href="https://wa.me/+254113661960?text=Hello!%20I%20saw%20your%20website%20and%20want%20to%20chat."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Chat on WhatsApp
-                </a>
+              <a
+                href="https://wa.me/+254113661960?text=Hello!%20I%20saw%20your%20website%20and%20want%20to%20chat."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:no-underline"
+              >
+                Chat on WhatsApp
+              </a>
             </button>
           </motion.div>
 
@@ -109,24 +110,23 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="space-y-4"
           >
-            <div className="flex flex-wrap justify-center items-center gap-8 text-white/80">
+            <div className="flex flex-wrap justify-center items-center gap-8 text-white/80 dark:text-white/70">
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <div className="w-4 h-4 bg-green-400 dark:bg-green-300 rounded-full"></div>
                 <span className="text-sm">7-day free trial</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <div className="w-4 h-4 bg-green-400 dark:bg-green-300 rounded-full"></div>
                 <span className="text-sm">No credit card required</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <div className="w-4 h-4 bg-green-400 dark:bg-green-300 rounded-full"></div>
                 <span className="text-sm">30-day money-back guarantee</span>
               </div>
             </div>
 
-            <p className="text-white/60 text-sm">
-              Join thousands of successful African entrepreneurs • Cancel
-              anytime
+            <p className="text-white/60 dark:text-white/50 text-sm">
+              Join thousands of successful African entrepreneurs • Cancel anytime
             </p>
           </motion.div>
         </motion.div>

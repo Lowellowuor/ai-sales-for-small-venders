@@ -60,7 +60,7 @@ const SolutionShowcase = () => {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-dark-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -70,11 +70,11 @@ const SolutionShowcase = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Meet Your AI 
             <span className="text-primary-500"> Sales Coach</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Powered by advanced AI and designed specifically for African entrepreneurs, 
             PitchPoa understands your context, culture, and challenges.
           </p>
@@ -94,8 +94,8 @@ const SolutionShowcase = () => {
                 key={index}
                 className={`cursor-pointer rounded-2xl p-6 transition-all duration-300 ${
                   activeFeature === index 
-                    ? 'bg-primary-50 border-2 border-primary-500 shadow-lg' 
-                    : 'bg-gray-50 hover:bg-gray-100 border-2 border-transparent'
+                    ? 'bg-primary-50 dark:bg-dark-700 border-2 border-primary-500 shadow-lg' 
+                    : 'bg-gray-50 dark:bg-dark-800 hover:bg-gray-100 dark:hover:bg-dark-700 border-2 border-transparent'
                 }`}
                 onClick={() => setActiveFeature(index)}
                 whileHover={{ scale: 1.02 }}
@@ -105,22 +105,22 @@ const SolutionShowcase = () => {
                   <div className={`p-3 rounded-xl ${
                     activeFeature === index 
                       ? 'bg-primary-500 text-white' 
-                      : 'bg-white text-primary-500'
+                      : 'bg-white dark:bg-dark-600 text-primary-500'
                   }`}>
                     <feature.icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 mb-3">
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">
                       {feature.description}
                     </p>
                     {activeFeature === index && (
                       <motion.p
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        className="text-primary-700 text-sm font-medium"
+                        className="text-primary-700 dark:text-primary-400 text-sm font-medium"
                       >
                         {feature.details}
                       </motion.p>
@@ -217,7 +217,7 @@ const SolutionShowcase = () => {
                       <div className="space-y-2">
                         {['Opening Lines', 'Value Proposition', 'Objection Handling', 'Closing Techniques'].map((skill, index) => (
                           <div key={index} className="flex items-center justify-between">
-                            <span className="text-sm">{skill}</span>
+                            <span className="text-sm text-white/90">{skill}</span>
                             <div className="flex items-center space-x-2">
                               <div className="w-16 bg-white/20 rounded-full h-1">
                                 <div 
@@ -252,16 +252,16 @@ const SolutionShowcase = () => {
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
-              className="text-center p-6 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors group"
+              className="text-center p-6 rounded-2xl bg-gray-50 dark:bg-dark-800 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors group"
               whileHover={{ y: -5 }}
             >
-              <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-200 transition-colors">
-                <benefit.icon className="w-8 h-8 text-primary-600" />
+              <div className="w-16 h-16 bg-primary-100 dark:bg-dark-700 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-200 dark:group-hover:bg-dark-600 transition-colors">
+                <benefit.icon className="w-8 h-8 text-primary-600 dark:text-primary-500" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 {benefit.title}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 dark:text-gray-300 text-sm">
                 {benefit.description}
               </p>
             </motion.div>

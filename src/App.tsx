@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext'; 
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import DemoPage from './pages/DemoPage';
@@ -9,17 +10,17 @@ import Footer from './components/Footer';
 import HelpCenterPage from './pages/HelpCenterPage';
 import ViewPage from './pages/ViewPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from "./pages/TermsOfServices";
-import CookiePolicy from './pages/CookiePolicy';
-import GDBR from './pages/GDBR';
+import TermsOfServicePage from "./pages/TermsOfServices"; 
+import CookiePolicy from './pages/CookiePolicy'; 
+import GDBR from './pages/GDBR'; 
 import SalesTrainingPage from './pages/SalesTrainingPage';
 import WhatsAppTipsPage from './pages/WhatsAppTipsPage';
 import SuccessStoriesPage from './pages/SuccessStoriesPage';
 import BusinessGrowthPage from './pages/BusinessGrowthPage';
-import  AITechnologyPage  from './pages/AITechnologyPage';
+import AITechnologyPage from './pages/AITechnologyPage';
 import ApiDocumentationPage from './pages/ApiDocumentationPage';
-import CommunityForumPage   from './pages/CommunityForumPage';
-import ContactSupportPage  from './pages/ContactSupportPage';
+import CommunityForumPage from './pages/CommunityForumPage';
+import ContactSupportPage from './pages/ContactSupportPage';
 import TrainingVideosPage from './pages/TrainingVideosPage';
 import SalesPitchGuideInfoPage from './pages/SalesPitchGuideInfoPage';
 import WhatsAppSalesGuideInfoPage from './pages/WhatsAppSalesGuideInfoPage';
@@ -35,7 +36,7 @@ import BuildingTechTeamsPage from './pages/BuildingTechTeams';
 import CybersecurityEssentials from './pages/CybersecurityEssentials';
 import DigitalMarketingAndAnalytics from './pages/DigitalMarketingAndAnalytics';
 import CloudToolsAndDigitalPlatforms from './pages/CloudTools&DigitalPlatforms';
-import  AIforBusinessGrowth from './pages/AIforBusinessGrowth';
+import AIforBusinessGrowth from './pages/AIforBusinessGrowth';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import InternationalCompliance from './pages/InternationalCompliance';
 import SafetyAndSecurityStandards from './pages/SafetyAndSecurityStandards';
@@ -47,15 +48,15 @@ import PrivacyPolicyGuide from './pages/PrivacyPolicyGuide';
 import DataSecurityMeasures from './pages/DataSecurityMeasures';
 import InternationalDataTransfers from './pages/InternationalDataTransfers';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
-function App() {
 
+function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-white dark:bg-dark-900 transition-colors duration-300">
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
           <Navigation />
           <main>
-              <WhatsAppFloatingButton/>
+            <WhatsAppFloatingButton />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/demo" element={<DemoPage />} />
@@ -64,7 +65,6 @@ function App() {
               <Route path="/resources" element={<ResourcesPage />} />
               <Route path="/resources/sales-training" element={<SalesTrainingPage />} />
               <Route path="/resources/whatsapp-tips" element={<WhatsAppTipsPage />} />
-              <Route path="/resources/success-stories" element={<SuccessStoriesPage />} />
               <Route path="/resources/business-growth" element={<BusinessGrowthPage />} />
               <Route path="/resources/ai-technology" element={<AITechnologyPage />} />
               <Route path="/view" element={<ViewPage />} />
@@ -76,7 +76,7 @@ function App() {
               <Route path="/help-center" element={<HelpCenterPage />} />
               <Route path="/api-documentation" element={<ApiDocumentationPage />} />
               <Route path="/community-forum" element={<CommunityForumPage />} />
-              <Route path="/contact-support" element={<ContactSupportPage />} />
+          
               <Route path="/contact-support" element={<ContactSupportPage />} />
               <Route path="/training-videos" element={<TrainingVideosPage />} />
               <Route path="/resources/sales-pitch-guide-info" element={<SalesPitchGuideInfoPage />} />
@@ -89,9 +89,9 @@ function App() {
               <Route path="/resources/team-leadership-guide-info" element={<TeamLeadershipGuideInfoPage />} />
               <Route path="/resources/whatsapp-message-templates-info" element={<WhatsAppMessageTemplatesInfoPage />} />
               <Route path="/resources/sales-script-templates-info" element={<SalesScriptTemplatesInfoPage />} />
-              <Route path="/resources/building-tech-teams" element={<BuildingTechTeamsPage />} /> 
+              <Route path="/resources/building-tech-teams" element={<BuildingTechTeamsPage />} />
               <Route path="/resources/cybersecurity-essentials" element={<CybersecurityEssentials />} />
-              <Route path="/resources/digital-marketing-and-analytics" element={<DigitalMarketingAndAnalytics/>} />
+              <Route path="/resources/digital-marketing-and-analytics" element={<DigitalMarketingAndAnalytics />} />
               <Route path="/resources/cloud-tools-and-digital-platforms" element={<CloudToolsAndDigitalPlatforms />} />
               <Route path="/resources/ai-for-business-growth" element={<AIforBusinessGrowth />} />
               <Route path="/community-guidelines" element={<CommunityGuidelines />} />
@@ -104,6 +104,17 @@ function App() {
               <Route path="/privacy-policy-guide" element={<PrivacyPolicyGuide />} />
               <Route path="/data-security-measures" element={<DataSecurityMeasures />} />
               <Route path="/international-data-transfers" element={<InternationalDataTransfers />} />
+              <Route path="*" element={
+                <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
+                  <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404 - Page Not Found</h1>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+                    The page you are looking for does not exist.
+                  </p>
+                  <Link to="/" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    Go to Home Page
+                  </Link>
+                </div>
+              } />
             </Routes>
           </main>
           <Footer />

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "base": "^3.0.0",
-    "fire": "^0.46.4",
+    "fire": "^0.55.1",
     "framer-motion": "^10.16.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
