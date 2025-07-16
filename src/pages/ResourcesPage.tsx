@@ -11,6 +11,9 @@ const ResourcesPage = () => {
     threshold: 0.1,
   });
 
+  // Define your live image URL for the Resource Hub hero here
+  const resourceHubHeroImageUrl = 'https://images.pexels.com/photos/259165/pexels-photo-259165.jpeg'; // <--- IMPORTANT: Replace with your actual live image URL
+
   const categories = [
     { name: 'All Resources', count: 5, route: '/resources', active: true },
     { name: 'Sales Training', count: 1, route: '/resources/sales-training', active: false },
@@ -108,9 +111,19 @@ const ResourcesPage = () => {
 
   return (
     <div className="pt-20 bg-white dark:bg-dark-900 transition-colors duration-300">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-500 to-accent-500 dark:from-dark-700 dark:to-dark-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero Section - Sales Training Resource Hub */}
+      <section className="py-20 text-white relative overflow-hidden"> {/* Removed gradient, added relative & overflow-hidden */}
+        {/* Background Image Container */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${resourceHubHeroImageUrl}')` }} // <--- Live image URL used here
+        >
+          {/* Optional: Overlay for better text readability */}
+          {/* Adjust color (e.g., bg-black, bg-primary-800) and opacity (e.g., opacity-50, opacity-70) as needed */}
+          <div className="absolute inset-0 bg-black opacity-60"></div> {/* Example: dark overlay */}
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"> {/* Added relative z-10 */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -124,7 +137,7 @@ const ResourcesPage = () => {
             <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed mb-8">
               Free guides, templates, and training materials to accelerate your sales success
             </p>
-            
+
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto">
               <div className="relative">
@@ -208,7 +221,7 @@ const ResourcesPage = () => {
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{resource.title}</h3>
                     <p className="text-gray-600 dark:text-gray-300 mb-4">{resource.description}</p>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                         {resource.readTime && <span>{resource.readTime}</span>}
@@ -258,10 +271,10 @@ const ResourcesPage = () => {
                     </span>
                   </div>
                 </div>
-                
+
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{resource.title}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{resource.description}</p>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="text-xs text-gray-500 dark:text-gray-400">
                     {resource.readTime && <span>{resource.readTime}</span>}
@@ -337,7 +350,7 @@ const ResourcesPage = () => {
                 <Users className="w-8 h-8" />
                 <h3 className="text-2xl font-bold">Community Stats</h3>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold mb-2">50,000+</div>
@@ -375,7 +388,7 @@ const ResourcesPage = () => {
             <p className="text-gray-600 dark:text-gray-300 mb-8">
               Get weekly sales tips, new training materials, and success stories delivered to your inbox
             </p>
-            
+
             <div className="flex flex-col sm:flex-row max-w-md mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
               <input
                 type="email"
@@ -396,5 +409,4 @@ const ResourcesPage = () => {
   );
 };
 
-export
-  default ResourcesPage;
+export default ResourcesPage;
