@@ -46,14 +46,16 @@ import PrivacyAndDataProtection from './pages/PrivacyAndDataProtection';
 import PrivacyPolicyGuide from './pages/PrivacyPolicyGuide';
 import DataSecurityMeasures from './pages/DataSecurityMeasures';
 import InternationalDataTransfers from './pages/InternationalDataTransfers';
-
+import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
 function App() {
+
   return (
     <ThemeProvider>
       <Router>
         <div className="min-h-screen bg-white dark:bg-dark-900 transition-colors duration-300">
           <Navigation />
           <main>
+              <WhatsAppFloatingButton/>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/demo" element={<DemoPage />} />
@@ -102,7 +104,6 @@ function App() {
               <Route path="/privacy-policy-guide" element={<PrivacyPolicyGuide />} />
               <Route path="/data-security-measures" element={<DataSecurityMeasures />} />
               <Route path="/international-data-transfers" element={<InternationalDataTransfers />} />
-        
             </Routes>
           </main>
           <Footer />

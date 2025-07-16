@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { ArrowRight, Mic, MessageCircle, Zap } from 'lucide-react';
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { ArrowRight, Mic, MessageCircle, Zap } from "lucide-react";
 
 const CTASection = () => {
   const { ref, inView } = useInView({
@@ -9,9 +9,9 @@ const CTASection = () => {
   });
 
   const benefits = [
-    { icon: MessageCircle, text: 'WhatsApp Integration' },
-    { icon: Mic, text: 'Voice AI Training' },
-    { icon: Zap, text: '300% Sales Increase' },
+    { icon: MessageCircle, text: "WhatsApp Integration" },
+    { icon: Mic, text: "Voice AI Training" },
+    { icon: Zap, text: "300% Sales Increase" },
   ];
 
   return (
@@ -55,8 +55,9 @@ const CTASection = () => {
               <span className="text-yellow-300">Your Sales?</span>
             </h2>
             <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Join 50,000+ African entrepreneurs who've already boosted their sales with PitchPoa AI. 
-              Start your free trial today - no credit card required.
+              Join 50,000+ African entrepreneurs who've already boosted their
+              sales with PitchPoa AI. Start your free trial today - no credit
+              card required.
             </p>
           </div>
 
@@ -68,7 +69,10 @@ const CTASection = () => {
             className="flex flex-wrap justify-center gap-6 mb-12"
           >
             {benefits.map((benefit, index) => (
-              <div key={index} className="flex items-center space-x-2 bg-white/20 rounded-full px-6 py-3 backdrop-blur-lg">
+              <div
+                key={index}
+                className="flex items-center space-x-2 bg-white/20 rounded-full px-6 py-3 backdrop-blur-lg"
+              >
                 <benefit.icon className="w-5 h-5" />
                 <span className="font-medium">{benefit.text}</span>
               </div>
@@ -88,7 +92,13 @@ const CTASection = () => {
             </button>
             <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-primary-600 transition-all duration-200 flex items-center justify-center space-x-2">
               <MessageCircle className="w-5 h-5" />
-              <span>Chat on WhatsApp</span>
+                <a
+                  href="https://wa.me/+254113661960?text=Hello!%20I%20saw%20your%20website%20and%20want%20to%20chat."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Chat on WhatsApp
+                </a>
             </button>
           </motion.div>
 
@@ -113,9 +123,10 @@ const CTASection = () => {
                 <span className="text-sm">30-day money-back guarantee</span>
               </div>
             </div>
-            
+
             <p className="text-white/60 text-sm">
-              Join thousands of successful African entrepreneurs • Cancel anytime
+              Join thousands of successful African entrepreneurs • Cancel
+              anytime
             </p>
           </motion.div>
         </motion.div>
