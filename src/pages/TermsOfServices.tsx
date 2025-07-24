@@ -7,21 +7,21 @@ const termsResources = [
     icon: <FileText className="w-8 h-8 text-blue-600" />,
     title: "Terms of Service Explained",
     description: "A clear summary of our terms, including user responsibilities, acceptable use, and dispute resolution.",
-    path: "/terms-explained",
+    path: "/terms-of-service-explained",
     details: "Plain language · Policy summary · FAQs"
   },
   {
     icon: <CheckCircle className="w-8 h-8 text-green-600" />,
     title: "User Rights & Responsibilities",
     description: "Understand your rights and obligations as a user of our platform.",
-    path: "/user-rights",
+    path: "/user-rights-and-responsibilities",
     details: "User rights · Account security · Content policy"
   },
   {
     icon: <ShieldCheck className="w-8 h-8 text-purple-600" />,
     title: "Safety & Security Standards",
     description: "See how we protect your data and ensure a safe environment for all users.",
-    path: "/safety-security",
+    path: "/safety-and-security-standards",
     details: "Reporting · Enforcement · Safety tips"
   },
   {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext'; 
 import Navigation from './components/Navigation';
@@ -48,6 +48,8 @@ import PrivacyPolicyGuide from './pages/PrivacyPolicyGuide';
 import DataSecurityMeasures from './pages/DataSecurityMeasures';
 import InternationalDataTransfers from './pages/InternationalDataTransfers';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
+import GDPRComplianceGuide from './pages/GDPRComplianceGuide';
+import YourDataRights from './pages/YourDataRights';
 
 function App() {
   return (
@@ -104,6 +106,15 @@ function App() {
               <Route path="/privacy-policy-guide" element={<PrivacyPolicyGuide />} />
               <Route path="/data-security-measures" element={<DataSecurityMeasures />} />
               <Route path="/international-data-transfers" element={<InternationalDataTransfers />} />
+              <Route path="/gdpr-compliance-guide" element={<GDPRComplianceGuide />} />
+              <Route path="/your-data-rights" element={<YourDataRights />} />
+
+              {/* Nested Routes for Privacy Policy Guide */}
+             
+              
+              {/* Nested Routes for Terms of Service Explained */}
+
+              {/* Nested Routes */}
               <Route path="*" element={
                 <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
                   <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404 - Page Not Found</h1>

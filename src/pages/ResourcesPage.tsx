@@ -31,7 +31,8 @@ const ResourcesPage = () => {
       readTime: '15 min read',
       downloads: '12.5K',
       category: 'Sales Training',
-      featured: true
+      featured: true,
+      path: '/resources/sales-training',
     },
     {
       type: 'video',
@@ -40,7 +41,8 @@ const ResourcesPage = () => {
       duration: '2h 30m',
       views: '45K',
       category: 'WhatsApp Tips',
-      featured: true
+      featured: true,
+      Path: '/resources/whatsapp-tips',
     },
     {
       type: 'webinar',
@@ -49,7 +51,8 @@ const ResourcesPage = () => {
       duration: '1h 15m',
       attendees: '8.2K',
       category: 'AI & Technology',
-      featured: false
+      featured: false,
+      path: '/resources/ai-technology',
     },
     {
       type: 'case-study',
@@ -58,7 +61,8 @@ const ResourcesPage = () => {
       readTime: '8 min read',
       shares: '2.1K',
       category: 'Success Stories',
-      featured: false
+      featured: false,
+      
     },
     {
       type: 'template',
@@ -66,7 +70,8 @@ const ResourcesPage = () => {
       description: 'Ready-to-use scripts customized for African market contexts.',
       downloads: '18.7K',
       category: 'Sales Training',
-      featured: false
+      featured: false,
+      
     },
     {
       type: 'guide',
@@ -76,6 +81,7 @@ const ResourcesPage = () => {
       downloads: '9.3K',
       category: 'Business Growth',
       featured: false
+      
     }
   ];
 

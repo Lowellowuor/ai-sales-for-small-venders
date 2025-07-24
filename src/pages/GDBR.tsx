@@ -14,7 +14,7 @@ const gdprResources = [
     icon: <UserCheck className="w-8 h-8 text-green-600" />,
     title: "Your Data Rights",
     description: "Learn about your rights to access, correct, delete, and restrict the processing of your personal data under GDPR.",
-    link: "/data-rights",
+    link: "/your-data-rights",
     details: "Access request · Data deletion · Restriction forms"
   },
   {
@@ -28,7 +28,7 @@ const gdprResources = [
     icon: <Globe className="w-8 h-8 text-orange-500" />,
     title: "International Data Transfers",
     description: "See how we handle cross-border data transfers in compliance with GDPR and other international laws.",
-    link: "/international-transfers",
+    link: "/international-data-transfers",
     details: "Standard contractual clauses · Safeguards · Global compliance"
   }
 ];

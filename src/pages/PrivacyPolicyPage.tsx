@@ -14,7 +14,7 @@ const privacyResources = [
     icon: <Lock className="w-8 h-8 text-green-600" />,
     title: "Data Security Measures",
     description: "Learn about the technical and organizational measures we implement to safeguard your data.",
-    path: "/data-security",
+    path: "/data-security-measures",
     details: "Encryption · Access controls · Audits"
   },
   {

@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'; 
 import { Shield, Edit3, Trash2, Lock, Download, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const dataRightsSections = [
+// Renamed the array to avoid conflict with the component name
+const dataRightsContent = [
   {
     icon: <Shield className="w-8 h-8 text-blue-600" />,
     title: "Right to Access",
@@ -60,7 +61,8 @@ const dataRightsSections = [
   }
 ];
 
-const DataRightsSection = () => {
+// This is your actual React functional component
+const YourDataRights = () => {
   const navigate = useNavigate();
 
   return (
@@ -90,9 +92,10 @@ const DataRightsSection = () => {
           GDPR Data Rights Explained
         </h2>
         
+        {/* Use the renamed array here */}
         <div className="space-y-6">
-          {dataRightsSections.map((section, index) => (
-            <div key={index} className="bg-white dark:bg-dark-800 rounded-xl shadow-md p-6">
+          {dataRightsContent.map((section, index) => (
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex-shrink-0">
                   {section.icon}
@@ -123,7 +126,7 @@ const DataRightsSection = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div 
-            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
             onClick={() => navigate('/gdpr/access-request')}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -135,7 +138,7 @@ const DataRightsSection = () => {
             </p>
           </div>
           <div 
-            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
             onClick={() => navigate('/gdpr/deletion-request')}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -147,7 +150,7 @@ const DataRightsSection = () => {
             </p>
           </div>
           <div 
-            className="bg-white dark:bg-dark-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
+            className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition"
             onClick={() => navigate('/gdpr/restriction-request')}
           >
             <div className="flex items-center gap-2 mb-2">
@@ -174,4 +177,4 @@ const DataRightsSection = () => {
   );
 };
 
-export default DataRightsSection;
+export default YourDataRights;

@@ -14,7 +14,7 @@ const cookieResources = [
     icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
     title: "Privacy & Data Protection",
     description: "Learn how cookies relate to your privacy and how we protect your personal data.",
-    link: "/privacy-data-protection",
+    link: "/privacy-and-data-protection",
     details: "GDPR · Data protection · Security"
   },
   {
