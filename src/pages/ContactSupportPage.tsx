@@ -14,33 +14,10 @@ const ContactSupportPage: React.FC = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-<<<<<<< HEAD
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/contact`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
-      );
-      if (response.ok) {
-        setSubmitted(true);
-      } else {
-        // Handle error (show message to user)
-        alert("Submission failed. Please try again.");
-      }
-    } catch (error) {
-      alert("Network error. Please try again.");
-    }
-=======
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Here you would send the form data to your backend or API
     setSubmitted(true);
->>>>>>> ac642d38c2bab34a6c04b006b373eee99ed1fbc9
   };
 
   return (

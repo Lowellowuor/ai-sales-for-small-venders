@@ -1,6 +1,5 @@
-
-import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext'; 
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import DemoPage from './pages/DemoPage';
@@ -10,9 +9,9 @@ import Footer from './components/Footer';
 import HelpCenterPage from './pages/HelpCenterPage';
 import ViewPage from './pages/ViewPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from "./pages/TermsOfServices"; 
-import CookiePolicy from './pages/CookiePolicy'; 
-import GDBR from './pages/GDBR'; 
+import TermsOfServicePage from "./pages/TermsOfServices";
+import CookiePolicy from './pages/CookiePolicy';
+import GDBR from './pages/GDBR';
 import SalesTrainingPage from './pages/SalesTrainingPage';
 import WhatsAppTipsPage from './pages/WhatsAppTipsPage';
 import SuccessStoriesPage from './pages/SuccessStoriesPage';
@@ -54,11 +53,27 @@ import YourDataRights from './pages/YourDataRights';
 function App() {
   return (
     <ThemeProvider>
-            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        {/* Main container div for the whole application */}
+        {/* Applied 'animated-gradient-background' for light mode effect */}
+        {/* For dark mode, we override the background with a solid dark color and add blobs */}
+        <div className="relative min-h-screen flex flex-col animated-gradient-background dark:bg-gray-900 transition-colors duration-300 overflow-hidden"> {/* Added overflow-hidden to prevent blob overflow */}
+          
+          {/* Dark Mode Light Effects - Blobs */}
+          {/* These blobs are hidden by default and become visible only in dark mode via CSS */}
+          <div className="dark-mode-blob dark-mode-blob-1"></div>
+          <div className="dark-mode-blob dark-mode-blob-2"></div>
+          <div className="dark-mode-blob dark-mode-blob-3"></div>
+
+          {/* Navigation Bar (fixed at top, handled by Navigation component itself) */}
           <Navigation />
-          <main>
+
+          {/* Main Content Area */}
+          {/* Background set to semi-transparent to let the animated background (light mode) or blobs (dark mode) show */}
+          <main className="flex-grow pt-16 pb-24 bg-white/80 dark:bg-gray-900/70"> {/* Slightly more transparent in dark mode */}
+            {/* WhatsApp Floating Button - positioned relative to the viewport, above other content */}
             <WhatsAppFloatingButton />
+
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/demo" element={<DemoPage />} />
@@ -78,7 +93,6 @@ function App() {
               <Route path="/help-center" element={<HelpCenterPage />} />
               <Route path="/api-documentation" element={<ApiDocumentationPage />} />
               <Route path="/community-forum" element={<CommunityForumPage />} />
-          
               <Route path="/contact-support" element={<ContactSupportPage />} />
               <Route path="/training-videos" element={<TrainingVideosPage />} />
               <Route path="/resources/sales-pitch-guide-info" element={<SalesPitchGuideInfoPage />} />
@@ -109,12 +123,7 @@ function App() {
               <Route path="/gdpr-compliance-guide" element={<GDPRComplianceGuide />} />
               <Route path="/your-data-rights" element={<YourDataRights />} />
 
-              {/* Nested Routes for Privacy Policy Guide */}
-             
-              
-              {/* Nested Routes for Terms of Service Explained */}
-
-              {/* Nested Routes */}
+              {/* Catch-all route for 404 */}
               <Route path="*" element={
                 <div className="flex flex-col items-center justify-center min-h-screen text-center p-4">
                   <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">404 - Page Not Found</h1>
@@ -128,6 +137,22 @@ function App() {
               } />
             </Routes>
           </main>
+
+          {/* Content Reflection Overlay */}
+          {/* This div creates the fading effect at the bottom of the screen */}
+          <div className="fixed bottom-0 left-0 right-0 h-24 z-40 pointer-events-none">
+            {/*
+              The gradient will fade from transparent at the top to the page's
+              background color at the bottom.
+              Adjust colors to match your theme (bg-white for light, bg-gray-900 for dark).
+            */}
+            <div className="absolute inset-0 bg-gradient-to-t
+                            from-white via-white/80 to-transparent
+                            dark:from-gray-900 dark:via-gray-900/80 dark:to-transparent">
+            </div>
+          </div>
+
+          {/* Footer Component */}
           <Footer />
         </div>
       </Router>

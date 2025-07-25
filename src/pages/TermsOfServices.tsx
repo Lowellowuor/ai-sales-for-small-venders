@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, CheckCircle, ShieldCheck,  Globe, Mail, Home } from 'lucide-react';
+import { FileText, CheckCircle, ShieldCheck, Globe, Mail, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const termsResources = [
@@ -41,36 +41,46 @@ const TermsOfService = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // State for error messages
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-<<<<<<< HEAD
+  // Resolved handleSubmit function: combines logic and uses state for errors
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null); // Clear previous errors
+
+    // Define your API URL. For Vite, you'd typically use import.meta.env.VITE_API_URL
+    // For local development, assuming backend runs on port 5000
+    const API_URL = 'http://localhost:5000'; 
+
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/terms-question`,
+        `${API_URL}/terms-question`, // Assuming a /terms-question endpoint on your backend
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         }
       );
+
       if (response.ok) {
         setSubmitted(true);
+        setForm({ // Optionally clear the form on successful submission
+          name: '',
+          email: '',
+          message: '',
+        });
       } else {
-        alert("Submission failed. Please try again.");
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || "Submission failed. Please try again.");
       }
     } catch (error) {
-      alert("Network error. Please try again.");
+      console.error("Network error during form submission:", error);
+      setErrorMessage("Network error. Please check your connection and try again.");
     }
-=======
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
->>>>>>> ac642d38c2bab34a6c04b006b373eee99ed1fbc9
   };
 
   const handleViewClick = (path: string) => {
@@ -107,7 +117,7 @@ const TermsOfService = () => {
           {termsResources.map((res, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl"
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col transition hover:shadow-2xl" // Adjusted dark mode class
             >
               <div className="flex items-center gap-4 mb-4">{res.icon}
                 <span className="text-xl font-semibold text-blue-700 dark:text-blue-300">{res.title}</span>
@@ -128,7 +138,7 @@ const TermsOfService = () => {
       {/* Main Terms Content */}
       <section className="mb-16">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Terms of Service</h2>
-        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-8"> {/* Adjusted dark mode class */}
           <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-900 dark:text-white">1. Acceptance of Terms</h3>
           <p className="mb-4 text-gray-700 dark:text-gray-300">
             By accessing or using our services, you agree to be bound by these Terms of Service. If you disagree with any part, you may not access the service.
@@ -172,7 +182,7 @@ const TermsOfService = () => {
             We are not liable for indirect, incidental, or consequential damages arising from use of our services.
           </p>
 
-          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-white">8. Changes to Terms</h3>
+          <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-900 dark:text-gray-300">8. Changes to Terms</h3>
           <p className="mb-8 text-gray-700 dark:text-gray-300">
             We may update these terms periodically. Continued use after changes constitutes acceptance of the new terms.
           </p>
@@ -184,7 +194,7 @@ const TermsOfService = () => {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
           Send Us a Terms of Service Question
         </h2>
-        <div className="max-w-xl mx-auto bg-white dark:bg-dark-800 rounded-2xl shadow p-8">
+        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow p-8"> {/* Adjusted dark mode class */}
           {submitted ? (
             <div className="text-center text-green-600 dark:text-green-400 font-semibold">
               Thank you for reaching out! Our team will respond to your question as soon as possible.
@@ -201,7 +211,7 @@ const TermsOfService = () => {
                   value={form.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500" // Adjusted dark mode class
                 />
               </div>
               <div>
@@ -214,7 +224,7 @@ const TermsOfService = () => {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500" // Adjusted dark mode class
                 />
               </div>
               <div>
@@ -227,7 +237,7 @@ const TermsOfService = () => {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500" // Adjusted dark mode class
                   placeholder="Type your terms of service question here..."
                 />
               </div>
@@ -237,6 +247,9 @@ const TermsOfService = () => {
               >
                 Send Message
               </button>
+              {errorMessage && ( // Display error message if present
+                <p className="text-red-500 text-sm mt-2 text-center">{errorMessage}</p>
+              )}
             </form>
           )}
         </div>
@@ -252,7 +265,7 @@ const TermsOfService = () => {
         </button>
         <a
           href="mailto:support@pitchpoa.com"
-          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-dark-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+          className="flex items-center justify-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-blue-700 dark:text-blue-300 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" // Adjusted dark mode class
         >
           <Mail className="w-5 h-5 mr-2" />
           Contact Support

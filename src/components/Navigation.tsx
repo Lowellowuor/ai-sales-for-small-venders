@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Mic, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,11 +12,14 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Set scrolled to true if scrollY is greater than 50px, false otherwise
       setScrolled(window.scrollY > 50);
     };
+    // Add scroll event listener when component mounts
     window.addEventListener('scroll', handleScroll);
+    // Remove event listener when component unmounts to prevent memory leaks
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, []); // Empty dependency array means this effect runs once on mount
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -27,19 +30,28 @@ const Navigation = () => {
   ];
 
   const toggleLanguage = () => {
+    // Toggle language between English (EN) and Swahili (SW)
     setLanguage(language === 'EN' ? 'SW' : 'EN');
   };
 
   return (
-    <nav className="bg-white dark:bg-dark-900 text-gray-900 dark:text-white shadow-md">
+    // The main navigation bar.
+    // Enhanced background and shadow transition based on 'scrolled' state.
+    // Initial state: slightly transparent background, no shadow.
+    // Scrolled state: solid background, subtle shadow.
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300
+                    ${scrolled
+                      ? 'bg-white dark:bg-gray-900 shadow-md' // Solid background and shadow when scrolled
+                      : 'bg-white/90 dark:bg-gray-900/90' // Slightly transparent background when not scrolled
+                    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
               <Mic className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               PitchPoa AI
             </span>
           </Link>
@@ -50,19 +62,19 @@ const Navigation = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`relative font-medium transition-colors hover:text-primary-600 dark:hover:text-primary-400 ${
-                  location.pathname === item.path 
-                    ? 'text-primary-600 dark:text-primary-400' 
-                    : scrolled 
-                      ? 'text-gray-700 dark:text-gray-300' 
-                      : 'text-gray-900 dark:text-white'
+                className={`relative font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400 ${
+                  location.pathname === item.path
+                    ? 'text-blue-600 dark:text-blue-400' // Active link color
+                    : scrolled
+                      ? 'text-gray-700 dark:text-gray-300' // Text color when scrolled
+                      : 'text-gray-900 dark:text-white' // Text color when not scrolled (initial)
                 }`}
               >
                 {item.name}
                 {location.pathname === item.path && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-500"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-blue-500"
                   />
                 )}
               </Link>
@@ -75,11 +87,11 @@ const Navigation = () => {
             
             <button
               onClick={toggleLanguage}
-              className={`flex items-center space-x-1 px-3 py-1 rounded-lg transition-colors ${
-                scrolled 
-                  ? 'hover:bg-gray-100 dark:hover:bg-dark-800 text-gray-700 dark:text-gray-300' 
-                  : 'hover:bg-white/20 text-white'
-              }`}
+              className={`flex items-center space-x-1 px-3 py-1 rounded-lg transition-colors
+                ${scrolled
+                  ? 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300' // Scrolled state colors
+                  : 'hover:bg-white/10 text-gray-900 dark:text-white' // Initial state: subtle hover, matching text color
+                }`}
             >
               <Globe className="w-4 h-4" />
               <span className="text-sm font-medium">{language}</span>
@@ -87,7 +99,7 @@ const Navigation = () => {
             
             <Link
               to="/demo"
-              className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
             >
               Start Free Trial
             </Link>
@@ -96,7 +108,7 @@ const Navigation = () => {
           {/* Mobile Menu Button */}
           <button
             className={`md:hidden p-2 ${
-              scrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
+              scrolled ? 'text-gray-700 dark:text-gray-300' : 'text-gray-900 dark:text-white'
             }`}
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -112,7 +124,7 @@ const Navigation = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-700"
+            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"
           >
             <div className="px-4 py-4 space-y-4">
               {navItems.map((item) => (
@@ -120,21 +132,21 @@ const Navigation = () => {
                   key={item.name}
                   to={item.path}
                   className={`block py-2 font-medium transition-colors ${
-                    location.pathname === item.path 
-                      ? 'text-primary-600 dark:text-primary-400' 
-                      : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+                    location.pathname === item.path
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-dark-700">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center space-x-3">
                   <ThemeToggle />
                   <button
                     onClick={toggleLanguage}
-                    className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 text-gray-700 dark:text-gray-300"
+                    className="flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
                   >
                     <Globe className="w-4 h-4" />
                     <span className="text-sm font-medium">{language}</span>
@@ -142,7 +154,7 @@ const Navigation = () => {
                 </div>
                 <Link
                   to="/demo"
-                  className="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-2 rounded-lg font-medium"
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   Start Free Trial
