@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Added useState for newsletter feedback
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { BookOpen, Video, Users, Download, Search, Filter, HelpCircle } from 'lucide-react';
@@ -10,6 +10,11 @@ const ResourcesPage = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // State for newsletter subscription feedback
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
 
   // Define your live image URL for the Resource Hub hero here
   const resourceHubHeroImageUrl = 'https://images.pexels.com/photos/259165/pexels-photo-259165.jpeg'; // <--- IMPORTANT: Replace with your actual live image URL
@@ -32,7 +37,7 @@ const ResourcesPage = () => {
       downloads: '12.5K',
       category: 'Sales Training',
       featured: true,
-      path: '/resources/sales-training',
+      path: '/resources/sales-pitch-guide-info', // Corrected and specific path
     },
     {
       type: 'video',
@@ -42,7 +47,7 @@ const ResourcesPage = () => {
       views: '45K',
       category: 'WhatsApp Tips',
       featured: true,
-      Path: '/resources/whatsapp-tips',
+      path: '/resources/whatsapp-sales-guide-info', // Corrected typo and specific path
     },
     {
       type: 'webinar',
@@ -62,7 +67,7 @@ const ResourcesPage = () => {
       shares: '2.1K',
       category: 'Success Stories',
       featured: false,
-      
+      path: '/success-stories', // Navigates to the general success stories page
     },
     {
       type: 'template',
@@ -71,7 +76,7 @@ const ResourcesPage = () => {
       downloads: '18.7K',
       category: 'Sales Training',
       featured: false,
-      
+      path: '/resources/sales-script-templates-info', // Added specific path
     },
     {
       type: 'guide',
@@ -80,8 +85,8 @@ const ResourcesPage = () => {
       readTime: '12 min read',
       downloads: '9.3K',
       category: 'Business Growth',
-      featured: false
-      
+      featured: false,
+      path: '/resources/business-growth', // Added specific path
     }
   ];
 
@@ -115,21 +120,35 @@ const ResourcesPage = () => {
     }
   };
 
+  const handleNewsletterSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    setNewsletterError(null);
+    if (!newsletterEmail.trim()) {
+      setNewsletterError("Email cannot be empty.");
+      return;
+    }
+    // In a real app, you'd send this email to your backend
+    console.log("Subscribing email:", newsletterEmail);
+    setNewsletterSubscribed(true);
+    setNewsletterEmail(''); // Clear input
+    // Simulate API call success
+    // setTimeout(() => { setNewsletterSubscribed(true); }, 500);
+  };
+
   return (
-    <div className="pt-20 bg-white dark:bg-dark-900 transition-colors duration-300">
+    <div className="pt-20 bg-white dark:bg-gray-900 transition-colors duration-300"> {/* Adjusted dark mode class */}
       {/* Hero Section - Sales Training Resource Hub */}
-      <section className="py-20 text-white relative overflow-hidden"> {/* Removed gradient, added relative & overflow-hidden */}
+      <section className="py-20 text-white relative overflow-hidden">
         {/* Background Image Container */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${resourceHubHeroImageUrl}')` }} // <--- Live image URL used here
+          style={{ backgroundImage: `url('${resourceHubHeroImageUrl}')` }}
         >
           {/* Optional: Overlay for better text readability */}
-          {/* Adjust color (e.g., bg-black, bg-primary-800) and opacity (e.g., opacity-50, opacity-70) as needed */}
-          <div className="absolute inset-0 bg-black opacity-60"></div> {/* Example: dark overlay */}
+          <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"> {/* Added relative z-10 */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -151,7 +170,7 @@ const ResourcesPage = () => {
                 <input
                   type="text"
                   placeholder="Search resources, guides, templates..."
-                  className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-white focus:outline-none bg-white dark:bg-dark-800"
+                  className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-white focus:outline-none bg-white dark:bg-gray-800" // Adjusted dark mode class
                 />
               </div>
             </div>
@@ -160,7 +179,7 @@ const ResourcesPage = () => {
       </section>
 
       {/* Categories & Filters */}
-      <section className="py-12 bg-white dark:bg-dark-900 border-b border-gray-100 dark:border-dark-700">
+      <section className="py-12 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700"> {/* Adjusted dark mode class */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
             {/* Categories */}
@@ -170,8 +189,8 @@ const ResourcesPage = () => {
                   key={index}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     category.active
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-gray-100 text-gray-700 dark:bg-dark-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      ? 'bg-blue-500 text-white' // Adjusted color
+                      : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600' // Adjusted dark mode class
                   }`}
                   onClick={() => navigate(category.route)}
                 >
@@ -181,16 +200,16 @@ const ResourcesPage = () => {
             </div>
 
             {/* Filter Button */}
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
-              <Filter className="w-4 h-4 text-primary-600 dark:text-primary-300" />
-              <span className="text-primary-600 dark:text-primary-300">Filter</span>
+            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"> {/* Adjusted dark mode class */}
+              <Filter className="w-4 h-4 text-blue-600 dark:text-blue-300" /> {/* Adjusted color */}
+              <span className="text-blue-600 dark:text-blue-300">Filter</span> {/* Adjusted color */}
             </button>
           </div>
         </div>
       </section>
 
       {/* Featured Resources */}
-      <section className="py-20 bg-gray-50 dark:bg-dark-800">
+      <section className="py-20 bg-gray-50 dark:bg-gray-800"> {/* Adjusted dark mode class */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             ref={ref}
@@ -210,7 +229,7 @@ const ResourcesPage = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-white dark:bg-dark-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow" // Adjusted dark mode class
               >
                 <div className="flex items-start space-x-4">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${getResourceColor(resource.type)}`}>
@@ -218,10 +237,10 @@ const ResourcesPage = () => {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-xs font-medium text-primary-600 bg-primary-50 dark:bg-dark-700 px-2 py-1 rounded">
+                      <span className="text-xs font-medium text-blue-600 bg-blue-50 dark:bg-gray-700 px-2 py-1 rounded"> {/* Adjusted color */}
                         {resource.category}
                       </span>
-                      <span className="text-xs font-medium text-orange-600 bg-orange-50 dark:bg-dark-700 px-2 py-1 rounded">
+                      <span className="text-xs font-medium text-orange-600 bg-orange-50 dark:bg-gray-700 px-2 py-1 rounded"> {/* Adjusted dark mode class */}
                         Featured
                       </span>
                     </div>
@@ -236,8 +255,8 @@ const ResourcesPage = () => {
                         {resource.views && <span>{resource.views} views</span>}
                       </div>
                       <button
-                        className="text-primary-600 hover:text-primary-700 font-medium"
-                        onClick={() => navigate('/signup')}
+                        className="text-blue-600 hover:text-blue-700 font-medium" // Adjusted color
+                        onClick={() => resource.path && navigate(resource.path)} // Navigate to path if it exists
                       >
                         Access Now →
                       </button>
@@ -265,14 +284,14 @@ const ResourcesPage = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white dark:bg-dark-900 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow"
+                className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow" // Adjusted dark mode class
               >
                 <div className="flex items-start space-x-3 mb-4">
                   <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${getResourceColor(resource.type)}`}>
                     {React.createElement(getResourceIcon(resource.type), { className: 'w-5 h-5' })}
                   </div>
                   <div className="flex-1">
-                    <span className="text-xs font-medium text-primary-600 bg-primary-50 dark:bg-dark-700 px-2 py-1 rounded">
+                    <span className="text-xs font-medium text-blue-600 bg-blue-50 dark:bg-gray-700 px-2 py-1 rounded"> {/* Adjusted color */}
                       {resource.category}
                     </span>
                   </div>
@@ -288,8 +307,8 @@ const ResourcesPage = () => {
                     {resource.downloads && <span>{resource.downloads} downloads</span>}
                   </div>
                   <button
-                    className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                    onClick={() => alert('view!')}
+                    className="text-blue-600 hover:text-blue-700 text-sm font-medium" // Adjusted color
+                    onClick={() => resource.path && navigate(resource.path)} // Navigate to path if it exists
                   >
                     View →
                   </button>
@@ -301,7 +320,7 @@ const ResourcesPage = () => {
       </section>
 
       {/* Collaboration & Integration Section */}
-      <section className="py-20 bg-white dark:bg-dark-900">
+      <section className="py-20 bg-white dark:bg-gray-900"> {/* Adjusted dark mode class */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -350,7 +369,7 @@ const ResourcesPage = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-gradient-to-br from-primary-500 to-accent-500 dark:from-dark-700 dark:to-dark-500 rounded-3xl p-8 text-white"
+              className="bg-gradient-to-br from-blue-500 to-purple-500 dark:from-gray-700 dark:to-gray-500 rounded-3xl p-8 text-white" // Adjusted colors
             >
               <div className="flex items-center space-x-3 mb-6">
                 <Users className="w-8 h-8" />
@@ -381,7 +400,7 @@ const ResourcesPage = () => {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-20 bg-gray-50 dark:bg-dark-800">
+      <section className="py-20 bg-gray-50 dark:bg-gray-800"> {/* Adjusted dark mode class */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -395,19 +414,30 @@ const ResourcesPage = () => {
               Get weekly sales tips, new training materials, and success stories delivered to your inbox
             </p>
 
-            <div className="flex flex-col sm:flex-row max-w-md mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 border border-gray-300 dark:border-dark-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-900 text-gray-900 dark:text-white"
-              />
-              <button
-                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-600 transition-colors"
-                onClick={() => alert('Subscribed!')}
-              >
-                Subscribe
-              </button>
-            </div>
+            {newsletterSubscribed ? (
+              <div className="text-green-600 dark:text-green-400 font-semibold text-lg">
+                Thank you for subscribing to our newsletter!
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubscribe} className="flex flex-col sm:flex-row max-w-md mx-auto space-y-4 sm:space-y-0 sm:space-x-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white" // Adjusted colors
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors" // Adjusted colors
+                >
+                  Subscribe
+                </button>
+              </form>
+            )}
+            {newsletterError && (
+              <p className="text-red-500 text-sm mt-2">{newsletterError}</p>
+            )}
           </motion.div>
         </div>
       </section>
