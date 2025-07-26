@@ -1,10 +1,20 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const multer = require('multer'); // For handling file uploads
 const cors = require('cors'); // For Cross-Origin Resource Sharing
 const { GoogleGenerativeAI } = require('@google/generative-ai'); // For Gemini API
+const mongoose = require('mongoose'); // For MongoDB
+const authRoutes = require('./routes/auth'); // Import authentication routes
 
 const app = express();
-const port = process.env.PORT || 5000; // Use environment variable for port in production
+const port = process.env.PORT || 5000; // Use environment variable for port
+
+// --- MongoDB Connection ---
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
+// --- END MongoDB Connection ---
 
 // Configure Multer for file uploads
 const upload = multer({
@@ -14,9 +24,7 @@ const upload = multer({
   },
 });
 
-// Initialize Gemini API (replace with your actual API key)
-// In a production environment, NEVER hardcode your API key.
-// Use environment variables: process.env.GEMINI_API_KEY
+// Initialize Gemini API (using environment variable for API key)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || ""); 
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Use gemini-2.0-flash
 
@@ -24,19 +32,18 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Use ge
 app.use(cors()); // Enable CORS for all origins (adjust for production)
 app.use(express.json()); // For parsing application/json
 
-// Placeholder for MongoDB connection (assuming you have this set up)
-// const mongoose = require('mongoose');
-// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log('MongoDB connected'))
-//   .catch(err => console.error('MongoDB connection error:', err));
+// --- Authentication Routes ---
+app.use('/api/auth', authRoutes); // All auth-related routes will start with /api/auth
+// E.g., POST /api/auth/register, POST /api/auth/login
+// --- END Authentication Routes ---
 
-// --- API Endpoint for Pitch Analysis ---
+// --- Existing API Endpoint for Pitch Analysis ---
 app.post('/api/analyze-pitch', upload.single('audio'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No audio file uploaded.' });
   }
 
-  const audioBuffer = req.file.buffer;
+  const audioBuffer = req.file.buffer; // This buffer can be processed by an STT service
   const language = req.body.language || 'English';
   const pitchContext = req.body.pitchContext || 'general sales pitch';
 
@@ -48,9 +55,8 @@ app.post('/api/analyze-pitch', upload.single('audio'), async (req, res) => {
   if (language === 'English') {
     transcribedText = `Hello, good morning! My name is Alex, and I'm thrilled to introduce you to PitchPoa AI. We empower small businesses in Kenya with cutting-edge AI tools to dramatically improve their sales pitches. Imagine getting instant, personalized feedback on your tone, pace, and confidence, right from your phone. Our platform helps you turn every conversation into a successful sale. It's designed to be mobile-first and supports multiple African languages, including Swahili. This is a game-changer for entrepreneurs looking to grow their business.`;
   } else if (language === 'Swahili') {
-    transcribedText = `Habari za asubuhi! Jina langu ni Alex, na nina furaha kukuletea PitchPoa AI. Tunawawezesha wafanyabiashara wadogo nchini Kenya kwa zana za kisasa za AI ili kuboresha sana mauzo yao. Fikiria kupata maoni ya papo hapo, ya kibinafsi kuhusu sauti yako, kasi, na ujasiri, moja kwa moja kutoka kwa simu yako. Jukwaa letu linakusaidia kugeuza kila mazungumzo kuwa mauzo yenye mafanikio. Imeundwa kuwa ya kwanza kwa simu na inasaidia lugha nyingi za Kiafrika, ikiwemo Kiswahili. Huu ni mabadiliko makubwa kwa wajasiriamali wanaotaka kukuza biashara zao.`;
+    transcribedText = `Habari za asubuhi! Jina langu ni Alex, na nina furaha kukuletea PitchPoa AI. Tunawawezesha wafanyabiashara wadogo nchini Kenya kwa zana za kisasa za AI ili kuboresha sana mauzo yao. Fikiria kupata maoni ya papo hapo, ya kibinafsi kuhusu sauti yako, kasi, na ujasiri, moja kwa moja kutoka kwa simu yako. Jukwao letu linakusaidia kugeuza kila mazungumzo kuwa mauzo yenye mafanikio. Imeundwa kuwa ya kwanza kwa simu na inasaidia lugha nyingi za Kiafrika, ikiwemo Kiswahili. Huu ni mabadiliko makubwa kwa wajasamali wanaotaka kukuza biashara zao.`;
   }
-
 
   // --- AI Analysis using Gemini API ---
   try {
@@ -97,7 +103,10 @@ app.post('/api/analyze-pitch', upload.single('audio'), async (req, res) => {
         }
     };
 
-    const apiKey = process.env.GEMINI_API_KEY || ""; // Use environment variable
+    // The API key is already loaded from process.env.GEMINI_API_KEY by GoogleGenerativeAI
+    // No need to pass it in the fetch URL if using the SDK directly as `model.generateContent`
+    // However, the provided code uses a direct fetch, so we keep the key in the URL for consistency.
+    const apiKey = process.env.GEMINI_API_KEY || ""; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(apiUrl, {
@@ -120,11 +129,11 @@ app.post('/api/analyze-pitch', upload.single('audio'), async (req, res) => {
       const jsonString = result.candidates[0].content.parts[0].text;
       const parsedFeedback = JSON.parse(jsonString);
 
-      // Save to MongoDB (conceptual)
-      // const PitchSession = require('./models/PitchSession'); // Assuming you have a Mongoose model
+      // Save pitch session data to MongoDB (conceptual - you'd need a PitchSession model)
+      // Example:
+      // const PitchSession = require('./models/PitchSession'); 
       // const newSession = new PitchSession({
-      //   userId: req.user.id, // If you have user authentication
-      //   audioUrl: 'some_cloud_storage_url', // If you store audio in cloud storage
+      //   userId: req.user.id, // Requires authentication middleware to populate req.user
       //   transcription: transcribedText,
       //   feedback: parsedFeedback,
       //   timestamp: new Date()
@@ -139,7 +148,6 @@ app.post('/api/analyze-pitch', upload.single('audio'), async (req, res) => {
 
   } catch (aiError) {
     console.error('Error during AI analysis:', aiError);
-    // Access message property safely
     res.status(500).json({ message: 'Error processing pitch with AI.', error: aiError instanceof Error ? aiError.message : String(aiError) });
   }
 });

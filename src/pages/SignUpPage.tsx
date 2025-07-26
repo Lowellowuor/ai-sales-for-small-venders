@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { UserPlus, Mail, Lock, Loader2 } from 'lucide-react';
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { UserPlus, Mail, Lock, Loader2, Chrome, Github } from 'lucide-react';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -15,34 +12,7 @@ const SignUpPage: React.FC = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [authInitialized, setAuthInitialized] = useState(false);
-
-  // Initialize Firebase
-  useEffect(() => {
-    try {
-      const firebaseConfig = {
-        apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-        authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-        storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-        appId: process.env.REACT_APP_FIREBASE_APP_ID
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      getFirestore(app);
-
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        setAuthInitialized(true);
-      });
-
-      return () => unsubscribe();
-    } catch (error) {
-      console.error("Firebase initialization error:", error);
-      setError("Failed to initialize authentication service");
-    }
-  }, []);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -55,41 +25,59 @@ const SignUpPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    
+    setSuccessMessage(null);
+
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match.");
       return;
     }
 
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
     setLoading(true);
     try {
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
-        auth, 
-        formData.email, 
-        formData.password
-      );
-
-      // Create user profile in Firestore
-      const db = getFirestore();
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
-        email: formData.email,
-        createdAt: new Date().toISOString(),
-        lastLogin: new Date().toISOString()
+      const response = await fetch('http://localhost:5000/api/auth/register', { // Your backend URL
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
 
-      navigate('/dashboard'); // Redirect to dashboard after signup
-    } catch (error: any) {
-      console.error("Signup error:", error);
-      setError(error.message || "Failed to create account. Please try again.");
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      setSuccessMessage("Account created successfully! Redirecting to login...");
+      setFormData({ email: '', password: '', confirmPassword: '' });
+
+      if (data.token) {
+        localStorage.setItem('authToken', data.token); 
+      }
+
+      setTimeout(() => {
+        // --- CHANGED: Redirect to login page after signup, then login will take to pitch-practice ---
+        navigate('/login'); 
+      }, 2000);
+
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      setError(err.message || "Failed to create account. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSocialSignUp = (provider: 'google' | 'github') => {
+    window.location.href = `http://localhost:5000/api/auth/${provider}`;
   };
 
   return (
@@ -98,7 +86,7 @@ const SignUpPage: React.FC = () => {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-md bg-white dark:bg-gray-850 rounded-2xl shadow-xl overflow-hidden"
+        className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden"
       >
         <div className="p-8">
           <div className="text-center mb-8">
@@ -115,14 +103,14 @@ const SignUpPage: React.FC = () => {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                   <input
                     id="email"
                     name="email"
                     type="email"
                     autoComplete="email"
                     required
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 transition-all"
                     placeholder="you@example.com"
                     value={formData.email}
                     onChange={handleChange}
@@ -135,18 +123,18 @@ const SignUpPage: React.FC = () => {
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                   <input
                     id="password"
                     name="password"
                     type="password"
                     autoComplete="new-password"
                     required
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 transition-all"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleChange}
-                    minLength={8}
+                    minLength={6}
                   />
                 </div>
               </div>
@@ -156,17 +144,17 @@ const SignUpPage: React.FC = () => {
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password"
                     required
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 transition-all"
                     placeholder="••••••••"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    minLength={8}
+                    minLength={6}
                   />
                 </div>
               </div>
@@ -182,9 +170,19 @@ const SignUpPage: React.FC = () => {
               </motion.div>
             )}
 
+            {successMessage && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="p-3 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg text-sm"
+              >
+                {successMessage}
+              </motion.div>
+            )}
+
             <button
               type="submit"
-              disabled={loading || !authInitialized}
+              disabled={loading}
               className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-2 text-white font-medium rounded-lg transition-all disabled:opacity-50"
             >
               {loading ? (
@@ -201,6 +199,40 @@ const SignUpPage: React.FC = () => {
             </button>
           </form>
 
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                  Or sign up with
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 gap-3">
+              <button
+                type="button"
+                onClick={() => handleSocialSignUp('google')}
+                disabled={loading}
+                className="w-full inline-flex justify-center items-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Chrome className="w-5 h-5 mr-2" />
+                Sign up with Google
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSocialSignUp('github')}
+                disabled={loading}
+                className="w-full inline-flex justify-center items-center py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Github className="w-5 h-5 mr-2" />
+                Sign up with GitHub
+              </button>
+            </div>
+          </div>
+
           <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
             <Link
@@ -212,7 +244,7 @@ const SignUpPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="px-8 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-500 dark:text-gray-400">
+        <div className="px-8 py-4 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-500 dark:text-gray-400">
           By signing up, you agree to our Terms and Privacy Policy.
         </div>
       </motion.div>

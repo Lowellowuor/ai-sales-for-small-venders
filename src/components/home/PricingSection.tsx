@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Check, Zap, Crown, Users, Calculator } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom'; // Added useNavigate
 
 const PricingSection = () => {
   const { ref, inView } = useInView({
@@ -9,10 +10,12 @@ const PricingSection = () => {
     threshold: 0.1,
   });
 
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const [isAnnual, setIsAnnual] = useState(false);
   const [roiInputs, setRoiInputs] = useState({
-    currentSales: 25000,
-    customers: 50,
+    currentSales: 25000, // Default value for current monthly sales
+    customers: 50,       // Default value for monthly customers
   });
 
   const plans = [
@@ -33,7 +36,8 @@ const PricingSection = () => {
         'Mobile app access',
         'Community forum',
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      link: '/signup' // Navigate to signup page
     },
     {
       name: 'Professional',
@@ -54,7 +58,8 @@ const PricingSection = () => {
         'Priority support',
         'M-Pesa payment integration',
       ],
-      cta: 'Start Free Trial'
+      cta: 'Start Free Trial',
+      link: '/signup' // Navigate to signup page
     },
     {
       name: 'Team',
@@ -75,29 +80,35 @@ const PricingSection = () => {
         'API access',
         'White-label options',
       ],
-      cta: 'Contact Sales'
+      cta: 'Contact Sales',
+      link: '/contact-support' // Navigate to contact support page
     }
   ];
 
   const calculateROI = () => {
     const currentMonthly = roiInputs.currentSales;
-    const projectedIncrease = currentMonthly * 3; // 300% average increase
+    const projectedIncrease = currentMonthly * 3; // Based on "300% Average Sales Increase"
     const annualIncrease = projectedIncrease * 12;
-    const planCost = isAnnual ? 3600 : 400 * 12;
-    const roi = ((annualIncrease - planCost) / planCost) * 100;
+    // Using Professional plan costs for ROI calculation
+    const planCostPerMonth = isAnnual ? 3600 / 12 : 400; // Monthly cost of Professional plan
+    const annualPlanCost = planCostPerMonth * 12;
+
+    // Avoid division by zero if planCost is 0
+    const roi = annualPlanCost > 0 ? ((annualIncrease - annualPlanCost) / annualPlanCost) * 100 : 0;
     
     return {
       monthlyIncrease: projectedIncrease,
       annualIncrease,
       roi: Math.round(roi),
-      paybackMonths: Math.ceil(planCost / projectedIncrease)
+      paybackMonths: projectedIncrease > 0 ? Math.ceil(annualPlanCost / projectedIncrease) : Infinity, // Handle Infinity
+      netProfitYear1: annualIncrease - annualPlanCost
     };
   };
 
   const roiData = calculateROI();
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-dark-900">
+    <section className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300"> {/* Adjusted dark:bg-dark-900 to dark:bg-gray-900 */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -109,19 +120,19 @@ const PricingSection = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             Choose Your 
-            <span className="text-primary-500"> Growth Plan</span>
+            <span className="text-blue-600 dark:text-blue-400"> Growth Plan</span> {/* Adjusted primary-500 to blue-600 */}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
             Start free, scale fast. Every plan includes our 30-day money-back guarantee.
           </p>
 
           {/* Billing Toggle */}
-          <div className="inline-flex items-center bg-white dark:bg-dark-700 rounded-lg p-1 shadow-lg">
+          <div className="inline-flex items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-lg"> {/* Adjusted dark:bg-dark-700 to dark:bg-gray-800 */}
             <button
               onClick={() => setIsAnnual(false)}
               className={`px-6 py-2 rounded-md font-medium transition-all ${
                 !isAnnual 
-                  ? 'bg-primary-500 text-white shadow-md' 
+                  ? 'bg-blue-600 text-white shadow-md' // Adjusted primary-500 to blue-600
                   : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -131,12 +142,12 @@ const PricingSection = () => {
               onClick={() => setIsAnnual(true)}
               className={`px-6 py-2 rounded-md font-medium transition-all relative ${
                 isAnnual 
-                  ? 'bg-primary-500 text-white shadow-md' 
+                  ? 'bg-blue-600 text-white shadow-md' // Adjusted primary-500 to blue-600
                   : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               Annual
-              <span className="absolute -top-2 -right-2 bg-secondary-500 text-white text-xs px-2 py-1 rounded-full">
+              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full"> {/* Adjusted secondary-500 to green-500 */}
                 Save 33%
               </span>
             </button>
@@ -148,12 +159,12 @@ const PricingSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl mb-16"
+          className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl mb-16" 
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-6">
-                <Calculator className="w-8 h-8 text-primary-500" />
+                <Calculator className="w-8 h-8 text-blue-600 dark:text-blue-400" /> {/* Adjusted primary-500 to blue-600 */}
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">ROI Calculator</h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
@@ -162,31 +173,31 @@ const PricingSection = () => {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Current Monthly Sales (KES)
                   </label>
                   <input
                     type="number"
                     value={roiInputs.currentSales}
-                    onChange={(e) => setRoiInputs({...roiInputs, currentSales: parseInt(e.target.value)})}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-700 text-gray-900 dark:text-white"
+                    onChange={(e) => setRoiInputs({...roiInputs, currentSales: parseInt(e.target.value) || 0})}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white" // Adjusted dark:border-gray-600 to dark:border-gray-700, dark:bg-dark-700 to dark:bg-gray-900
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Monthly Customers
                   </label>
                   <input
                     type="number"
                     value={roiInputs.customers}
-                    onChange={(e) => setRoiInputs({...roiInputs, customers: parseInt(e.target.value)})}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-dark-700 text-gray-900 dark:text-white"
+                    onChange={(e) => setRoiInputs({...roiInputs, customers: parseInt(e.target.value) || 0})}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white" // Adjusted dark:border-gray-600 to dark:border-gray-700, dark:bg-dark-700 to dark:bg-gray-900
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl p-6 text-white">
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 dark:from-blue-800 dark:to-purple-800 rounded-2xl p-6 text-white"> {/* Adjusted gradient colors for dark mode */}
               <h4 className="text-xl font-bold mb-6">Your Projected Results</h4>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -207,11 +218,11 @@ const PricingSection = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Investment Payback:</span>
-                  <span className="font-semibold">{roiData.paybackMonths} months</span>
+                  <span className="font-semibold">{roiData.paybackMonths === Infinity ? 'N/A' : `${roiData.paybackMonths} months`}</span>
                 </div>
                 <div className="flex justify-between border-t border-white/20 pt-3">
                   <span>Net Profit (Year 1):</span>
-                  <span className="font-bold text-lg">KES {(roiData.annualIncrease - (isAnnual ? 3600 : 4800)).toLocaleString()}</span>
+                  <span className="font-bold text-lg">KES {roiData.netProfitYear1.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -226,13 +237,13 @@ const PricingSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              className={`relative bg-white dark:bg-dark-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ${
-                plan.popular ? 'ring-2 ring-primary-500 transform scale-105' : ''
+              className={`relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 ${ /* Adjusted dark:bg-dark-800 to dark:bg-gray-800 */
+                plan.popular ? 'ring-2 ring-blue-600 transform scale-105' : '' // Adjusted primary-500 to blue-600
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-primary-500 text-white px-6 py-2 rounded-full text-sm font-semibold">
+                  <div className="bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold"> {/* Adjusted primary-500 to blue-600 */}
                     Most Popular
                   </div>
                 </div>
@@ -241,7 +252,7 @@ const PricingSection = () => {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
-                  plan.popular ? 'bg-primary-500' : 'bg-gray-100 dark:bg-dark-700'
+                  plan.popular ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-900' /* Adjusted primary-500 to blue-600, dark:bg-dark-700 to dark:bg-gray-900 */
                 }`}>
                   <plan.icon className={`w-8 h-8 ${plan.popular ? 'text-white' : 'text-gray-600 dark:text-gray-300'}`} />
                 </div>
@@ -263,20 +274,33 @@ const PricingSection = () => {
               <div className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
                   <div key={featureIndex} className="flex items-start space-x-3">
-                    <Check className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 dark:text-gray-300 text-sm">{feature}</span>
+                    <Check className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" /> {/* Adjusted primary-500 to blue-600 */}
+                    <span className="text-gray-700 dark:text-gray-200 text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
 
-              {/* CTA */}
-              <button className={`w-full py-4 rounded-lg font-semibold transition-all duration-200 ${
-                plan.popular
-                  ? 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg hover:shadow-xl'
-                  : 'bg-gray-100 dark:bg-dark-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-dark-600'
-              }`}>
-                {plan.cta}
-              </button>
+              {/* CTA Button */}
+              {/* Use navigate for buttons that trigger actions or complex flows, Link for simple page navigation */}
+              {plan.cta === 'Contact Sales' ? (
+                <button
+                  onClick={() => navigate(plan.link)}
+                  className="block w-full py-4 rounded-lg font-semibold transition-all duration-200 text-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" // Adjusted dark:bg-dark-700, dark:hover:bg-dark-600 to dark:bg-gray-900, dark:hover:bg-gray-700
+                >
+                  {plan.cta}
+                </button>
+              ) : (
+                <Link
+                  to={plan.link}
+                  className={`block w-full py-4 rounded-lg font-semibold transition-all duration-200 text-center ${
+                    plan.popular
+                      ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg hover:shadow-xl' // Adjusted primary-500 to blue-600
+                      : 'bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700' // Adjusted dark:bg-dark-700, dark:hover:bg-dark-600 to dark:bg-gray-900, dark:hover:bg-gray-700
+                  }`}
+                >
+                  {plan.cta}
+                </Link>
+              )}
             </motion.div>
           ))}
         </div>
