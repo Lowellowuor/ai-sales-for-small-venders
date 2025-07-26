@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion'; // We might not need motion if we remove all its uses for background
-import { Play, Mic, Users, TrendingUp, MessageCircle } from 'lucide-react';
-import VoiceDemoWidget from './VoiceDemoWidget';
+import { motion } from 'framer-motion';
+import { Play, Mic, Users, TrendingUp, MessageCircle, LogIn as LogInIcon } from 'lucide-react'; // Added LogInIcon for clarity
+import VoiceDemoWidget from './VoiceDemoWidget'; // Assuming this component exists
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const HeroSection = () => {
   const [currentStat, setCurrentStat] = useState(0);
   const [typedText, setTypedText] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const stats = [
     { number: '50,000+', label: 'Active Vendors' },
@@ -20,16 +22,18 @@ const HeroSection = () => {
     'Master Selling in Swahili',
   ];
 
+  // Effect for rotating stats
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentStat((prev) => (prev + 1) % stats.length);
-    }, 2000);
+    }, 2000); // Change stat every 2 seconds
     return () => clearInterval(interval);
   }, []);
 
+  // Effect for typing headline animation
   useEffect(() => {
     let index = 0;
-    const currentHeadline = headlines[0];
+    const currentHeadline = headlines[0]; // Sticking to the first headline for simplicity
     const timer = setInterval(() => {
       if (index < currentHeadline.length) {
         setTypedText(currentHeadline.slice(0, index + 1));
@@ -37,23 +41,21 @@ const HeroSection = () => {
       } else {
         clearInterval(timer);
       }
-    }, 100);
+    }, 100); // Type speed
     return () => clearInterval(timer);
   }, []);
 
   return (
     <section
       className="relative min-h-screen flex items-center overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('https://images.pexels.com/photos/4054850/pexels-photo-4054850.jpeg')" }} // <-- ADD THIS LINE
-    >   
-
+      style={{ backgroundImage: "url('https://images.pexels.com/photos/4054850/pexels-photo-4054850.jpeg')" }} // Background image
+    >
       {/* Overlay to darken the image and ensure text readability */}
-      <div className="absolute inset-0 bg-black/50"></div> {/* <-- ADD THIS OVERLAY */}
+      <div className="absolute inset-0 bg-black/50"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
-          {/* Re-introducing motion import as it's still used here */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -84,7 +86,7 @@ const HeroSection = () => {
               <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
                 The only sales trainer that speaks Swahili, thinks like you,
                 and works on{' '}
-                <span className="text-whatsapp-500 font-semibold">
+                <span className="text-green-500 font-semibold"> {/* Changed to green for WhatsApp brand */}
                   WhatsApp
                 </span>
               </p>
@@ -105,7 +107,7 @@ const HeroSection = () => {
                   transition={{ delay: 0.4 + index * 0.1 }}
                   className="flex items-center space-x-3 bg-white/10 dark:bg-white/5 backdrop-blur-lg rounded-lg p-3"
                 >
-                  <item.icon className="w-5 h-5 text-whatsapp-500" />
+                  <item.icon className="w-5 h-5 text-green-500" /> {/* Changed to green */}
                   <span className="font-medium">{item.text}</span>
                 </motion.div>
               ))}
@@ -118,10 +120,23 @@ const HeroSection = () => {
               transition={{ delay: 0.6 }}
               className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
             >
-              <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl">
+              <button
+                onClick={() => navigate('/signup')}
+                className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl"
+              >
                 Start Free Trial
               </button>
-              <button className="flex items-center justify-center space-x-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-200">
+              <button
+                onClick={() => navigate('/login')} // New button for Log In
+                className="flex items-center justify-center space-x-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-200"
+              >
+                <LogInIcon className="w-5 h-5" />
+                <span>Log In</span>
+              </button>
+              <button
+                onClick={() => navigate('/demo')}
+                className="flex items-center justify-center space-x-2 border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-200"
+              >
                 <Play className="w-5 h-5" />
                 <span>Watch Demo</span>
               </button>
@@ -159,7 +174,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative"
           >
-            <VoiceDemoWidget />
+            <VoiceDemoWidget /> {/* This component is assumed to be defined elsewhere */}
           </motion.div>
         </div>
       </div>

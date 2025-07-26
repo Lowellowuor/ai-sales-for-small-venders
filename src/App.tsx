@@ -49,6 +49,10 @@ import InternationalDataTransfers from './pages/InternationalDataTransfers';
 import WhatsAppFloatingButton from './components/WhatsAppFloatingButton';
 import GDPRComplianceGuide from './pages/GDPRComplianceGuide';
 import YourDataRights from './pages/YourDataRights';
+import PitchPracticePage from './pages/PitchPracticePage'; 
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+
 
 function App() {
   return (
@@ -122,6 +126,9 @@ function App() {
               <Route path="/international-data-transfers" element={<InternationalDataTransfers />} />
               <Route path="/gdpr-compliance-guide" element={<GDPRComplianceGuide />} />
               <Route path="/your-data-rights" element={<YourDataRights />} />
+              <Route path="/pitch-practice" element={<PitchPracticePage />} /> 
+              <Route path="/signup" element={<SignUpPage />} /> 
+              <Route path="/login" element={<LoginPage />} /> 
 
               {/* Catch-all route for 404 */}
               <Route path="*" element={

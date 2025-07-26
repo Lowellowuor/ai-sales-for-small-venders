@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Mic, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
+import React, { useState, useEffect } from 'react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);

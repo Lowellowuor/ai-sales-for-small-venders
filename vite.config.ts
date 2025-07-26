@@ -7,4 +7,11 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  // THIS 'define' PROPERTY IS CRUCIAL. ENSURE IT IS HERE EXACTLY AS SHOWN.
+  define: {
+    'process.env': {} 
+  },
+  build: {
+    outDir: 'dist', // Ensure this matches your Firebase Hosting public directory config
+  }
 });

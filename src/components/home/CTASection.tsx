@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ArrowRight, Mic, MessageCircle, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const CTASection = () => {
   const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
+    triggerOnce: true, // Animation triggers only once when it enters view
+    threshold: 0.1,    // 10% of the component must be visible to trigger
   });
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   const benefits = [
     { icon: MessageCircle, text: "WhatsApp Integration" },
@@ -15,8 +17,8 @@ const CTASection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 dark:from-primary-600 dark:via-accent-600 dark:to-secondary-600 relative overflow-hidden">
-      {/* Background Elements */}
+    <section className="py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 dark:from-blue-800 dark:via-purple-800 dark:to-pink-800 relative overflow-hidden">
+      {/* Background Animated Elements (Dots/Orbs) */}
       <div className="absolute inset-0">
         {[...Array(30)].map((_, i) => (
           <motion.div
@@ -27,13 +29,15 @@ const CTASection = () => {
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
+              y: [0, -30, 0], // Move up and down
+              opacity: [0.2, 0.8, 0.2], // Fade in and out
+              scale: [1, 1.2, 1], // Slightly scale
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
+              duration: 4 + Math.random() * 2, // Random duration for variety
+              repeat: Infinity, // Loop indefinitely
+              ease: "easeInOut", // Smooth animation
+              delay: Math.random() * 2, // Staggered start times
             }}
           />
         ))}
@@ -49,7 +53,7 @@ const CTASection = () => {
         >
           {/* Main Heading */}
           <div className="mb-8">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
               Ready to Transform
               <br />
               <span className="text-yellow-300 dark:text-yellow-200">Your Sales?</span>
@@ -71,7 +75,7 @@ const CTASection = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 bg-white/20 dark:bg-white/30 rounded-full px-6 py-3 backdrop-blur-lg"
+                className="flex items-center space-x-2 bg-white/20 dark:bg-white/30 rounded-full px-6 py-3 backdrop-blur-lg border border-white/30 shadow-md"
               >
                 <benefit.icon className="w-5 h-5" />
                 <span className="font-medium">{benefit.text}</span>
@@ -86,17 +90,22 @@ const CTASection = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-col sm:flex-row justify-center gap-6 mb-12"
           >
-            <button className="bg-white dark:bg-gray-100 text-primary-600 dark:text-primary-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 dark:hover:bg-gray-200 transform hover:scale-105 transition-all duration-200 shadow-xl flex items-center justify-center space-x-2">
+            <button
+              onClick={() => navigate('/signup')} // Navigates to the signup page
+              className="bg-white dark:bg-gray-100 text-blue-600 dark:text-blue-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 dark:hover:bg-gray-200 transform hover:scale-105 transition-all duration-200 shadow-xl flex items-center justify-center space-x-2"
+            >
               <span>Start Free Trial</span>
               <ArrowRight className="w-5 h-5" />
             </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-primary-600 dark:hover:text-primary-700 transition-all duration-200 flex items-center justify-center space-x-2">
+            <button
+              className="border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white hover:text-purple-600 dark:hover:text-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md"
+            >
               <MessageCircle className="w-5 h-5" />
               <a
                 href="https://wa.me/+254113661960?text=Hello!%20I%20saw%20your%20website%20and%20want%20to%20chat."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:no-underline"
+                className="hover:no-underline" // Prevent underline on hover for the link within button
               >
                 Chat on WhatsApp
               </a>
@@ -132,7 +141,7 @@ const CTASection = () => {
         </motion.div>
       </div>
 
-      {/* Decorative Elements */}
+      {/* Decorative Elements (Circles) */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
