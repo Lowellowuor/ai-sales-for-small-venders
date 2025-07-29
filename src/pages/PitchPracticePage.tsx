@@ -232,7 +232,7 @@ const PitchPracticePage: React.FC = () => {
       // For simplicity and immediate context, we're making each query fresh with the instruction.
       // If you want full conversation history per tab, you'd need to manage `messages` per tab.
 
-      const apiKey = "AIzaSyBJoqyQQ--c6FXgh3CPkV4_rxWE898q0NA"; // Canvas will inject this
+      const apiKey = ""; // Canvas will inject this
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
       const response = await fetch(apiUrl, {
