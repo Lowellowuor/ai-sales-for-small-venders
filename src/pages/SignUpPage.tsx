@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { UserPlus, Mail, Lock, Loader2, Chrome, Github } from 'lucide-react';
 
+// Ensure this matches your frontend/.env setting
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -39,7 +42,8 @@ const SignUpPage: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', { // Your backend URL
+      // Use BACKEND_URL from environment variable
+      const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +68,7 @@ const SignUpPage: React.FC = () => {
       }
 
       setTimeout(() => {
-        // --- CHANGED: Redirect to login page after signup, then login will take to pitch-practice ---
+        // Redirect to login page after signup, then login will take to pitch-practice
         navigate('/login'); 
       }, 2000);
 
@@ -77,7 +81,8 @@ const SignUpPage: React.FC = () => {
   };
 
   const handleSocialSignUp = (provider: 'google' | 'github') => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    // Use BACKEND_URL from environment variable
+    window.location.href = `${BACKEND_URL}/api/auth/${provider}`;
   };
 
   return (

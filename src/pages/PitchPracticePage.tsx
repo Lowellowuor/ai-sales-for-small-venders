@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Send, Loader2, Volume2, VolumeX, Bot, Lightbulb, DollarSign, Scale, Laptop, Truck } from 'lucide-react';
+import { Mic, Send, Loader2, Volume2, VolumeX, Bot, Lightbulb, DollarSign, Scale, Laptop, Truck, BarChart2, Receipt, Bell, CheckCircle, XCircle, FileText, Users, TrendingUp } from 'lucide-react'; // Added TrendingUp icon
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for logout
 
 // Firebase imports (kept for consistency)
 import { initializeApp } from 'firebase/app';
@@ -12,11 +13,25 @@ declare const __app_id: string | undefined;
 declare const __firebase_config: string | undefined;
 declare const __initial_auth_token: string | undefined;
 
+// Ensure this matches your frontend/.env setting
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
 interface Message {
   type: 'user' | 'ai';
   text: string;
   id: string;
   timestamp: number;
+}
+
+interface Notification {
+  _id: string;
+  userId: string;
+  type: string;
+  title: string;
+  message: string;
+  isRead: boolean;
+  link?: string;
+  timestamp: string;
 }
 
 // Robot SVG Icon (inline for simplicity and styling)
@@ -29,6 +44,7 @@ const RobotIcon = () => (
 type ChallengeArea = 'sales_marketing' | 'finance' | 'regulatory' | 'tech_digital' | 'operations';
 
 const PitchPracticePage: React.FC = () => {
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isListening, setIsListening] = useState(false);
@@ -38,13 +54,21 @@ const PitchPracticePage: React.FC = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ChallengeArea>('sales_marketing'); // New state for active tab
+  const [activeTab, setActiveTab] = useState<ChallengeArea>('sales_marketing');
 
   const recognitionRef = useRef<SpeechRecognition | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // --- NEW STATES FOR NOTIFICATIONS ---
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [showNotificationsModal, setShowNotificationsModal] = useState(false);
+  const [notificationLoading, setNotificationLoading] = useState(false);
+  const [notificationError, setNotificationError] = useState<string | null>(null);
+  // --- END NEW STATES ---
 
   // Initialize speech recognition and synthesis
   useEffect(() => {
@@ -122,6 +146,14 @@ const PitchPracticePage: React.FC = () => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages, currentTypedText]);
+
+  // --- NEW EFFECT FOR NOTIFICATIONS ---
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000); // Fetch every 1 minute
+    return () => clearInterval(interval);
+  }, []);
+  // --- END NEW EFFECT ---
 
   const startListening = () => {
     if (!recognitionRef.current) {
@@ -213,26 +245,19 @@ const PitchPracticePage: React.FC = () => {
     setError(null);
 
     try {
-      // Prepare chat history for the LLM call, including the system instruction
       const systemInstruction = getSystemInstruction(activeTab);
       const chatHistory = messages.filter(msg => msg.type !== 'ai' || (msg.type === 'ai' && msg.text !== '')).map(msg => ({ 
         role: msg.type === 'user' ? 'user' : 'model', 
         parts: [{ text: msg.text }] 
       }));
       
-      // Add the system instruction and then the current user's message
       const payload = { 
         contents: [
-          { role: "user", parts: [{ text: systemInstruction + "\n\n" + userText }] } // Combine instruction and user text
+          { role: "user", parts: [{ text: systemInstruction + "\n\n" + userText }] }
         ]
       };
       
-      // If you want the AI to remember previous turns *within the current tab's context*,
-      // you'd build chatHistory differently, potentially starting each new tab with a fresh context.
-      // For simplicity and immediate context, we're making each query fresh with the instruction.
-      // If you want full conversation history per tab, you'd need to manage `messages` per tab.
-
-      const apiKey = "AIzaSyBJoqyQQ--c6FXgh3CPkV4_rxWE898q0NA"; // Canvas will inject this
+      const apiKey = ""; 
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
       const response = await fetch(apiUrl, {
@@ -327,6 +352,132 @@ const PitchPracticePage: React.FC = () => {
     { id: 'operations', name: 'Operations', icon: Truck },
   ];
 
+  // --- NEW NOTIFICATION FUNCTIONS ---
+  const fetchNotifications = async () => {
+    setNotificationLoading(true);
+    setNotificationError(null);
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      setNotificationError('Not authenticated. Cannot fetch notifications.');
+      setNotificationLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/notifications`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch notifications.');
+      }
+      setNotifications(data);
+      setUnreadCount(data.filter((n: Notification) => !n.isRead).length);
+    } catch (err: any) {
+      console.error('Error fetching notifications:', err);
+      setNotificationError(err.message || 'Failed to fetch notifications.');
+    } finally {
+      setNotificationLoading(false);
+    }
+  };
+
+  const markNotificationAsRead = async (id: string) => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      setNotificationError('Not authenticated. Cannot mark notification as read.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/notifications/${id}/read`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to mark notification as read.');
+      }
+      fetchNotifications(); // Refresh notifications after marking one as read
+    } catch (err: any) {
+      console.error('Error marking notification as read:', err);
+      setNotificationError(err.message || 'Failed to mark notification as read.');
+    }
+  };
+
+  const markAllNotificationsAsRead = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      setNotificationError('Not authenticated. Cannot mark notifications as read.');
+      return;
+    }
+
+    try {
+      // Find all unread notifications and send individual PATCH requests
+      const unreadNotifications = notifications.filter(n => !n.isRead);
+      await Promise.all(unreadNotifications.map(n => 
+        fetch(`${BACKEND_URL}/api/notifications/${n._id}/read`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }).then(res => {
+          if (!res.ok) throw new Error(`Failed to mark ${n._id} as read.`);
+          return res.json();
+        })
+      ));
+      fetchNotifications(); // Refresh notifications
+    } catch (err: any) {
+      console.error('Error marking all notifications as read:', err);
+      setNotificationError(err.message || 'Failed to mark all notifications as read.');
+    }
+  };
+
+  const generateTestAlert = async (type: string, title: string, message: string, link?: string) => {
+    setNotificationLoading(true);
+    setNotificationError(null);
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      setNotificationError('Not authenticated. Cannot generate test alert.');
+      setNotificationLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/notifications/check-for-alerts`, { // Use check-for-alerts to simulate
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        // For check-for-alerts, body might not be needed or can be empty
+        body: JSON.stringify({}), 
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to trigger alert check.');
+      }
+      // alert('Test alert generation triggered. Check notifications!'); // Using alert for quick demo feedback
+      fetchNotifications(); // Refresh notifications
+    } catch (err: any) {
+      console.error('Error triggering test alert:', err);
+      setNotificationError(err.message || 'Failed to trigger test alert. Ensure you have sales/expense data.');
+    } finally {
+      setNotificationLoading(false);
+    }
+  };
+  // --- END NEW NOTIFICATION FUNCTIONS ---
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-950">
       <div className="w-full max-w-md h-[90vh] flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
@@ -339,9 +490,24 @@ const PitchPracticePage: React.FC = () => {
             <h1 className="text-white font-semibold">PitchPoa AI Assistant</h1>
             <p className="text-xs text-blue-100 dark:text-blue-200">Your personal business coach</p>
           </div>
+          
+          {/* Notification Bell Icon */}
+          <button
+            onClick={() => setShowNotificationsModal(true)}
+            className="relative p-1.5 rounded-full bg-white/20 hover:bg-white/30 dark:bg-gray-700/50 dark:hover:bg-gray-600/50 transition-colors ml-auto"
+            aria-label="Notifications"
+          >
+            <Bell className="text-white w-5 h-5" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-bounce">
+                {unreadCount}
+              </span>
+            )}
+          </button>
+
           <button
             onClick={toggleMute}
-            className="ml-auto p-1.5 rounded-full bg-white/20 hover:bg-white/30 dark:bg-gray-700/50 dark:hover:bg-gray-600/50 transition-colors"
+            className="p-1.5 rounded-full bg-white/20 hover:bg-white/30 dark:bg-gray-700/50 dark:hover:bg-gray-600/50 transition-colors"
             aria-label={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted ? (
@@ -368,6 +534,40 @@ const PitchPracticePage: React.FC = () => {
               {tab.name}
             </button>
           ))}
+        </div>
+
+        {/* Navigation Links */}
+        <div className="p-2 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 text-center flex justify-center space-x-4">
+          <Link 
+            to="/sales-dashboard" 
+            className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white text-xs font-medium rounded-full hover:bg-blue-600 transition-colors"
+          >
+            <BarChart2 className="w-3 h-3 mr-1" /> Sales
+          </Link>
+          <Link 
+            to="/expense-dashboard" 
+            className="inline-flex items-center px-3 py-1.5 bg-purple-500 text-white text-xs font-medium rounded-full hover:bg-purple-600 transition-colors"
+          >
+            <Receipt className="w-3 h-3 mr-1" /> Expenses
+          </Link>
+          <Link 
+            to="/sales-script-generator" 
+            className="inline-flex items-center px-3 py-1.5 bg-orange-500 text-white text-xs font-medium rounded-full hover:bg-orange-600 transition-colors"
+          >
+            <FileText className="w-3 h-3 mr-1" /> Script
+          </Link>
+          <Link 
+            to="/customers" 
+            className="inline-flex items-center px-3 py-1.5 bg-teal-500 text-white text-xs font-medium rounded-full hover:bg-teal-600 transition-colors"
+          >
+            <Users className="w-3 h-3 mr-1" /> Customers
+          </Link>
+          <Link // <<< NEW LINK TO M-PESA ANALYSIS
+            to="/mpesa-analysis" 
+            className="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-xs font-medium rounded-full hover:bg-yellow-600 transition-colors"
+          >
+            <TrendingUp className="w-3 h-3 mr-1" /> M-Pesa
+          </Link>
         </div>
 
         {/* Chat Area */}
@@ -476,6 +676,119 @@ const PitchPracticePage: React.FC = () => {
           </AnimatePresence>
         )}
       </div>
+
+      {/* Notifications Modal */}
+      <AnimatePresence>
+        {showNotificationsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 50 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6 relative flex flex-col h-[80vh]"
+            >
+              <button
+                onClick={() => setShowNotificationsModal(false)}
+                className="absolute top-3 right-3 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                aria-label="Close"
+              >
+                <XCircle size={20} />
+              </button>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 text-center">Your Notifications</h2>
+
+              {notificationError && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm mb-4">
+                  {notificationError}
+                </div>
+              )}
+
+              <div className="flex justify-center space-x-2 mb-4">
+                <button
+                  onClick={() => generateTestAlert('sales_alert', 'Test Sales Alert', 'This is a test sales alert message!', '/sales-dashboard')}
+                  className="px-3 py-1.5 bg-yellow-500 text-white text-xs font-medium rounded-full hover:bg-yellow-600 transition-colors disabled:opacity-50"
+                  disabled={notificationLoading}
+                >
+                  Trigger Sales Alert Check
+                </button>
+                <button
+                  onClick={() => generateTestAlert('expense_alert', 'Test Expense Alert', 'This is a test expense alert message!', '/expense-dashboard')}
+                  className="px-3 py-1.5 bg-orange-500 text-white text-xs font-medium rounded-full hover:bg-orange-600 transition-colors disabled:opacity-50"
+                  disabled={notificationLoading}
+                >
+                  Trigger Expense Alert Check
+                </button>
+              </div>
+              <button
+                onClick={markAllNotificationsAsRead}
+                className="w-full px-4 py-2 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
+                disabled={unreadCount === 0 || notificationLoading}
+              >
+                Mark All as Read
+              </button>
+
+              {notificationLoading ? (
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <Loader2 className="animate-spin text-blue-500 dark:text-blue-400 w-8 h-8 mb-4" />
+                  <p className="text-gray-600 dark:text-gray-400">Loading notifications...</p>
+                </div>
+              ) : notifications.length === 0 ? (
+                <p className="text-gray-600 dark:text-gray-400 text-center py-4 flex-1 flex items-center justify-center">No notifications yet.</p>
+              ) : (
+                <div className="flex-1 overflow-y-auto custom-scrollbar space-y-3">
+                  {notifications.map((notification) => (
+                    <motion.div
+                      key={notification._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`p-4 rounded-lg shadow-sm border ${
+                        notification.isRead
+                          ? 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400'
+                          : 'bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-900 text-gray-900 dark:text-white font-semibold'
+                      } flex items-start space-x-3`}
+                    >
+                      <Bell size={20} className={notification.isRead ? "text-gray-400" : "text-blue-500 dark:text-blue-400"} />
+                      <div className="flex-1">
+                        <h3 className="text-md font-semibold">{notification.title}</h3>
+                        <p className="text-sm">{notification.message}</p>
+                        {notification.link && (
+                          <Link 
+                            to={notification.link} 
+                            onClick={() => {
+                                markNotificationAsRead(notification._id);
+                                setShowNotificationsModal(false); // Close modal on link click
+                            }}
+                            className="text-blue-600 dark:text-blue-400 text-sm hover:underline mt-1 block"
+                          >
+                            View Details
+                          </Link>
+                        )}
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          {new Date(notification.timestamp).toLocaleString()}
+                        </p>
+                      </div>
+                      {!notification.isRead && (
+                        <button
+                          onClick={() => markNotificationAsRead(notification._id)}
+                          className="p-1 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-700 dark:text-blue-300 dark:hover:bg-blue-600 transition-colors"
+                          aria-label="Mark as read"
+                        >
+                          <CheckCircle size={16} />
+                        </button>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

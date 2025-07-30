@@ -3,6 +3,9 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, LogIn as LogInIcon, Chrome, Github } from 'lucide-react';
 
+// Ensure this matches your frontend/.env setting
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +29,7 @@ const LoginPage: React.FC = () => {
       setSuccessMessage(message || "Social login successful! Redirecting...");
       navigate(location.pathname, { replace: true }); // Clear query params from URL
       setTimeout(() => {
-        navigate('/pitch-practice'); // --- CHANGED: Redirect to PitchPracticePage ---
+        navigate('/pitch-practice'); // Redirect to PitchPracticePage
       }, 1500);
     } else if (errorParam) {
       setError(errorParam.replace(/_/g, ' ') + ". Please try again.");
@@ -49,7 +52,8 @@ const LoginPage: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', { // Your backend URL
+      // Use BACKEND_URL from environment variable
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +80,7 @@ const LoginPage: React.FC = () => {
       setFormData({ email: '', password: '' });
 
       setTimeout(() => {
-        navigate('/pitch-practice'); // --- CHANGED: Redirect to PitchPracticePage ---
+        navigate('/pitch-practice'); // Redirect to PitchPracticePage
       }, 1500);
 
     } catch (err: any) {
@@ -88,7 +92,8 @@ const LoginPage: React.FC = () => {
   };
 
   const handleSocialLogin = (provider: 'google' | 'github') => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    // Use BACKEND_URL from environment variable
+    window.location.href = `${BACKEND_URL}/api/auth/${provider}`;
   };
 
   return (

@@ -52,6 +52,15 @@ import YourDataRights from './pages/YourDataRights';
 import PitchPracticePage from './pages/PitchPracticePage'; 
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
+import SalesDashboardPage from './pages/SalesDashboardPage';
+import ExpenseDashboardPage from './pages/ExpenseDashboardPage';
+import SalesScriptGeneratorPage from './pages/SalesScriptGeneratorPage';
+import CustomerDashboardPage from './pages/CustomerDashboardPage';
+import MpesaAnalysisPage from './pages/MpesaAnalysisPage';
+import InventoryDashboardPage from './pages/InventoryDashboardPage';
+import SupplierDashboardPage from './pages/SupplierDashboardPage';
+import MarketingCampaignsPage from './pages/MarketingCampaignsPage';
+import BusinessAnalyticsPage from './pages/BusinessAnalyticsPage';
 
 
 function App() {
@@ -129,6 +138,19 @@ function App() {
               <Route path="/pitch-practice" element={<PitchPracticePage />} /> 
               <Route path="/signup" element={<SignUpPage />} /> 
               <Route path="/login" element={<LoginPage />} /> 
+              <Route path="/sales-dashboard" element={<SalesDashboardPage />} />
+              <Route path="/expense-dashboard" element={<ExpenseDashboardPage />} />
+              <Route path="/sales-script-generator" element={<SalesScriptGeneratorPage />} />
+              <Route  path="/customers" element={<CustomerDashboardPage />} />
+              <Route path="/mpesa-analysis" element={<MpesaAnalysisPage />} />
+              <Route path="/inventory" element={<InventoryDashboardPage />} />
+              <Route path="/suppliers" element={<SupplierDashboardPage />} />
+              <Route path="/marketing-campaigns" element={<MarketingCampaignsPage />} />
+              <Route path="/business-analytics" element={<BusinessAnalyticsPage />} />
+
+
+              
+              {/* Add more routes as needed */}  
 
               {/* Catch-all route for 404 */}
               <Route path="*" element={

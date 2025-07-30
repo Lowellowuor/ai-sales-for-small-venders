@@ -1,3 +1,17 @@
+/// <reference types="vite/client" />
+
+// Extend ImportMeta for Vite environment variables
+interface ImportMetaEnv {
+  readonly VITE_BACKEND_URL: string;
+  // Add other environment variables here if you use them in the frontend
+  // readonly VITE_ANOTHER_VAR: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
+// Web Speech API - Speech Recognition Interfaces
 interface SpeechRecognition extends EventTarget {
   grammars: SpeechGrammarList;
   lang: string;
@@ -84,7 +98,7 @@ interface Window {
   webkitSpeechRecognitionEvent: typeof SpeechRecognitionEvent;
 }
 
-// Speech Synthesis interfaces
+// Web Speech API - Speech Synthesis Interfaces
 interface SpeechSynthesis {
   speaking: boolean;
   pending: boolean;
@@ -144,4 +158,3 @@ declare enum SpeechSynthesisErrorCode {
   "text-too-long",
   "invalid-argument",
 }
-/// <reference types="vite/client" />
