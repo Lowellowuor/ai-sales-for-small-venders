@@ -257,7 +257,12 @@ const PitchPracticePage: React.FC = () => {
         ]
       };
       
-      const apiKey = ""; 
+      // If you want the AI to remember previous turns *within the current tab's context*,
+      // you'd build chatHistory differently, potentially starting each new tab with a fresh context.
+      // For simplicity and immediate context, we're making each query fresh with the instruction.
+      // If you want full conversation history per tab, you'd need to manage `messages` per tab.
+
+      const apiKey = ""; // Canvas will inject this
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
       const response = await fetch(apiUrl, {
