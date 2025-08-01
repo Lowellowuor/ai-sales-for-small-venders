@@ -24,6 +24,7 @@ const supplierRoutes = require('./routes/suppliers'); // Supplier routes
 const marketingCampaignsRoutes = require('./routes/marketingCampaigns'); // Marketing Campaigns routes
 const customerCRMRoutes = require('./routes/customerCRM'); // Customer CRM routes
 const businessAnalyticsRoutes = require('./routes/businessAnalytics'); // <<< NEW: Business Analytics routes
+const ragRoutes = require('./routes/rag');
 
 // Passport for social authentication
 const passport = require('passport');
@@ -51,9 +52,11 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Use gemini-2.0-flash
 
 // Middleware
+// IMPORTANT: This CORS configuration allows your frontend to make API calls to this backend.
+// Ensure 'https://pitch-poa.web.app' matches your actual Firebase Hosting URL.
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://pitch-poa.web.app'], // IMPORTANT: Add your frontend URL(s) here
-  credentials: true // Allow cookies and authorization headers to be sent
+  origin: ['http://localhost:5173', 'https://pitch-poa.web.app'], 
+  credentials: true
 }));
 app.use(express.json()); // For parsing application/json
 
@@ -126,6 +129,7 @@ app.use('/api/marketing-campaigns', marketingCampaignsRoutes); // All marketing 
 app.use('/api/customer-crm', customerCRMRoutes); // All customer CRM and follow-up routes
 // --- NEW: Business Analytics Routes ---
 app.use('/api/business-analytics', businessAnalyticsRoutes); // All business analytics routes
+app.use('/api/rag-query', ragRoutes);
 // --- END New Routes ---
 
 // --- Existing API Endpoint for Pitch Analysis ---

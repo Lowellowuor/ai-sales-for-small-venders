@@ -61,7 +61,8 @@ import InventoryDashboardPage from './pages/InventoryDashboardPage';
 import SupplierDashboardPage from './pages/SupplierDashboardPage';
 import MarketingCampaignsPage from './pages/MarketingCampaignsPage';
 import BusinessAnalyticsPage from './pages/BusinessAnalyticsPage';
-
+import RAGAssistantPage from './pages/RAGAssistantPage';
+ 
 
 function App() {
   return (
@@ -147,6 +148,7 @@ function App() {
               <Route path="/suppliers" element={<SupplierDashboardPage />} />
               <Route path="/marketing-campaigns" element={<MarketingCampaignsPage />} />
               <Route path="/business-analytics" element={<BusinessAnalyticsPage />} />
+              <Route path="/rag-assistant" element={<RAGAssistantPage />} />
 
 
               

@@ -3,46 +3,43 @@ const mongoose = require('mongoose');
 
 const CustomerSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId, // Link to the User who owns this customer record
-    ref: 'User', // Refers to the 'User' model
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   name: {
     type: String,
-    required: true,
-    trim: true
+    required: [true, 'Customer name is required'],
+    trim: true,
+    minlength: [2, 'Name must be at least 2 characters long']
   },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+    // Optional: Add email validation if needed, but not required for phone issue
+    // match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address']
   },
   phone: {
     type: String,
+    required: [true, 'Phone number is required'],
     trim: true,
-    // Basic validation for Kenyan phone numbers (optional, can be more robust)
-    match: [/^(?:254|\+254|0)?(7(?:(?:[0-2]|[9][0-9])(?:[0-9]{6}))|(1(?:(?:[0-2]|[9][0-9])(?:[0-9]{6}))))$/, 'Please fill a valid Kenyan phone number']
+    unique: true, // Ensure phone numbers are unique
+    // More robust regex for Kenyan phone numbers
+    // Supports: 07XXXXXXXX, 01XXXXXXXX, +2547XXXXXXXX, +2541XXXXXXXX, 2547XXXXXXXX, 2541XXXXXXXX
+    match: [
+      /^(?:0|254|\+254)(7\d{8}|1\d{8})$/,
+      'Please fill a valid Kenyan phone number (e.g., 07XXXXXXXX, +2547XXXXXXXX, 01XXXXXXXX, +2541XXXXXXXX)'
+    ]
   },
   address: {
     type: String,
     trim: true
   },
-  lastPurchaseDate: {
-    type: Date
-  },
-  totalPurchasesAmount: {
-    type: Number,
-    default: 0
-  },
   notes: {
     type: String,
     trim: true
   }
-}, { timestamps: true }); // Adds createdAt and updatedAt timestamps automatically
-
-// Optional: Add an index for faster lookup by userId and email/phone
-CustomerSchema.index({ userId: 1, email: 1 }, { unique: false, sparse: true }); // sparse allows null email
-CustomerSchema.index({ userId: 1, phone: 1 }, { unique: false, sparse: true }); // sparse allows null phone
+}, { timestamps: true });
 
 module.exports = mongoose.model('Customer', CustomerSchema);

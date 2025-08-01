@@ -329,51 +329,50 @@ const InventoryDashboardPage: React.FC = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="p-2 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 text-center flex justify-center space-x-4 rounded-lg">
+        <div className="p-2 bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 text-center flex justify-center space-x-4 rounded-lg overflow-x-auto">
           <Link 
             to="/pitch-practice" 
-            className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white text-xs font-medium rounded-full hover:bg-blue-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-blue-500 text-white text-xs font-medium rounded-full hover:bg-blue-600 transition-colors whitespace-nowrap"
           >
             <Mic className="w-3 h-3 mr-1" /> Pitch Practice
           </Link>
           <Link 
             to="/sales-dashboard" 
-            className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-full hover:bg-green-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-full hover:bg-green-600 transition-colors whitespace-nowrap"
           >
             <BarChart2 className="w-3 h-3 mr-1" /> Sales
           </Link>
           <Link 
             to="/expense-dashboard" 
-            className="inline-flex items-center px-3 py-1.5 bg-purple-500 text-white text-xs font-medium rounded-full hover:bg-purple-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-purple-500 text-white text-xs font-medium rounded-full hover:bg-purple-600 transition-colors whitespace-nowrap"
           >
             <Receipt className="w-3 h-3 mr-1" /> Expenses
           </Link>
           <Link 
             to="/sales-script-generator" 
-            className="inline-flex items-center px-3 py-1.5 bg-orange-500 text-white text-xs font-medium rounded-full hover:bg-orange-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-orange-500 text-white text-xs font-medium rounded-full hover:bg-orange-600 transition-colors whitespace-nowrap"
           >
             <FileText className="w-3 h-3 mr-1" /> Script
           </Link>
           <Link 
             to="/customers" 
-            className="inline-flex items-center px-3 py-1.5 bg-teal-500 text-white text-xs font-medium rounded-full hover:bg-teal-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-teal-500 text-white text-xs font-medium rounded-full hover:bg-teal-600 transition-colors whitespace-nowrap"
           >
             <Users className="w-3 h-3 mr-1" /> Customers
           </Link>
           <Link 
             to="/mpesa-analysis" 
-            className="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-xs font-medium rounded-full hover:bg-yellow-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-yellow-500 text-white text-xs font-medium rounded-full hover:bg-yellow-600 transition-colors whitespace-nowrap"
           >
             <TrendingUp className="w-3 h-3 mr-1" /> M-Pesa
           </Link>
-          <Link // <<< THIS IS THE NEW LINK TO SUPPLIERS
+          <Link
             to="/suppliers" 
-            className="inline-flex items-center px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-full hover:bg-pink-600 transition-colors"
+            className="inline-flex items-center px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-full hover:bg-pink-600 transition-colors whitespace-nowrap"
           >
             <Truck className="w-3 h-3 mr-1" /> Suppliers
           </Link>
         </div>
-
 
         {error && (
           <motion.div
@@ -484,7 +483,6 @@ const InventoryDashboardPage: React.FC = () => {
               )}
             </div>
 
-
             {/* Existing Inventory List */}
             {inventoryItems.length > 0 ? (
               <div className="bg-gray-50 dark:bg-gray-900 p-5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-x-auto">
@@ -575,168 +573,174 @@ const InventoryDashboardPage: React.FC = () => {
               initial={{ scale: 0.9, y: 50 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 50 }}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6 relative"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6 relative max-h-[90vh] flex flex-col"
             >
               <button
                 onClick={() => setShowItemModal(false)}
-                className="absolute top-3 right-3 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="absolute top-3 right-3 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors z-10"
                 aria-label="Close"
               >
                 <XCircle size={20} />
               </button>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                {isEditing ? 'Edit Inventory Item' : 'Add New Inventory Item'}
-              </h2>
+              
+              <div className="overflow-y-auto flex-grow">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center sticky top-0 bg-white dark:bg-gray-800 py-2">
+                  {isEditing ? 'Edit Inventory Item' : 'Add New Inventory Item'}
+                </h2>
 
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Item Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={itemFormData.name}
-                    onChange={handleFormChange}
-                    required
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                    placeholder="e.g., Maize Flour (2kg), Liquid Soap (1L)"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="currentStock" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Current Stock Quantity
-                  </label>
-                  <input
-                    type="number"
-                    id="currentStock"
-                    name="currentStock"
-                    value={itemFormData.currentStock}
-                    onChange={handleFormChange}
-                    required
-                    min="0"
-                    step="1"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="reorderPoint" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Reorder Point
-                  </label>
-                  <input
-                    type="number"
-                    id="reorderPoint"
-                    name="reorderPoint"
-                    value={itemFormData.reorderPoint}
-                    onChange={handleFormChange}
-                    required
-                    min="0"
-                    step="1"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="costPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Cost Price (Ksh per unit)
-                  </label>
-                  <input
-                    type="number"
-                    id="costPrice"
-                    name="costPrice"
-                    value={itemFormData.costPrice}
-                    onChange={handleFormChange}
-                    required
-                    min="0.01"
-                    step="0.01"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="sellingPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Selling Price (Ksh per unit)
-                  </label>
-                  <input
-                    type="number"
-                    id="sellingPrice"
-                    name="sellingPrice"
-                    value={itemFormData.sellingPrice}
-                    onChange={handleFormChange}
-                    required
-                    min="0.01"
-                    step="0.01"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Category (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    id="category"
-                    name="category"
-                    value={itemFormData.category}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                    placeholder="e.g., Groceries, Cleaning Supplies"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="supplier" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Supplier (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    id="supplier"
-                    name="supplier"
-                    value={itemFormData.supplier}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
-                    placeholder="e.g., Bidco Africa Ltd."
-                  />
-                </div>
-                <div>
-                  <label htmlFor="lastRestockDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Last Restock Date (Optional)
-                  </label>
-                  <input
-                    type="date"
-                    id="lastRestockDate"
-                    name="lastRestockDate"
-                    value={itemFormData.lastRestockDate}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Notes (Optional)
-                  </label>
-                  <textarea
-                    id="notes"
-                    name="notes"
-                    value={itemFormData.notes}
-                    onChange={handleFormChange}
-                    rows={3}
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 resize-y"
-                    placeholder="Any additional notes about this item"
-                  ></textarea>
-                </div>
-
-                {formError && (
-                  <div className="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm">
-                    {formError}
+                <form onSubmit={handleFormSubmit} className="space-y-4 pb-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Item Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={itemFormData.name}
+                      onChange={handleFormChange}
+                      required
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                      placeholder="e.g., Maize Flour (2kg), Liquid Soap (1L)"
+                    />
                   </div>
-                )}
-                {formSuccess && (
-                  <div className="p-3 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg text-sm">
-                    {formSuccess}
+                  <div>
+                    <label htmlFor="currentStock" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Current Stock Quantity
+                    </label>
+                    <input
+                      type="number"
+                      id="currentStock"
+                      name="currentStock"
+                      value={itemFormData.currentStock}
+                      onChange={handleFormChange}
+                      required
+                      min="0"
+                      step="1"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                    />
                   </div>
-                )}
+                  <div>
+                    <label htmlFor="reorderPoint" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Reorder Point
+                    </label>
+                    <input
+                      type="number"
+                      id="reorderPoint"
+                      name="reorderPoint"
+                      value={itemFormData.reorderPoint}
+                      onChange={handleFormChange}
+                      required
+                      min="0"
+                      step="1"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="costPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Cost Price (Ksh per unit)
+                    </label>
+                    <input
+                      type="number"
+                      id="costPrice"
+                      name="costPrice"
+                      value={itemFormData.costPrice}
+                      onChange={handleFormChange}
+                      required
+                      min="0.01"
+                      step="0.01"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="sellingPrice" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Selling Price (Ksh per unit)
+                    </label>
+                    <input
+                      type="number"
+                      id="sellingPrice"
+                      name="sellingPrice"
+                      value={itemFormData.sellingPrice}
+                      onChange={handleFormChange}
+                      required
+                      min="0.01"
+                      step="0.01"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Category (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="category"
+                      name="category"
+                      value={itemFormData.category}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                      placeholder="e.g., Groceries, Cleaning Supplies"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="supplier" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Supplier (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="supplier"
+                      name="supplier"
+                      value={itemFormData.supplier}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600"
+                      placeholder="e.g., Bidco Africa Ltd."
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastRestockDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Last Restock Date (Optional)
+                    </label>
+                    <input
+                      type="date"
+                      id="lastRestockDate"
+                      name="lastRestockDate"
+                      value={itemFormData.lastRestockDate}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="notes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Notes (Optional)
+                    </label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      value={itemFormData.notes}
+                      onChange={handleFormChange}
+                      rows={3}
+                      className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-600 resize-y"
+                      placeholder="Any additional notes about this item"
+                    ></textarea>
+                  </div>
 
+                  {formError && (
+                    <div className="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg text-sm">
+                      {formError}
+                    </div>
+                  )}
+                  {formSuccess && (
+                    <div className="p-3 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg text-sm">
+                      {formSuccess}
+                    </div>
+                  )}
+                </form>
+              </div>
+
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 bg-white dark:bg-gray-800">
                 <button
                   type="submit"
+                  onClick={handleFormSubmit}
                   disabled={formLoading}
                   className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-2 text-white font-medium rounded-lg transition-all disabled:opacity-50"
                 >
@@ -752,7 +756,7 @@ const InventoryDashboardPage: React.FC = () => {
                     </>
                   )}
                 </button>
-              </form>
+              </div>
             </motion.div>
           </motion.div>
         )}
