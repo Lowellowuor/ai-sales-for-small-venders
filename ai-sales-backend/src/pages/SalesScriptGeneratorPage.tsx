@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Lightbulb, Send, Loader2, Copy, CheckCircle, XCircle, LogOut, BarChart2, Receipt, Mic } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface ScriptGenerationPayload {
   productName: string;

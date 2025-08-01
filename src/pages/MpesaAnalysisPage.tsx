@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Receipt, Send, Loader2, LogOut, ClipboardList, BarChart2, Mic, Users, FileText, TrendingUp, Lightbulb } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface MpesaTransaction {
   date: string;

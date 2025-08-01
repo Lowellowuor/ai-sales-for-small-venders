@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Users, PlusCircle, Edit, Trash2, Loader2, LogOut, RefreshCw, XCircle, Mic, BarChart2, Receipt,Sparkles, FileText, TrendingUp, Package, Truck, Megaphone, MessageSquare, Mail, Phone, Calendar, AlertTriangle, Star, Lightbulb } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface Customer {
   _id: string;

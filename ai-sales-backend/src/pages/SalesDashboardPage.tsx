@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DollarSign, BarChart2, TrendingUp, Loader2, LogOut, RefreshCw, PlusCircle, XCircle, Mic, Users, FileText, Receipt, LineChart, Sparkles, Package, Truck, Megaphone, BarChart } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface SaleSummary {
   totalSalesAmount: number;

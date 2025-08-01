@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, LogIn as LogInIcon, Chrome, Github } from 'lucide-react';
+import { toast } from 'react-toastify'; // Assuming react-toastify is used
 
-// Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+// The hardcoded URL for your backend on Render.
+// This is necessary because Firebase Hosting does not have access to Vite environment variables by default.
+const BACKEND_URL = 'https://ai-sales-backend-lqzb.onrender.com';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -26,13 +29,13 @@ const LoginPage: React.FC = () => {
 
     if (token) {
       localStorage.setItem('authToken', token);
-      setSuccessMessage(message || "Social login successful! Redirecting...");
+      toast.success(message || "Social login successful! Redirecting...");
       navigate(location.pathname, { replace: true }); // Clear query params from URL
       setTimeout(() => {
         navigate('/pitch-practice'); // Redirect to PitchPracticePage
       }, 1500);
     } else if (errorParam) {
-      setError(errorParam.replace(/_/g, ' ') + ". Please try again.");
+      toast.error(errorParam.replace(/_/g, ' ') + ". Please try again.");
       navigate(location.pathname, { replace: true }); // Clear query params from URL
     }
   }, [location, navigate]);
@@ -52,7 +55,7 @@ const LoginPage: React.FC = () => {
 
     setLoading(true);
     try {
-      // Use BACKEND_URL from environment variable
+      // Use the hardcoded BACKEND_URL
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -76,7 +79,7 @@ const LoginPage: React.FC = () => {
         throw new Error('No authentication token received.');
       }
 
-      setSuccessMessage("Login successful! Redirecting to Pitch Practice...");
+      toast.success("Login successful! Redirecting to Pitch Practice...");
       setFormData({ email: '', password: '' });
 
       setTimeout(() => {
@@ -85,14 +88,14 @@ const LoginPage: React.FC = () => {
 
     } catch (err: any) {
       console.error("Login error:", err);
-      setError(err.message || "Login failed. Please check your credentials and try again.");
+      toast.error(err.message || "Login failed. Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSocialLogin = (provider: 'google' | 'github') => {
-    // Use BACKEND_URL from environment variable
+    // Use the hardcoded BACKEND_URL for social login redirect
     window.location.href = `${BACKEND_URL}/api/auth/${provider}`;
   };
 

@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 // This file configures the Axios instance for all API calls,
 // handling authentication and global error responses.
 
-const backendUrl: string = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const backendUrl: string = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 const api: AxiosInstance = axios.create({
   baseURL: backendUrl,

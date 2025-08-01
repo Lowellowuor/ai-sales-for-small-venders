@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Megaphone, Sparkles, Loader2, LogOut,  Mic, BarChart2, Receipt, Users, TrendingUp, Package, Truck, MessageSquare, Mail, Facebook, Calendar, Goal,FileText } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface CampaignContent {
   channel: string; // e.g., "SMS", "WhatsApp", "Facebook Post", "Email"

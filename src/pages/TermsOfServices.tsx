@@ -54,7 +54,7 @@ const TermsOfService = () => {
 
     // Define your API URL. For Vite, you'd typically use import.meta.env.VITE_API_URL
     // For local development, assuming backend runs on port 5000
-    const API_URL = 'http://localhost:5000'; 
+    const API_URL = 'https://ai-sales-backend-lqzb.onrender.com'; 
 
     try {
       const response = await fetch(

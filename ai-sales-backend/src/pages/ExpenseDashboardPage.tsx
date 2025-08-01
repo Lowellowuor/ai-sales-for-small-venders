@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DollarSign,  ClipboardList, Loader2, LogOut, RefreshCw, PlusCircle, XCircle, Lightbulb, BarChart2, Mic, Users, FileText } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface ExpenseSummary {
   _id: string; // Category name

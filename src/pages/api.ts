@@ -2,7 +2,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 // Determine the backend URL based on environment variables
-const backendUrl: string = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const backendUrl: string = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 const api: AxiosInstance = axios.create({
   baseURL: backendUrl,

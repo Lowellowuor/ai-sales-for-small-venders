@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Loader2, LogIn as LogInIcon, Chrome, Github } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();

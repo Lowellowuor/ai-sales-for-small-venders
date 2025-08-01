@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart, Sparkles, Loader2, LogOut, RefreshCw, Mic, Users, FileText, Receipt,BarChart2, TrendingUp, Package, Truck, Megaphone, DollarSign, AlertTriangle, Lightbulb, Zap, CheckCircle, XCircle, ChevronRight } from 'lucide-react';
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface KeyPerformanceIndicators {
   totalSales: number;

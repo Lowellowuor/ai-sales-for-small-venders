@@ -14,7 +14,7 @@ declare const __firebase_config: string | undefined;
 declare const __initial_auth_token: string | undefined;
 
 // Ensure this matches your frontend/.env setting
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://ai-sales-backend-lqzb.onrender.com';
 
 interface Message {
   type: 'user' | 'ai';
